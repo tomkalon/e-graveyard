@@ -1,0 +1,31 @@
+@import "~bootstrap/scss/bootstrap";
+@mixin background-centered {
+  background-position: center center;
+  background-size: cover;
+}
+
+body {
+  background: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  .content {
+    flex-grow: 1;
+    @include background-centered;
+  }
+}
+
+footer {
+  min-height: 4rem;
+}
+
+// bootstrap
+.bs-heroes {
+  @include background-centered;
+}

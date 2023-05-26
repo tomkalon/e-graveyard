@@ -22,6 +22,17 @@ Encore
      */
     .addEntry('app', './assets/app.js')
 
+    .copyFiles({
+        from: 'assets/images/',
+        to: 'images/[name].[ext]',
+        pattern: /\.(png|jpg|jpeg|webp|svg)$/
+    })
+    .copyFiles({
+        from: 'assets/favicon/',
+        to: 'favicon/[name].[ext]',
+        pattern: /\.(png|svg)$/
+    })
+
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
 
@@ -57,7 +68,7 @@ Encore
     })
 
     // enables Sass/SCSS support
-    //.enableSassLoader()
+    .enableSassLoader()
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
