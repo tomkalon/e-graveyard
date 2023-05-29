@@ -26,10 +26,10 @@ class Person
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $death = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $added = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $edited = null;
 
     #[ORM\ManyToOne(inversedBy: 'people')]
@@ -70,23 +70,19 @@ class Person
         return $this->born;
     }
 
-    public function setBorn(?\DateTimeInterface $born): self
+    public function setBorn(?\DateTimeInterface $born): void
     {
         $this->born = $born;
-
-        return $this;
     }
 
     public function getDeath(): ?\DateTimeInterface
     {
-        return $this->born;
+        return $this->death;
     }
 
-    public function setDeath(?\DateTimeInterface $death): self
+    public function setDeath(?\DateTimeInterface $death): void
     {
-        $this->born = $death;
-
-        return $this;
+        $this->death = $death;
     }
 
     public function getAdded(): ?\DateTimeInterface
