@@ -32,6 +32,10 @@ class Person
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $edited = null;
 
+    #[ORM\ManyToOne(inversedBy: 'people')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Grave $grave = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +109,18 @@ class Person
     public function setEdited(\DateTimeInterface $edited): self
     {
         $this->edited = $edited;
+
+        return $this;
+    }
+
+    public function getGrave(): ?Grave
+    {
+        return $this->grave;
+    }
+
+    public function setGrave(?Grave $grave): self
+    {
+        $this->grave = $grave;
 
         return $this;
     }

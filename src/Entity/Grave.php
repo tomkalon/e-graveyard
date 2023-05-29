@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\GraveRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,6 +33,24 @@ class Grave
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $paid = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $positionX = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $positionY = null;
+
+    #[ORM\ManyToOne(inversedBy: 'graves')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Graveyard $graveyard = null;
+
+    #[ORM\OneToMany(mappedBy: 'grave', targetEntity: Person::class, orphanRemoval: false)]
+    private Collection $people;
+
+    public function __construct()
+    {
+        $this->people = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,6 +125,72 @@ class Grave
     public function setPaid(?\DateTimeInterface $paid): self
     {
         $this->paid = $paid;
+
+        return $this;
+    }
+
+    public function getPositionX(): ?string
+    {
+        return $this->positionX;
+    }
+
+    public function setPositionX(?string $positionX): self
+    {
+        $this->positionX = $positionX;
+
+        return $this;
+    }
+
+    public function getPositionY(): ?string
+    {
+        return $this->positionY;
+    }
+
+    public function setPositionY(?string $positionY): self
+    {
+        $this->positionY = $positionY;
+
+        return $this;
+    }
+
+    public function getGraveyard(): ?Graveyard
+    {
+        return $this->graveyard;
+    }
+
+    public function setGraveyard(?Graveyard $graveyard): self
+    {
+        $this->graveyard = $graveyard;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Person>
+     */
+    public function getPeople(): Collection
+    {
+        return $this->people;
+    }
+
+    public function addPerson(Person $person): self
+    {
+        if (!$this->people->contains($person)) {
+            $this->people->add($person);
+            $person->setGrave($this);
+        }
+
+        return $this;
+    }
+
+    public function removePerson(Person $person): self
+    {
+        if ($this->people->removeElement($person)) {
+            // set the owning side to null (unless already changed)
+            if ($person->getGrave() === $this) {
+                $person->setGrave(null);
+            }
+        }
 
         return $this;
     }
