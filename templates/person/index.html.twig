@@ -1,20 +1,55 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello PersonController!{% endblock %}
-
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/cmentarz/src/Controller/PersonController.php'|file_link(0) }}">src/Controller/PersonController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/cmentarz/templates/person/index.html.twig'|file_link(0) }}">templates/person/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="container mt-5 mb-3">
+        <div class="card">
+            <div class="card-header">
+                Informacje o zmarłym
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">{{ person.surname }} {{ person.name }}</h4>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <p class="card-text mb-1">Data urodzenia:</p>
+                        <h5 class="heading">{{ person.born|date('Y.m.d') }}</h5>
+                    </div>
+                    <div class="col-lg-3">
+                        <p class="card-text mb-1">Data śmierci:</p>
+                        <h5 class="heading">{{ person.death|date('Y.m.d') }}</h5>
+                    </div>
+                </div>
+                <hr>
+                <small>Dodano: {{ person.added|date('Y-m-d') }}</small> ||
+                <small>Edytowano: {{ person.edited|date('Y-m-d') }}</small>
+            </div>
+        </div>
+        <div class="card mt-4">
+            <div class="card-header">
+                Informacje na temat grobu
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">{{ person.grave.graveyard.name }}</h4>
+                <hr>
+                <div class="row">
+                    <div class="col-3 col-lg-2">
+                        Sektor: <h5 class="heading">{{ person.grave.sector }}</h5>
+                    </div>
+                    <div class="col-3 col-lg-2">
+                        Rząd: <h5 class="heading">{{ person.grave.row }}</h5>
+                    </div>
+                    <div class="col-3 col-lg-2">
+                        Numer: <h5 class="heading">{{ person.grave.number }}</h5>
+                    </div>
+                </div>
+                <hr>
+                <div class="card">
+                    <div class="lead px-3 py-1">Położenie na GoogleMaps</div>
+                </div>
+                <hr>
+                <small>Dodano: {{ person.added|date('Y-m-d') }}</small> ||
+                <small>Edytowano: {{ person.edited|date('Y-m-d') }}</small>
+            </div>
+        </div>
+    </div>
 {% endblock %}

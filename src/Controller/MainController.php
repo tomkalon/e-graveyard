@@ -41,11 +41,9 @@ class MainController extends AbstractController
                 return $this->redirectToRoute('app_search_result', [
                 ]);
             } else {
-                $this->addFlash('failed', 'Brak wyników spełniających kryteria wyszukiwania.');
+                $this->addFlash('failed', 'Brak wyników spełniających kryteria wyszukiwania. Spróbuj ponownie!');
                 return $this->redirectToRoute('app_search');
             }
-        } else {
-            $session->remove('search_result');
         }
 
         return $this->render('main/search.html.twig', [
@@ -58,9 +56,10 @@ class MainController extends AbstractController
     {
         // matching search data
         $search_result = '';
-        $limit = 2;
+        $limit = 15;
         $session = $request->getSession();
         $search_result = $session->get('search_result');
+        $session->set('last_uri', $request->getUri());
 
         return $this->render('main/search/result.html.twig', [
             'search_result' => $search_result,
