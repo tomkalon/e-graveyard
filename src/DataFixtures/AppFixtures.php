@@ -25,9 +25,10 @@ class AppFixtures extends Fixture
         ['Jacek', 'Soplica', 1943, 10, 11, 2017, 9, 19],
         ['Maria', 'Konopnicka', 1943, 5, 5, 2002, 8, 13],
         ['Wisława', 'Szymborska', 1899, 12, 15, 1988, 7, 8],
-        ['Beata', 'Kempa', 1933, 5, 3, 2020, 4, 18],
+        ['Andrzej', 'Lepper', 1933, 5, 3, 2020, 4, 18],
         ['Alicja', 'Wójcik', 1923, 8, 12, 2019, 8, 13],
-        ['Ewa', 'Lewandowska', 1935, 11, 14, 2015, 10, 7]
+        ['Ewa', 'Lewandowska', 1935, 11, 14, 2015, 10, 7],
+        ['Janusz','Kowalski', 1941, 2, 21, 1999, 3, 22]
     );
 
     private array $graves = array(
@@ -104,7 +105,7 @@ class AppFixtures extends Fixture
         return $arr;
     }
 
-    private function makeGraves ($manager, $graveyard, $graves, $people): array
+    private function makeGraves ($manager, $graveyard, $graves, $people): void
     {
         $arr = array();
 
@@ -153,12 +154,11 @@ class AppFixtures extends Fixture
                     break;
                 case 6:
                     $arr[$key]->addPerson($people[12]);
+                    $arr[$key]->addPerson($people[13]);
                     break;
             }
 
             $manager->persist($arr[$key]);
         }
-
-        return $arr;
     }
 }

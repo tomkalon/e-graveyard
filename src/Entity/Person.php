@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PersonRepository;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
@@ -15,9 +16,22 @@ class Person
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 3,
+        max: 30,
+        minMessage: 'Nazwisko musi składać się z co najmniej {{ limit }} znaków!',
+        maxMessage: 'Nazwisko musi składać się maksymalnie z {{ limit }} znaków!',
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 3,
+        max: 30,
+        minMessage: 'Imię musi składać się z co najmniej {{ limit }} znaków!',
+        maxMessage: 'Imię musi składać się maksymalnie z {{ limit }} znaków!',
+    )]
     private ?string $surname = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]

@@ -39,6 +39,35 @@ class PersonRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByObjectData (Person $person): array
+    {
+        $name = $person->getName();
+        $surname = $person->getSurname();
+        $born = $person->getBorn();
+        $death = $person->getDeath();
+
+        $qb = $this->createQueryBuilder('p')
+            ->setMaxResults(15)
+            ->where('p.name = :name')
+            ->setParameter('name', $name);
+
+        if ($surname) {
+            $qb->andWhere('p.surname = :surname')
+                ->setParameter('surname', $surname);
+        }
+        if ($born) {
+            $qb->andWhere('p.born = :born')
+                ->setParameter('born', $born);
+        }
+        if ($death) {
+            $qb->andWhere('p.death = :death')
+                ->setParameter('death', $death);
+        }
+
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
+
 //    /**
 //     * @return Person[] Returns an array of Person objects
 //     */
