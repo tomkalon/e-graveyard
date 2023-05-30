@@ -20,32 +20,52 @@ class MainController extends AbstractController
         ]);
     }
 
-    #[Route('/search/{page}', name: 'app_search', priority: 10)]
-    public function searchPage(Request $request, PersonRepository $personRepository, int $page = 0): Response
+    #[Route('/search', name: 'app_search', priority: 10)]
+    public function searchPage(Request $request, PersonRepository $personRepository): Response
     {
-        // matching search data
-        $search_result = array();
+        // session
+        $session = $request->getSession();
 
+        // form
         $person = new Person();
-        $form = $this->createForm(SearchGraveType::class, $person, [
-            'action' => $this->generateUrl('app_search', [
-                'page' => $page
-            ]),
-            'method' => 'GET',
-        ]);
+        $form = $this->createForm(SearchGraveType::class, $person);
         $form->handleRequest($request);
 
+        // form handler
         if ($form->isSubmitted() && $form->isValid()) {
             $person = $form->getData();
             $search_result = $personRepository->findByObjectData($person);
-            $search_result
-                ? $this->addFlash('success', 'Wyniki wyszukiwania:')
-                : $this->addFlash('failed', 'Brak wyników spełniających kryteria wyszukiwania.');
+            if ($search_result) {
+                $this->addFlash('success', 'Wyniki wyszukiwania:');
+                $session->set('search_result', $search_result);
+                return $this->redirectToRoute('app_search_result', [
+                ]);
+            } else {
+                $this->addFlash('failed', 'Brak wyników spełniających kryteria wyszukiwania.');
+                return $this->redirectToRoute('app_search');
+            }
+        } else {
+            $session->remove('search_result');
         }
 
         return $this->render('main/search.html.twig', [
             'form' => $form,
-            'search_result' => $search_result
+        ]);
+    }
+
+    #[Route('/search/result/{page<\d+>}', name: 'app_search_result', priority: 5)]
+    public function searchResultPage(Request $request, PersonRepository $personRepository, int $page = 0): Response
+    {
+        // matching search data
+        $search_result = '';
+        $limit = 2;
+        $session = $request->getSession();
+        $search_result = $session->get('search_result');
+
+        return $this->render('main/search/result.html.twig', [
+            'search_result' => $search_result,
+            'page' => $page,
+            'limit' => $limit
         ]);
     }
 }

@@ -47,7 +47,6 @@ class PersonRepository extends ServiceEntityRepository
         $death = $person->getDeath();
 
         $qb = $this->createQueryBuilder('p')
-            ->setMaxResults(15)
             ->where('p.name = :name')
             ->setParameter('name', $name);
 

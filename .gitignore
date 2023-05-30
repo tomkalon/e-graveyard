@@ -1,6 +1,7 @@
 /.idea/
 
 ###> symfony/framework-bundle ###
+/yarn.lock
 /.env
 /.env.local
 /.env.local.php

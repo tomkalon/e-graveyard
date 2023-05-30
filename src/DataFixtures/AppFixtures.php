@@ -14,7 +14,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-
     private array $names = array(
         ['Jan','Kowalski', 1939, 3, 28, 2000, 1, 29],
         ['Jan', 'Nowak', 1956, 4, 11, 1982, 11, 3],
@@ -28,7 +27,8 @@ class AppFixtures extends Fixture
         ['Andrzej', 'Lepper', 1933, 5, 3, 2020, 4, 18],
         ['Alicja', 'Wójcik', 1923, 8, 12, 2019, 8, 13],
         ['Ewa', 'Lewandowska', 1935, 11, 14, 2015, 10, 7],
-        ['Janusz','Kowalski', 1941, 2, 21, 1999, 3, 22]
+        ['Janusz','Kowalski', 1941, 2, 21, 1999, 3, 22],
+        ['Woland','Kowalski', 1943, 1, 1, 1998, 1, 28]
     );
 
     private array $graves = array(
@@ -46,8 +46,6 @@ class AppFixtures extends Fixture
     }
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
         $this->makeUsers($manager);
         $graveyard = $this->makeGraveyard($manager);
         $people = $this->makePeople($manager, $this->names);
@@ -151,8 +149,6 @@ class AppFixtures extends Fixture
                     break;
                 case 5:
                     $arr[$key]->addPerson($people[11]);
-                    break;
-                case 6:
                     $arr[$key]->addPerson($people[12]);
                     $arr[$key]->addPerson($people[13]);
                     break;
