@@ -12,6 +12,12 @@ class LoginController extends AbstractController
     #[Route('/login/admin', name: 'app_admin_login')]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
+
+        if ($this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('app_main', [
+            ]);
+        }
+
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
@@ -20,10 +26,9 @@ class LoginController extends AbstractController
 
         return $this->render('login/index.html.twig', [
             'last_username' => $lastUsername,
-            'error'         => $error,
+            'error' => $error,
         ]);
     }
-
 
 
     #[Route('/logout', name: 'app_logout')]

@@ -47,6 +47,12 @@ class Grave
     #[ORM\OneToMany(mappedBy: 'grave', targetEntity: Person::class, orphanRemoval: false)]
     private Collection $people;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $edited = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $EditedBy = null;
+
     public function __construct()
     {
         $this->people = new ArrayCollection();
@@ -191,6 +197,30 @@ class Grave
                 $person->setGrave(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEdited(): ?\DateTimeInterface
+    {
+        return $this->edited;
+    }
+
+    public function setEdited(?\DateTimeInterface $edited): self
+    {
+        $this->edited = $edited;
+
+        return $this;
+    }
+
+    public function getEditedBy(): ?string
+    {
+        return $this->EditedBy;
+    }
+
+    public function setEditedBy(string $EditedBy): self
+    {
+        $this->EditedBy = $EditedBy;
 
         return $this;
     }

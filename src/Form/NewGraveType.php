@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Grave;
 use App\Entity\Graveyard;
-use EasyCorp\Bundle\EasyAdminBundle\Form\Filter\Type\EntityFilterType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -16,12 +16,23 @@ class NewGraveType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('sector', TextType::class)
-            ->add('row', TextType::class)
-            ->add('number', TextType::class)
-            ->add('positionX')
-            ->add('positionY')
-            ->add('graveyard', EntityFilterType::class, [
+            ->add('sector', TextType::class, [
+                'required' => true
+            ])
+            ->add('row', TextType::class, [
+                'required' => false
+            ])
+            ->add('number', TextType::class, [
+                'required' => true
+            ])
+            ->add('positionX', TextType::class, [
+                'required' => false
+            ])
+            ->add('positionY', TextType::class, [
+                'required' => false
+            ])
+            ->add('graveyard', EntityType::class, [
+                'required' => true,
                 'class' => Graveyard::class,
                 'choice_label' => 'name',
             ])

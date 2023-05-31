@@ -8,14 +8,15 @@
         </div>
     {% endfor %}
     <div class="container py-4">
-        <h3 class="text-uppercase">Wyszukiwanie grobów</h3>
-        <div class="lead">Wyszukiwanie poprzez wpisanie imienia i nazwiska (pole obowiązkowe) zmarłego , a także daty urodzenia i
+        <h3 class="text-uppercase">Wyszukiwanie zmarłych</h3>
+        <div class="lead">Wyszukiwanie poprzez wpisanie imienia i nazwiska (pole obowiązkowe) zmarłego, a także daty urodzenia i
             śmierci:
         </div>
         <hr>
         <div class="form mt-3 overflow-hidden">
-            {{ form_start(form) }}
-
+            {{ form_start(form, {
+                'attr': {'class': 'search-form'}
+            }) }}
             {% if form.alert is defined %}
                 <div class="alert alert-danger" role="alert">
                     {{ form_errors(form) }}

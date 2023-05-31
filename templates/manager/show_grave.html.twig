@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        {% for added in app.flashes('added')|slice(0, 1) %}
+            <div class="mt-4 alert alert-danger">
+                {{ added }}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

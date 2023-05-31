@@ -8,21 +8,21 @@
         <section class="pb-5 text-center container">
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
-                    <h1 class="fw-light">Witaj {{ user.username }}!</h1>
+                    <h1 class="fw-light">Witaj {{ app.user.username }}!</h1>
                     <p class="lead text-body-secondary">W panelu zarządcy masz możliwość dodania<br> nowych danych do bazy danych oraz ich edycję.</p>
                     <hr>
-                    <h5>Dodaj nowe dane</h5>
+                    <h5>Miejsca pochówku</h5>
                     <hr>
                     <p>
-                        <a href="#" class="btn btn-outline-secondary my-2">Dodaj nowy grób</a>
-                        <a href="#" class="btn btn-secondary my-2">Dodaj zmarłego</a>
+                        <a href="{{ path('app_manager_add_grave') }}" class="btn btn-outline-secondary my-2">Dodaj nowy grób</a>
+                        <a href="#" class="btn btn-secondary my-2">Edycja danych grobu</a>
                     </p>
                     <hr>
-                    <h5>Edycja danych</h5>
+                    <h5>Zmarli</h5>
                     <hr>
                     <p>
-                        <a href="#" class="btn btn-outline-secondary my-2">Edycja danych grobu</a>
-                        <a href="#" class="btn btn-secondary my-2">Edycja danych zmarłego</a>
+                        <a href="#" class="btn btn-outline-secondary my-2">Dodaj zmarłego</a>
+                        <a href="#" class="btn btn-secondary my-2">Edycja informacji o zmarłych</a>
                     </p>
                 </div>
             </div>

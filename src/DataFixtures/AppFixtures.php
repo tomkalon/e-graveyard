@@ -118,12 +118,13 @@ class AppFixtures extends Fixture
 
             $date = new DateTime();
             $date->format('Y-m-d');
-            $date->setTimezone(new DateTimeZone('Europe/Warsaw'));
             $arr[$key]->setCreated($date);
-            $date->format('Y-m-d');
-            $date->setTimezone(new DateTimeZone('Europe/Warsaw'));
-            $date->setDate($item[5], $item[6], $item[7]);
-            $arr[$key]->setPaid($date);
+
+            if ($item[5]) {
+                $date->format('Y-m-d');
+                $date->setDate($item[5], $item[6], $item[7]);
+                $arr[$key]->setPaid($date);
+            }
 
             switch ($key) {
                 case 0:

@@ -34,9 +34,11 @@
                     <div class="col-3 col-lg-2">
                         Sektor: <h5 class="heading">{{ person.grave.sector }}</h5>
                     </div>
+                    {% if person.grave.row %}
                     <div class="col-3 col-lg-2">
                         Rząd: <h5 class="heading">{{ person.grave.row }}</h5>
                     </div>
+                    {% endif %}
                     <div class="col-3 col-lg-2">
                         Numer: <h5 class="heading">{{ person.grave.number }}</h5>
                     </div>
