@@ -20,7 +20,7 @@ class ManagerController extends AbstractController
         ]);
     }
 
-    #[Route('/manager/grave/show/{grave <\d+>}', name: 'app_manager_show_grave')]
+    #[Route('/manager/grave/show/{grave<\d+>}', name: 'app_manager_show_grave', priority: 10)]
     public function show_grave(Request $request, Grave $grave, GraveRepository $graveRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
@@ -36,6 +36,7 @@ class ManagerController extends AbstractController
 
         $form = $this->createForm(NewGraveType::class, $grave);
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $grave = $form->getData();

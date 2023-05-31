@@ -3,7 +3,7 @@
 {% block body %}
     <div class="container">
         {% for added in app.flashes('added')|slice(0, 1) %}
-            <div class="mt-4 alert alert-danger">
+            <div class="mt-4 alert alert-warning">
                 {{ added }}
             </div>
         {% endfor %}
