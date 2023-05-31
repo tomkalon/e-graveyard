@@ -19,13 +19,7 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ path('app_main') }}">Strona główna</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Mapy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_search') }}">Szukaj</a>
+                            <a class="nav-link active" aria-current="page" href="{{ path('app_main') }}">Start</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -41,7 +35,23 @@
                                 <li><a class="dropdown-item" href="#">Informacje</a></li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_search') }}">Szukaj</a>
+                        </li>
                     </ul>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('admin') }}">
+                            <button class="btn btn-warning mx-1" type="button">Administrator</button>
+                        </a>
+                    {% endif %}
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <a href="{{ path('app_manager') }}">
+                            <button class="btn btn-outline-warning mx-1" type="button">Zarządzanie</button>
+                        </a>
+                        <a href="{{ path('app_logout') }}">
+                            <button class="btn btn-outline-light mx-1" type="button">Wyloguj</button>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
