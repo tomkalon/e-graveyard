@@ -25,6 +25,7 @@ class ManagerController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
         return $this->render('manager/show_grave.html.twig', [
+            'grave' => $grave
         ]);
     }
 

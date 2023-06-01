@@ -13,11 +13,12 @@ class PersonController extends AbstractController
     #[Route('/person/{person<\d+>}', name: 'app_person')]
     public function index(Person $person, Request $request): Response
     {
-
         $session = $request->getSession();
         $lastUri = $session->get('last_uri');
+        $grave = $person->getGrave();
 
         return $this->render('person/index.html.twig', [
+            'grave' => $grave,
             'person' => $person,
             'last_uri' => $lastUri
         ]);

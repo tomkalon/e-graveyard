@@ -1,8 +1,9 @@
 <header class="border-bottom border-secondary border-3">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Offcanvas navbar large">
         <div class="container">
-            <div class="btn d-flex gap-2 align-items-center navbar-brand text-uppercase" onclick="location.href='{{ path('app_main') }}'">
-                <img src="{{ asset('/build/images/logo.svg') }}" alt="logo" height="34px" />
+            <div class="btn d-flex gap-2 align-items-center navbar-brand text-uppercase"
+                 onclick="location.href='{{ path('app_main') }}'">
+                <img src="{{ asset('/build/images/logo.svg') }}" alt="logo" height="34px"/>
                 <span class="ms-2">Cmentarze - Parafia Rzezawa</span>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2"
@@ -17,7 +18,7 @@
                             aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <ul class="navbar-nav justify-content-end d-flex align-items-lg-center flex-grow-1 pe-3">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{{ path('app_main') }}">Start</a>
                         </li>
@@ -36,22 +37,30 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_search') }}">Szukaj</a>
+                            <a class="nav-link" href="{{ path('app_search') }}">
+                                <button class="btn btn-success" type="button">Szukaj</button>
+                            </a>
                         </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin') }}">
+                                    <button class="btn btn-warning" type="button">Administrator</button>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_manager') }}">
+                                    <button class="btn btn-danger" type="button">Zarządzanie</button>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_logout') }}">
+                                    <button class="btn btn-outline-danger" type="button">Wyloguj</button>
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('admin') }}">
-                            <button class="btn btn-warning mx-1" type="button">Administrator</button>
-                        </a>
-                    {% endif %}
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <a href="{{ path('app_manager') }}">
-                            <button class="btn btn-outline-warning mx-1" type="button">Zarządzanie</button>
-                        </a>
-                        <a href="{{ path('app_logout') }}">
-                            <button class="btn btn-outline-light mx-1" type="button">Wyloguj</button>
-                        </a>
-                    {% endif %}
                 </div>
             </div>
         </div>
