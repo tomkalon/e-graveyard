@@ -6,6 +6,7 @@ use App\Entity\Grave;
 use App\Form\NewGraveType;
 use App\Repository\GraveRepository;
 use App\Repository\PersonRepository;
+use App\Service\Person\PersonManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,12 +68,12 @@ class ManagerController extends AbstractController
     }
 
     #[Route('/manager/person/api/get/{type}', name: 'app_manager_get_person')]
-    public function api_get_people(Request $request, string $type, PersonRepository $personRepository): Response
+    public function api_get_people(Request $request, PersonManager $personManager, string $type): Response
     {
         if ($request->isMethod('get')) {
             switch ($type) {
                 case 'not_assigned':
-                    $data = 'ttteeessstt';
+                    $data = $personManager->getNotAssignedPeople();
                     break;
                 default:
                     $data = true;

@@ -20,11 +20,10 @@ function sendDataAPI(method, id, send, target) {
         });
 }
 
-function getDataAPI(method, id, target) {
+function getDataAPI(method, id, target, args, callback) {
     if (id) {
         target = target + "/" + id + "/";
     }
-    console.log(target);
 
     fetch(target, {
         method: method, headers: {
@@ -33,13 +32,11 @@ function getDataAPI(method, id, target) {
     })
         .then((response) => response.json())
         .then(data => {
-            console.log(data);
-            return data;
+            callback(args, data);
         })
         .catch((error) => {
             console.log("API communication error!");
             console.error("Error:", error);
-            return false;
         });
 }
 

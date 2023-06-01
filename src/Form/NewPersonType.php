@@ -19,8 +19,18 @@ class NewPersonType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('surname', TextType::class)
-            ->add('born', DateType::class)
-            ->add('death', DateType::class)
+            ->add('born', DateType::class, [
+                'widget' => 'choice',
+                'placeholder' => [
+                    'year' => 'Rok', 'month' => 'Miesiąc', 'day' => 'Dzień',
+                ]
+            ])
+            ->add('death', DateType::class, [
+                'widget' => 'choice',
+                'placeholder' => [
+                    'year' => 'Rok', 'month' => 'Miesiąc', 'day' => 'Dzień',
+                ]
+            ])
             ->add('grave', EntityType::class, [
                 'class' => Grave::class,
                 'choice_label' => 'id',

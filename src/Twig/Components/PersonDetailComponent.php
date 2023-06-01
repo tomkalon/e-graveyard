@@ -8,4 +8,5 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 final class PersonDetailComponent
 {
     public object $person;
+    public string $last_uri;
 }

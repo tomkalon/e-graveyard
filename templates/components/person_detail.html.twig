@@ -24,10 +24,10 @@
                 {% endif %}
             </div>
             <div>
+                <button class="btn btn-success float-end" onclick="location.href='{{ path("app_search") }}'">Wyszukiwanie</button>
                 {% if last_uri is defined %}
                 <button class="btn btn-secondary float-end mx-2" onclick="location.href='{{ last_uri }}'">Powrót</button>
                 {% endif %}
-                <button class="btn btn-success float-end" onclick="location.href='{{ path("app_search") }}'">Wyszukiwanie</button>
             </div>
         </div>
     </div>
