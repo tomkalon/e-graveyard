@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Grave;
 use App\Form\NewGraveType;
 use App\Repository\GraveRepository;
+use App\Repository\PersonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -62,5 +64,23 @@ class ManagerController extends AbstractController
         return $this->render('manager/add_grave.html.twig', [
             'form' => $form
         ]);
+    }
+
+    #[Route('/manager/person/api/get/{type}', name: 'app_manager_get_person')]
+    public function api_get_people(Request $request, string $type, PersonRepository $personRepository): Response
+    {
+        if ($request->isMethod('get')) {
+            switch ($type) {
+                case 'not_assigned':
+                    $data = 'ttteeessstt';
+                    break;
+                default:
+                    $data = true;
+                    break;
+            }
+        } else {
+            $data = false;
+        }
+        return new JsonResponse($data);
     }
 }

@@ -38,25 +38,25 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_search') }}">
-                                <button class="btn btn-success" type="button">Szukaj</button>
+                                <button class="btn btn-success btn-sm" type="button">Szukaj</button>
                             </a>
                         </li>
                         {% if is_granted('ROLE_ADMIN') %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('admin') }}">
-                                    <button class="btn btn-warning" type="button">Administrator</button>
+                                    <button class="btn btn-warning btn-sm" type="button">Administrator</button>
                                 </a>
                             </li>
                         {% endif %}
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('app_manager') }}">
-                                    <button class="btn btn-danger" type="button">Zarządzanie</button>
+                                    <button class="btn btn-danger btn-sm" type="button">Zarządzanie</button>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('app_logout') }}">
-                                    <button class="btn btn-outline-danger" type="button">Wyloguj</button>
+                                    <button class="btn btn-outline-danger btn-sm" type="button">Wyloguj</button>
                                 </a>
                             </li>
                         {% endif %}

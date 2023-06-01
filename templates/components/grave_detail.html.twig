@@ -24,13 +24,13 @@
             <hr>
             {% for one in grave.people %}
                 <div class="row">
-                    <div class="col-3 fw-bolder">{{ one.surname }} {{ one.name }}</div>
-                    <div class="col-3">
+                    <div class="col-md-4 col-lg-3 text-center text-md-start fw-bolder">{{ one.surname }} {{ one.name }}</div>
+                    <div class="col-md-4 col-lg-3 text-center text-lg-start">
                         <span class="material-symbols-rounded" style="font-size: 13px">brightness_empty</span>
                         {{ one.born|date('Y.m.d') }}
                     </div>
-                    <div class="col-3">
-                        +
+                    <div class="col-md-4 col-lg-3 text-center text-lg-start">
+                        <b>+</b>
                         {{ one.death|date('Y.m.d') }}
                     </div>
                 </div>
@@ -40,25 +40,45 @@
                 <div class="lead">Brak przypisanych osób spoczywających w grobie.</div>
             </div>
         {% endif %}
-        <hr>
-        <div class="">
-            <button class="btn btn-outline-secondary" data-controller-name="data-add-new-person">Dodaj nową osobę</button>
-            <button class="btn btn-secondary">Wybierz nieprzypisaną osobę</button>
-        </div>
-        <hr>
-        {% if grave.positionY != null and grave.positionX != null %}
-        <div class="card p-1">
-            <div class="lead px-3 pt-3">Położenie na GoogleMaps</div>
+        {% if is_granted('ROLE_MANAGER') %}
             <hr>
-            <div>
-                <div style="width: 100%">
-                    <iframe width="100%" height="600" frameborder="0" scrolling="no"
-                            marginheight="0" marginwidth="0"
-                            src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q={{ grave.positionY }},%20{{ grave.positionX }}&amp;t=k&amp;z=19&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
-                    </iframe>
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    {% if is_granted('ROLE_MANAGER') and grave is defined and form_add_person is defined %}
+                        {{ component('modal_box', {
+                            'name': 'data-add-new-person',
+                            'title': 'Dodawanie nowej osoby',
+                            'grave': grave,
+                            'form': form_add_person
+                        }) }}
+                        <button class="btn btn-outline-secondary" data-modal-box-open="data-add-new-person">Dodaj nową osobę</button>
+                    {% endif %}
+                    {% if is_granted('ROLE_MANAGER') and grave is defined and person is defined %}
+                        {{ component('modal_box', {
+                            'name': 'data-select-person',
+                            'title': 'Wybierz do przypisania',
+                            'grave': grave,
+                            'person': person
+                        }) }}
+                        <button class="btn btn-secondary" data-modal-box-open="data-select-person">Wybierz nieprzypisaną osobę</button>
+                    {% endif %}
                 </div>
             </div>
-        </div>
+        {% endif %}
+        <hr>
+        {% if grave.positionY != null and grave.positionX != null %}
+            <div class="card p-1">
+                <div class="lead px-3 pt-3">Położenie na GoogleMaps</div>
+                <hr>
+                <div>
+                    <div style="width: 100%">
+                        <iframe width="100%" height="600" frameborder="0" scrolling="no"
+                                marginheight="0" marginwidth="0"
+                                src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q={{ grave.positionY }},%20{{ grave.positionX }}&amp;t=k&amp;z=19&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
         {% endif %}
         <hr>
         <small>Dodano: {{ grave.created|date('Y-m-d') }}</small>
@@ -66,9 +86,5 @@
             <small> || Edytowano: {{ grave.edited|date('Y-m-d') }}</small>
         {% endif %}
     </div>
-    {{ component('modal_box', {
-        'name': 'data-add-new-person',
-        'title': 'Dodawanie nowej osoby'
-    }) }}
 </div>
 

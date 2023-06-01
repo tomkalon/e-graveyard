@@ -87,7 +87,7 @@ class AppFixtures extends Fixture
             $date = new DateTime();
             $date->format('Y-m-d');
             $date->setTimezone(new DateTimeZone('Europe/Warsaw'));
-            $arr[$key]->setAdded($date);
+            $arr[$key]->setCreated($date);
             $date = new DateTime();
             $date->format('Y-m-d');
             $date->setTimezone(new DateTimeZone('Europe/Warsaw'));

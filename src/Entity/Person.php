@@ -41,7 +41,7 @@ class Person
     private ?\DateTimeInterface $death = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $added = null;
+    private ?\DateTimeInterface $created = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $edited = null;
@@ -49,6 +49,9 @@ class Person
     #[ORM\ManyToOne(inversedBy: 'people')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Grave $grave = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $EditedBy = null;
 
     public function getId(): ?int
     {
@@ -99,14 +102,14 @@ class Person
         $this->death = $death;
     }
 
-    public function getAdded(): ?\DateTimeInterface
+    public function getCreated(): ?\DateTimeInterface
     {
-        return $this->added;
+        return $this->created;
     }
 
-    public function setAdded(\DateTimeInterface $added): self
+    public function setCreated(\DateTimeInterface $created): self
     {
-        $this->added = $added;
+        $this->created = $created;
 
         return $this;
     }
@@ -131,6 +134,18 @@ class Person
     public function setGrave(?Grave $grave): self
     {
         $this->grave = $grave;
+
+        return $this;
+    }
+
+    public function getEditedBy(): ?string
+    {
+        return $this->EditedBy;
+    }
+
+    public function setEditedBy(?string $EditedBy): self
+    {
+        $this->EditedBy = $EditedBy;
 
         return $this;
     }

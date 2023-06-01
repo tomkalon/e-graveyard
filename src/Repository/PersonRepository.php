@@ -39,7 +39,7 @@ class PersonRepository extends ServiceEntityRepository
         }
     }
 
-    public function findByObjectData (Person $person): array
+    public function findPeople (Person $person): array
     {
         $name = $person->getName();
         $surname = $person->getSurname();
@@ -66,6 +66,7 @@ class PersonRepository extends ServiceEntityRepository
         $query = $qb->getQuery();
         return $query->execute();
     }
+
 
 //    /**
 //     * @return Person[] Returns an array of Person objects

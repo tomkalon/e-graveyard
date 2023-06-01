@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Person;
+use App\Form\NewPersonType;
 use App\Form\SearchGraveType;
 use App\Repository\PersonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,7 +35,7 @@ class MainController extends AbstractController
         // form handler
         if ($form->isSubmitted() && $form->isValid()) {
             $person = $form->getData();
-            $search_result = $personRepository->findByObjectData($person);
+            $search_result = $personRepository->findPeople($person);
             if ($search_result) {
                 $this->addFlash('success', 'Wyniki wyszukiwania:');
                 $session->set('search_result', $search_result);
@@ -54,12 +55,15 @@ class MainController extends AbstractController
     #[Route('/search/result/{page<\d+>}', name: 'app_search_result', priority: 5)]
     public function searchResultPage(Request $request, PersonRepository $personRepository, int $page = 0): Response
     {
-        // matching search data
-        $search_result = '';
-        $limit = 15;
+        // session
         $session = $request->getSession();
-        $search_result = $session->get('search_result');
         $session->set('last_uri', $request->getUri());
+
+        // matching search data
+        $search_result = $session->get('search_result');
+
+        // query limit
+        $limit = 15;
 
         return $this->render('main/search/result.html.twig', [
             'search_result' => $search_result,

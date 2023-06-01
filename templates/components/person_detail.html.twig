@@ -1,0 +1,34 @@
+<div{{ attributes }} class="card">
+    <div class="card-header">
+        Informacje o zmarłym
+    </div>
+    <div class="card-body">
+        <h4 class="card-title">{{ person.surname }} {{ person.name }}</h4>
+        <hr>
+        <div class="row">
+            <div class="col-lg-3">
+                <p class="card-text mb-1">Data urodzenia:</p>
+                <h5 class="heading">{{ person.born|date('Y.m.d') }}</h5>
+            </div>
+            <div class="col-lg-3">
+                <p class="card-text mb-1">Data śmierci:</p>
+                <h5 class="heading">{{ person.death|date('Y.m.d') }}</h5>
+            </div>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <small>Dodano: {{ person.created|date('Y-m-d') }}</small>
+                {% if person.edited != null %}
+                    <small> || Edytowano: {{ person.edited|date('Y-m-d') }}</small>
+                {% endif %}
+            </div>
+            <div>
+                {% if last_uri is defined %}
+                <button class="btn btn-secondary float-end mx-2" onclick="location.href='{{ last_uri }}'">Powrót</button>
+                {% endif %}
+                <button class="btn btn-success float-end" onclick="location.href='{{ path("app_search") }}'">Wyszukiwanie</button>
+            </div>
+        </div>
+    </div>
+</div>

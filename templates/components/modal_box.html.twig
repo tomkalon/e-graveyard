@@ -7,7 +7,16 @@
                     <button type="button" class="btn-close" data-modal-box-close></button>
                 </div>
                 <hr class="my-2">
-                <div class="modal-body p-5 pt-0"></div>
+                <div class="modal-body p-5 pt-0">
+                    {% if form is defined %}
+                        {{ component('person_add', {
+                            'form': form
+                        }) }}
+                    {% endif %}
+                    {% if person is defined %}
+                        {{ person.surname }}
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
