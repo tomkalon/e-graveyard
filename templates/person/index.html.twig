@@ -19,8 +19,18 @@
                     </div>
                 </div>
                 <hr>
-                <small>Dodano: {{ person.added|date('Y-m-d') }}</small> ||
-                <small>Edytowano: {{ person.edited|date('Y-m-d') }}</small>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small>Dodano: {{ person.added|date('Y-m-d') }}</small>
+                        {% if person.edited != null %}
+                        <small> || Edytowano: {{ person.edited|date('Y-m-d') }}</small>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <button class="btn btn-secondary float-end mx-2" onclick="location.href='{{ last_uri }}'">Powrót</button>
+                        <button class="btn btn-success float-end" onclick="location.href='{{ path("app_search") }}'">Wyszukiwanie</button>
+                    </div>
+                </div>
             </div>
         </div>
         {{ component('grave_detail', {
@@ -31,6 +41,5 @@
             <button class="btn btn-secondary float-end mx-2" onclick="location.href='{{ last_uri }}'">Powrót</button>
             <button class="btn btn-success float-end" onclick="location.href='{{ path("app_search") }}'">Wyszukiwanie</button>
         </div>
-
     </div>
 {% endblock %}

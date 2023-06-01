@@ -1,3 +1,14 @@
-<div{{ attributes }}>
-    <!-- component html -->
+<div{{ attributes }} {{ name }} data-modal-box>
+    <div class="modal-container">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header px-4 pt-3 pb-2 border-bottom-0">
+                    <h4 class="fw-bold mb-0 me-4">{{ title }}</h4>
+                    <button type="button" class="btn-close" data-modal-box-close></button>
+                </div>
+                <hr class="my-2">
+                <div class="modal-body p-5 pt-0"></div>
+            </div>
+        </div>
+    </div>
 </div>

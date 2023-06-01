@@ -1,4 +1,4 @@
-<div{{ attributes }} class="card mt-4">
+<div{{ attributes }} class="card mt-4" data-controller="grave-detail">
     <div class="card-header">
         <span>Szczegóły nagrobka</span>
     </div>
@@ -42,13 +42,14 @@
         {% endif %}
         <hr>
         <div class="">
-            <button class="btn btn-outline-secondary">Dodaj nową osobę</button>
+            <button class="btn btn-outline-secondary" data-controller-name="data-add-new-person">Dodaj nową osobę</button>
             <button class="btn btn-secondary">Wybierz nieprzypisaną osobę</button>
         </div>
         <hr>
         {% if grave.positionY != null and grave.positionX != null %}
-        <div class="card">
-            <div class="lead px-3 py-1">Położenie na GoogleMaps</div>
+        <div class="card p-1">
+            <div class="lead px-3 pt-3">Położenie na GoogleMaps</div>
+            <hr>
             <div>
                 <div style="width: 100%">
                     <iframe width="100%" height="600" frameborder="0" scrolling="no"
@@ -65,5 +66,9 @@
             <small> || Edytowano: {{ grave.edited|date('Y-m-d') }}</small>
         {% endif %}
     </div>
-
+    {{ component('modal_box', {
+        'name': 'data-add-new-person',
+        'title': 'Dodawanie nowej osoby'
+    }) }}
 </div>
+

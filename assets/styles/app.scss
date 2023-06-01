@@ -69,3 +69,25 @@ footer {
 .bs-heroes {
   @include background-centered;
 }
+
+[data-modal-box] {
+  display: none;
+  background: #000000dd;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+
+  .modal-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-dialog {
+    background: #ffffff;
+    border: none!important;
+    border-radius: 1rem;
+  }
+}

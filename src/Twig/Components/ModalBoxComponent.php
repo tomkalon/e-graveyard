@@ -7,4 +7,11 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 #[AsTwigComponent('modal_box')]
 final class ModalBoxComponent
 {
+    public string $name;
+    public string $title;
+    public string $description;
+    public object $form;
+    public object $grave;
+    public object $person;
+    public object $component;
 }
