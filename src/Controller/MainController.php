@@ -37,7 +37,6 @@ class MainController extends AbstractController
             $person = $form->getData();
             $search_result = $personRepository->findPeople($person);
             if ($search_result) {
-                $this->addFlash('success', 'Wyniki wyszukiwania:');
                 $session->set('search_result', $search_result);
                 return $this->redirectToRoute('app_search_result', [
                 ]);

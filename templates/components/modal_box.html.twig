@@ -7,39 +7,38 @@
                     <button type="button" class="btn-close" data-modal-box-close></button>
                 </div>
                 <hr class="my-2">
-                <div class="modal-body p-3 pt-0" style="max-height: 50vh; overflow: auto; pointer-events: auto;">
-                    {% if form is defined %}
-                        {{ component('person_add', {
-                            'form': form
-                        }) }}
+                <div class="modal-body px-3 pb-3 py-0"
+                     style="max-height: 50vh; overflow: auto; pointer-events: auto;">
+                    {% if action == 'add_new_person' %}
+                        {% if form is defined %}
+                            {{ component('person_add', {
+                                'form': form
+                            }) }}
+                        {% endif %}
                     {% endif %}
-                    {% if person is defined and grave is defined %}
-                        <table class="table table-striped table-hover" style="min-width: 600px; max-height: 100%">
-                            <thead>
-                            <tr class="text-center text-lg-start">
-                                <th class="col-1 text-center">-</th>
-                                <th class="col-3">Imię</th>
-                                <th class="col-3">Nazwisko</th>
-                                <th class="col-2 text-center">Data urodzenia</th>
-                                <th class="col-2 text-center">Data<br>śmierci</th>
-                            </tr>
-                            </thead>
-                            <tbody data-person-body data-target-id="{{ grave.id }}">
-                                <tr class="text-center text-lg-start" role="button" data-person-row>
-                                    <td class="col-1 text-center" data-person-checkbox></td>
-                                    <td class="col-3" data-person-surname></td>
-                                    <td class="col-3" data-person-name></td>
-                                    <td class="col-2 text-center" data-person-born></td>
-                                    <td class="col-2 text-center" data-person-death></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    {% if action == 'select_assigned_person' %}
+                        {% if people is defined and grave is defined %}
+                            {{ component('person_search_js', {
+                                people: people,
+                                grave: grave
+                            }) }}
+                        {% endif %}
                     {% endif %}
-                    <hr class="m-0 p-0">
-                    <div class="py-2 px-3 d-flex justify-content-end gap-2">
-                        <button class="btn btn-sm btn-danger float-end" data-modal-box-close>Anuluj</button>
-                        <button class="btn btn-sm btn-success float-end" data-add-person-submit>Przypisz</button>
-                    </div>
+                    {% if action == 'remove_assigned_person' %}
+                        {% if person is defined and grave is defined %}
+                            <div class="p-3">Czy potwierdzasz usunięcie przypisania osoby do grobu?</div>
+                            <div class="px-3 fw-bold" data-remove-content></div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="modal-footer flex-nowrap p-0">
+                    {% if action == 'remove_assigned_person' %}
+                        <button type="button"
+                                class="border-top btn btn-link text-danger fs-6 text-decoration-none col-6 py-3 m-0 rounded-2 border-end"
+                                data-remove-submit>
+                            <strong>Usuń</strong></button>
+                        <button type="button" class="border-top btn btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-2" data-modal-box-close>Anuluj</button>
+                    {% endif %}
                 </div>
             </div>
         </div>

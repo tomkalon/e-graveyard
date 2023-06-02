@@ -1,6 +1,6 @@
 import $ from "jquery";
 
-function modalHandler(modal, container) {
+function modalHandler(modal, container, callback, args) {
 
     if (container.querySelector("[" + modal + "]")) {
         const addNewModal = container.querySelector("[" + modal + "]");
@@ -14,9 +14,12 @@ function modalHandler(modal, container) {
         addNewModalOpen.forEach(element => {
             element.addEventListener('click', () => {
                 $(addNewModal).fadeIn(300);
+                if (typeof callback === 'function') {
+                    callback(addNewModal, element, args);
+                }
             })
         })
-        return true;
+        return addNewModal;
     } else {
         return false;
     }

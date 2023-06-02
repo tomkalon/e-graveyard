@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Grave;
+use App\Entity\Person;
 use App\Form\NewGraveType;
 use App\Repository\GraveRepository;
 use App\Repository\PersonRepository;
 use App\Service\Person\PersonManager;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,12 +21,11 @@ class ManagerController extends AbstractController
     public function index(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
-        return $this->render('manager/index.html.twig', [
-        ]);
+        return $this->render('manager/index.html.twig');
     }
 
     #[Route('/manager/grave/show/{grave<\d+>}', name: 'app_manager_show_grave', priority: 10)]
-    public function show_grave(Request $request, Grave $grave, GraveRepository $graveRepository): Response
+    public function show_grave(Grave $grave): Response
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
         return $this->render('manager/show_grave.html.twig', [
@@ -47,14 +48,14 @@ class ManagerController extends AbstractController
             $user = $this->getUser();
             $grave->setEditedBy($user->getUsername());
             if ($grave->getCreated() === null) {
-                $grave->setCreated(new \DateTime());
+                $grave->setCreated(new DateTime());
             } else {
-                $grave->setEdited(new \DateTime());
+                $grave->setEdited(new DateTime());
             }
             $graveRepository->save($grave, true);
 
             // flash message
-            $this->addFlash('added', 'Miejsce pochówku zostało dodane!');
+            $this->addFlash('success', 'Miejsce pochówku zostało dodane!');
 
             // redirection
             return $this->redirectToRoute('app_manager_show_grave', [
@@ -67,18 +68,60 @@ class ManagerController extends AbstractController
         ]);
     }
 
-    #[Route('/manager/person/api/get/{type}', name: 'app_manager_get_person')]
-    public function api_get_people(Request $request, PersonManager $personManager, string $type): Response
+    #[Route('/manager/person/api/update/{person}', name: 'app_manager_update_person')]
+    public function api_update_person(Request $request, Person $person, PersonRepository $personRepository): Response
     {
-        if ($request->isMethod('get')) {
-            switch ($type) {
-                case 'not_assigned':
-                    $data = $personManager->getNotAssignedPeople();
-                    break;
-                default:
-                    $data = true;
-                    break;
+        $this->denyAccessUnlessGranted('ROLE_MANAGER');
+        if ($request->isMethod('put')) {
+            $external_request = json_decode($request->getContent(), true);
+            if ($external_request['clearGrave']) {
+                $person->setGrave(null);
+                $personRepository->save($person, true);
+                $data = true;
+                $this->addFlash('success', 'Osoba została usunięta z grobu.');
+            } else {
+                $data = false;
             }
+
+        } else {
+            $data = false;
+        }
+        return new JsonResponse($data);
+    }
+
+    #[Route('/manager/person/api/get/{type}', name: 'app_manager_get_person')]
+    public function api_get_person(Request $request, PersonManager $personManager, string $type): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_MANAGER');
+        if ($request->isMethod('get')) {
+            $data = match ($type) {
+                'not_assigned' => $personManager->getNotAssignedPeople(),
+                default => true,
+            };
+        } else {
+            $data = false;
+        }
+        return new JsonResponse($data);
+    }
+
+    #[Route('/manager/grave/api/update/{grave}', name: 'app_manager_update_grave')]
+    public function api_update_grave(Request $request, Grave $grave, PersonRepository $personRepository, GraveRepository $graveRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_MANAGER');
+        if ($request->isMethod('put')) {
+            $external_request = json_decode($request->getContent(), true);
+            if (count($external_request['assignToGrave'])) {
+                foreach ($external_request['assignToGrave'] as $element) {
+                    $person = $personRepository->find($element);
+                    $grave->addPerson($person);
+                    $graveRepository->save($grave, true);
+                }
+                $data = true;
+                $this->addFlash('success', 'Przypisanie zakończone powodzeniem!');
+            } else {
+                $data = false;
+            }
+
         } else {
             $data = false;
         }

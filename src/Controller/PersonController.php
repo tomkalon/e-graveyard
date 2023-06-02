@@ -28,6 +28,11 @@ class PersonController extends AbstractController
         $form_add_person = $this->createForm(NewPersonType::class, $one);
         $form_add_person->handleRequest($request);
 
+        $not_assigned_people = $personRepository->findBy(
+            ['grave' => null],
+            ['id' => 'DESC']
+        );
+
         if ($form_add_person->isSubmitted() && $form_add_person->isValid()) {
             $this->denyAccessUnlessGranted('ROLE_MANAGER');
             $one = $form_add_person->getData();
@@ -35,9 +40,7 @@ class PersonController extends AbstractController
             $one->setCreated(new DateTime());
             $one->setGrave($grave);
             $personRepository->save($one, true);
-
-            $this->addFlash('added', 'Osoba dodana do pochówku!');
-            $request->request->remove('new_person');
+            $this->addFlash('success', 'Osoba dodana do pochówku!');
             $this->redirectToRoute('app_person', [
                 'person' => $person->getId()
             ]);
@@ -46,6 +49,7 @@ class PersonController extends AbstractController
         return $this->render('person/index.html.twig', [
             'grave' => $grave,
             'person' => $person,
+            'people' => $not_assigned_people,
             'last_uri' => $lastUri,
             'form_add_person' => $form_add_person
         ]);

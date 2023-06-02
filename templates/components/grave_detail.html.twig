@@ -1,40 +1,55 @@
 <div{{ attributes }} class="card mt-4" data-controller="grave-detail">
-    <div class="card-header">
+    <div class="card-header" data-target-id="{{ grave.id }}">
         <span>Szczegóły nagrobka</span>
     </div>
     <div class="card-body">
         <h4 class="card-title">{{ grave.graveyard.name }}</h4>
         <hr>
         <div class="row">
-            <div class="col-3 col-lg-2">
+            <div class="col-4 col-md-3 col-lg-2 text-center">
                 Sektor: <h5 class="heading">{{ grave.sector }}</h5>
             </div>
             {% if grave.row %}
-                <div class="col-3 col-lg-2">
+                <div class="col-4 col-md-3 col-lg-2 text-center">
                     Rząd: <h5 class="heading">{{ grave.row }}</h5>
                 </div>
             {% endif %}
-            <div class="col-3 col-lg-2">
+            <div class="col-4 col-md-3 col-lg-2 text-center">
                 Numer: <h5 class="heading">{{ grave.number }}</h5>
             </div>
         </div>
         <hr>
         {% if grave.people|length > 0 %}
             <h6>Osoby spoczywające w grobie:</h6>
-            <hr>
+            <hr class="mb-1">
             {% for one in grave.people %}
-                <div class="row">
-                    <div class="col-md-4 col-lg-3 text-center text-md-start fw-bolder">{{ one.surname }} {{ one.name }}</div>
-                    <div class="col-md-4 col-lg-3 text-center text-lg-start">
+                <div class="row {% if is_granted('ROLE_MANAGER') %}mb-1{% endif %}">
+                    <div class="col-md-4 col-lg-3 text-center text-md-start fw-bolder" data-modal-box-prop>{{ one.surname }} {{ one.name }}</div>
+                    <div class="col-md-3 col-lg-2 text-center text-lg-start">
                         <span class="material-symbols-rounded" style="font-size: 13px">brightness_empty</span>
                         {{ one.born|date('Y.m.d') }}
                     </div>
-                    <div class="col-md-4 col-lg-3 text-center text-lg-start">
+                    <div class="col-md-3 col-lg-2 text-center text-lg-start">
                         <b>+</b>
                         {{ one.death|date('Y.m.d') }}
                     </div>
+                    {% if is_granted('ROLE_MANAGER') %}
+                        <div class="col-md-2 text-center text-md-start">
+                            <button class="btn btn-sm btn-danger" data-modal-box-open="data-remove-person"
+                                    data-item-id="{{ one.id }}" data-modal-box-prop="{{ one.surname }} {{ one.name }}">USUŃ
+                            </button>
+                        </div>
+                    {% endif %}
                 </div>
+                <hr class="my-1">
             {% endfor %}
+            {{ component('modal_box', {
+                'name': 'data-remove-person',
+                'title': 'Usuwanie osoby z grobu',
+                'grave': grave,
+                'person': person,
+                'action': 'remove_assigned_person'
+            }) }}
         {% else %}
             <div class="row">
                 <div class="lead">Brak przypisanych osób spoczywających w grobie.</div>
@@ -49,16 +64,18 @@
                             'name': 'data-add-new-person',
                             'title': 'Dodawanie nowej osoby',
                             'grave': grave,
-                            'form': form_add_person
+                            'form': form_add_person,
+                            'action': 'add_new_person'
                         }) }}
                         <button class="btn btn-outline-secondary" data-modal-box-open="data-add-new-person">Dodaj nową osobę</button>
                     {% endif %}
-                    {% if is_granted('ROLE_MANAGER') and grave is defined and person is defined %}
+                    {% if is_granted('ROLE_MANAGER') and grave is defined and people is defined %}
                         {{ component('modal_box', {
                             'name': 'data-select-person',
                             'title': 'Wybierz do przypisania',
                             'grave': grave,
-                            'person': person
+                            'people': people,
+                            'action': 'select_assigned_person'
                         }) }}
                         <button class="btn btn-secondary" data-modal-box-open="data-select-person">Wybierz nieprzypisaną osobę</button>
                     {% endif %}

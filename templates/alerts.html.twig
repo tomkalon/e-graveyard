@@ -1,0 +1,10 @@
+{% for success in app.flashes('success') %}
+    <div class="container alert alert-success mt-2 mb-0">
+        {{ success }}
+    </div>
+{% endfor %}
+{% for failed in app.flashes('failed') %}
+    <div class="container alert alert-warning mt-2 mb-0">
+        {{ failed }}
+    </div>
+{% endfor %}

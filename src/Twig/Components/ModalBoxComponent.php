@@ -13,5 +13,7 @@ final class ModalBoxComponent
     public object $form;
     public object $grave;
     public object $person;
+    public array $people;
     public object $component;
+    public string $action;
 }

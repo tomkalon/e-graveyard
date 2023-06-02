@@ -1,11 +1,9 @@
-function sendDataAPI(method, id, send, target) {
-    if (typeof send['value'] === 'boolean') {
-        if (send['value']) {
-            send['value'] = 1;
-        } else {
-            send['value'] = 0;
-        }
+function sendDataAPI(method, id, send, target, callback, args) {
+    if (id) {
+        target = target + "/" + id;
     }
+    console.log(target);
+    console.log(send);
 
     fetch(target, {
         method: method, headers: {
@@ -13,7 +11,13 @@ function sendDataAPI(method, id, send, target) {
         }, body: JSON.stringify(send),
     })
         .then((response) => response.json())
-        .then(data => {})
+        .then(data => {
+            if (data) {
+                callback(args);
+            } else {
+                console.log(null);
+            }
+        })
         .catch((error) => {
             console.log("API communication error!");
             console.error("Error:", error);
@@ -32,7 +36,9 @@ function getDataAPI(method, id, target, args, callback) {
     })
         .then((response) => response.json())
         .then(data => {
-            callback(args, data);
+            if (typeof callback === 'function') {
+                callback(args, data);
+            }
         })
         .catch((error) => {
             console.log("API communication error!");

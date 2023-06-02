@@ -1,0 +1,35 @@
+<div{{ attributes }}>
+    {% if people|length > 0 %}
+        <table class="table table-striped table-hover mb-1" style="min-width: 600px; max-height: 100%" data-person-table>
+            <thead>
+            <tr class="text-center text-lg-start">
+                <th class="col-1 text-center">-</th>
+                <th class="col-3">Imię</th>
+                <th class="col-3">Nazwisko</th>
+                <th class="col-2 text-center">Data urodzenia</th>
+                <th class="col-2 text-center">Data<br>śmierci</th>
+            </tr>
+            </thead>
+            <tbody data-person-body>
+            {% for one in people %}
+                <tr class="text-center text-lg-start" role="button" data-person-row="{{ one.id }}">
+                    <td class="col-1 text-center" data-person-checkbox></td>
+                    <td class="col-3" data-person-surname>{{ one.surname }}</td>
+                    <td class="col-3" data-person-name>{{ one.name }}</td>
+                    <td class="col-2 text-center" data-person-born>{{ one.born|date('Y.m.d') }}</td>
+                    <td class="col-2 text-center" data-person-death>{{ one.death|date('Y.m.d') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <hr class="m-0 p-0">
+        <div class="py-2 px-3 d-flex justify-content-end gap-2">
+            <button class="btn btn-sm btn-danger float-end" data-modal-box-close>Anuluj</button>
+            <button class="btn btn-sm btn-success float-end" data-add-person-submit>Przypisz</button>
+        </div>
+    {% else %}
+        <div class="alert alert-warning">
+            Brak wyników do wyświetlenia.
+        </div>
+    {% endif %}
+</div>

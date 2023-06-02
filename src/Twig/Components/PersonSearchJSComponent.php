@@ -4,10 +4,10 @@ namespace App\Twig\Components;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent('person_detail')]
-final class PersonDetailComponent
+#[AsTwigComponent('person_search_js')]
+final class PersonSearchJSComponent
 {
     public object $person;
     public array $people;
-    public string $last_uri;
+    public object $grave;
 }

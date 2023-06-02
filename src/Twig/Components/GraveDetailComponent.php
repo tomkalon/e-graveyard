@@ -9,6 +9,7 @@ final class GraveDetailComponent
 {
     public object $grave;
     public object $person;
+    public array $people;
     public object $form_add_person;
     public object $form_remove_person;
 }
