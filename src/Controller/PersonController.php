@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Person;
 use App\Form\NewPersonType;
+use App\Repository\GraveRepository;
 use App\Repository\PersonRepository;
 use App\Service\Person\PersonManager;
 use DateTime;
@@ -38,7 +39,9 @@ class PersonController extends AbstractController
         if ($form_add_person->isSubmitted() && $form_add_person->isValid()) {
             $this->denyAccessUnlessGranted('ROLE_MANAGER');
             $one = $form_add_person->getData();
-            $grave->setEditedBy($this->getUser()->getUsername());
+            $user = $this->getUser()->getUsername();
+            $grave->setEditedBy($user);
+            $one->setEditedBy($user);
             $one->setCreated(new DateTime());
             $one->setGrave($grave);
             $personRepository->save($one, true);
@@ -57,11 +60,26 @@ class PersonController extends AbstractController
         ]);
     }
 
-    #[Route('/person/not_assigned', name: 'app_person_not_assigned')]
-    public function not_assigned(Person $person, PersonRepository $personRepository, Request $request): Response
+    #[Route('/person/not_assigned{page<\d+>}', name: 'app_person_not_assigned')]
+    public function not_assigned(PersonRepository $personRepository, Request $request, int $page = 0): Response
     {
-        return $this->render('person/index.html.twig', [
-            'person' => $person,
+        // session
+        $session = $request->getSession();
+        $session->set('last_uri', $request->getUri());
+
+        // matching search data
+        $search_result = $personRepository->findBy(
+            ['grave' => null],
+            ['id' => 'DESC']
+        );
+
+        // query limit
+        $limit = 15;
+
+        return $this->render('main/search/result.html.twig', [
+            'search_result' => $search_result,
+            'page' => $page,
+            'limit' => $limit
         ]);
     }
 
@@ -99,38 +117,33 @@ class PersonController extends AbstractController
         ]);
     }
 
-    #[Route('/person/edit/remove/{person<\d+>}', name: 'app_person_remove')]
-    public function remove(Person $person, PersonRepository $personRepository, Request $request): Response
+    #[Route('/person/api/remove/{person<\d+>}', name: 'app_person_remove')]
+    public function remove(Person $person, PersonRepository $personRepository, Request $request): void
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
-
-
-        // form - add new Person
-        $form = $this->createForm(NewPersonType::class, $person);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('success', 'Osoba została usunięta.');
-            $this->redirectToRoute('app_search', [
-                'person' => $person->getId()
-            ]);
-        }
-
-        return $this->render('person/index.html.twig', [
-            'person' => $person,
-            'form' => $form
-        ]);
+        $personRepository->remove($person);
+        $this->addFlash('success', 'Osoba została usunięta.');
     }
 
-    #[Route('/person/api/update/{person}', name: 'app_api_person_update')]
-    public function api_update_person(Request $request, Person $person, PersonRepository $personRepository): Response
+    #[Route('/person/api/update/{person<\d+>}', name: 'app_api_person_update')]
+    public function api_update_person(Request $request, Person $person, PersonRepository $personRepository, GraveRepository $graveRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
         if ($request->isMethod('put')) {
             $external_request = json_decode($request->getContent(), true);
             if ($external_request['clearGrave']) {
+
+                $user = $this->getUser()->getUsername();
+                $grave = $person->getGrave();
+                $grave->setEditedBy($user);
+                $grave->setEdited(new DateTime());
+                $graveRepository->save($grave, true);
+
                 $person->setGrave(null);
+                $person->setEdited(new DateTime());
+                $person->setEditedBy($user);
                 $personRepository->save($person, true);
+
                 $data = true;
                 $this->addFlash('success', 'Osoba została usunięta z grobu.');
             } else {

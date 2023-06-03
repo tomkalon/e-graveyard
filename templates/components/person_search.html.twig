@@ -53,7 +53,7 @@
 
         <div class="mt-3 float-end float-xl-start">
             {% if is_granted('ROLE_MANAGER') %}
-                <button type="button" class="btn btn-secondary">Pokaż nieprzypisane</button>
+                <button type="button" class="btn btn-secondary" onclick="location.href='{{ path('app_person_not_assigned') }}'">Pokaż nieprzypisane</button>
             {% endif %}
             {{ form_widget(form.search,{
                 'attr': {'class': 'btn btn-success'},

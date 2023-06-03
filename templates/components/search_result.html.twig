@@ -19,23 +19,21 @@
             </tr>
             </thead>
             <tbody>
-            {% if type == 'person' %}
                 {% for person in search_result|slice(page * limit,limit) %}
                     <tr class="text-center text-lg-start" role="button" onclick="location.href='{{ path('app_person', {
                         'person': person.id,
                     }) }}'">
                         {% if tbody is defined %}
                             {% for item in tbody %}
-                                <td class="{{ (item.class) }}">{{ (item.name) }}</td>
+                                {% if item.type is defined and item.type == 'date' %}
+                                    <td class="{{ item.class }}">{{ attribute(person, item.name)|date("Y-m-d") }}</td>
+                                {% else %}
+                                    <td class="{{ item.class }}">{{ attribute(person, item.name) }}</td>
+                                {% endif %}
                             {% endfor %}
-{#                        <td class="col-3">{{ person.surname }}</td>#}
-{#                        <td class="col-3">{{ person.name }}</td>#}
-{#                        <td class="col-2">{{ person.born|date('Y-m-d') }}</td>#}
-{#                        <td class="col-2">{{ person.death|date('Y-m-d') }}</td>#}
                         {% endif %}
                     </tr>
                 {% endfor %}
-            {% endif %}
             </tbody>
         </table>
         <hr>

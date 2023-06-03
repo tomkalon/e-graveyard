@@ -60,7 +60,6 @@ class MainController extends AbstractController
         $search_result = $session->get('search_result');
 
         // query limit
-        // query limit
         $limit = 15;
 
         return $this->render('main/search/result.html.twig', [

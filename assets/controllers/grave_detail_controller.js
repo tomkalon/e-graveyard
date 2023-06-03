@@ -6,12 +6,12 @@ let checkChecked = document.createElement('span');
 checkChecked.classList.add('material-symbols-rounded', 'small');
 checkChecked.textContent = 'check_box';
 
-function updateComplete (close) {
+function updateComplete(close) {
     close.click();
     location.reload();
 }
 
-function booleanChoiceAction (modal, source) {
+function booleanChoiceAction(modal, source) {
     let content = modal.querySelector("[data-remove-content]");
     const closeBtn = modal.querySelector("[data-modal-box-close]");
     const submitBtn = modal.querySelector("[data-action-submit]");
@@ -23,15 +23,15 @@ function booleanChoiceAction (modal, source) {
         'clearGrave': true
     };
 
-    submitBtn.addEventListener('click', () =>{
+    submitBtn.addEventListener('click', () => {
         api.sendDataAPI('put', id, apiData, '/person/api/update', updateComplete, updateComplete, closeBtn);
     })
 }
 
 export default class extends Controller {
     connect() {
-        if ( window.history.replaceState ) {
-            window.history.replaceState( null, null, window.location.href);
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
         }
 
         // grave details ID
@@ -45,36 +45,38 @@ export default class extends Controller {
 
         // select not assigned MODAL BOX
         let selectPersonModalBox = modalHandler.modalHandler('data-select-person', this.element, false, false);
-        if (selectPersonModalBox.querySelector("[data-person-table]")) {
+        if (selectPersonModalBox) {
+            if (selectPersonModalBox.querySelector("[data-person-table]")) {
 
-            // apiData
-            let apiData = {
-                'assignToGrave': []
-            };
+                // apiData
+                let apiData = {
+                    'assignToGrave': []
+                };
 
-            let links = selectPersonModalBox.querySelectorAll("[data-person-row]");
-            links.forEach(element => {
-                const person_id = element.getAttribute('data-person-row');
-                element.addEventListener('click', () => {
-                    let checkbox = element.querySelector("[data-person-checkbox]");
-                    let checked = checkChecked.cloneNode(true);
-                    if (!checkbox.hasChildNodes()) {
-                        checkbox.appendChild(checked);
-                        apiData['assignToGrave'].push(person_id);
-                    } else {
-                        checkbox.textContent = '';
-                        let index = apiData['people_id'].indexOf(person_id);
-                        apiData['assignToGrave'].splice(index, 1);
-                    }
+                let links = selectPersonModalBox.querySelectorAll("[data-person-row]");
+                links.forEach(element => {
+                    const person_id = element.getAttribute('data-person-row');
+                    element.addEventListener('click', () => {
+                        let checkbox = element.querySelector("[data-person-checkbox]");
+                        let checked = checkChecked.cloneNode(true);
+                        if (!checkbox.hasChildNodes()) {
+                            checkbox.appendChild(checked);
+                            apiData['assignToGrave'].push(person_id);
+                        } else {
+                            checkbox.textContent = '';
+                            let index = apiData['people_id'].indexOf(person_id);
+                            apiData['assignToGrave'].splice(index, 1);
+                        }
+                    })
+                });
+
+                const saveBtn = selectPersonModalBox.querySelector("[data-add-person-submit]");
+                const closeBtn = selectPersonModalBox.querySelector("[data-modal-box-close]");
+
+                saveBtn.addEventListener('click', () => {
+                    api.sendDataAPI('put', grave_id, apiData, '/grave/api/update', updateComplete, updateComplete, closeBtn);
                 })
-            });
-
-            const saveBtn = selectPersonModalBox.querySelector("[data-add-person-submit]");
-            const closeBtn = selectPersonModalBox.querySelector("[data-modal-box-close]");
-
-            saveBtn.addEventListener('click', () => {
-                api.sendDataAPI('put', grave_id, apiData, '/grave/api/update', updateComplete, updateComplete, closeBtn);
-            })
+            }
         }
     }
 }

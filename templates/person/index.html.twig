@@ -1,20 +1,16 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    {% if last_uri is defined %}
-    {% set uri = last_uri %}
-    {% else %}
-    {% set uri = '' %}
-    {% endif %}
     <div class="container mt-5 mb-3">
         {{ component('person_detail', {
             person: person,
-            last_uri: uri
         }) }}
-        {{ component('grave_detail', {
-            grave:grave,
-            person: person,
-            people: people,
-            form_add_person: form_add_person,
-        }) }}
+        {% if person.grave is defined and person.grave != null or person.grave != false %}
+            {{ component('grave_detail', {
+                grave:grave,
+                person: person,
+                people: people,
+                form_add_person: form_add_person,
+            }) }}
+        {% endif %}
     </div>
 {% endblock %}

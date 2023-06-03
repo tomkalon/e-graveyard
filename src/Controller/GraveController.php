@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Grave;
 use App\Repository\GraveRepository;
 use App\Repository\PersonRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +22,7 @@ class GraveController extends AbstractController
         ]);
     }
 
-    #[Route('/grave/api/update/{grave}', name: 'app_grave_api_update_')]
+    #[Route('/grave/api/update/{grave<\d+>}', name: 'app_grave_api_update')]
     public function api_update_grave(Request $request, Grave $grave, PersonRepository $personRepository, GraveRepository $graveRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
@@ -29,8 +30,15 @@ class GraveController extends AbstractController
             $external_request = json_decode($request->getContent(), true);
             if (count($external_request['assignToGrave'])) {
                 foreach ($external_request['assignToGrave'] as $element) {
+                    $user = $this->getUser()->getUsername();
                     $person = $personRepository->find($element);
+                    $person->setEdited(new DateTime());
+                    $person->setEditedBy($user);
+                    $personRepository->save($person, true);
+
                     $grave->addPerson($person);
+                    $grave->setEditedBy($user);
+                    $grave->setEdited(new DateTime());
                     $graveRepository->save($grave, true);
                 }
                 $data = true;
