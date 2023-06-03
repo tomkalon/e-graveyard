@@ -1,0 +1,86 @@
+<div{{ attributes }}>
+    {% if search_result %}
+        {% set search_result_length = search_result|length %}
+        {% set pagination_length = search_result_length // limit %}
+        {% set pagination_start = page * limit + 1 %}
+        {% set pagination_end = page * limit + ((page + 1) * limit % search_result_length) %}
+
+        <div class="lead mb-4">Wyniki wyszukiwania:</div>
+        <small class="">Kliknij, by zobaczyć szczegóły:</small>
+        <hr>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr class="text-center text-lg-start">
+                {% if thead is defined %}
+                    {% for head in thead %}
+                        <th class="{{ head.class }}">{{ head.name }}</th>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+            {% if type == 'person' %}
+                {% for person in search_result|slice(page * limit,limit) %}
+                    <tr class="text-center text-lg-start" role="button" onclick="location.href='{{ path('app_person', {
+                        'person': person.id,
+                    }) }}'">
+                        {% if tbody is defined %}
+                            {% for item in tbody %}
+                                <td class="{{ (item.class) }}">{{ (item.name) }}</td>
+                            {% endfor %}
+{#                        <td class="col-3">{{ person.surname }}</td>#}
+{#                        <td class="col-3">{{ person.name }}</td>#}
+{#                        <td class="col-2">{{ person.born|date('Y-m-d') }}</td>#}
+{#                        <td class="col-2">{{ person.death|date('Y-m-d') }}</td>#}
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <small>Znaleziono <b>{{ search_result_length }}</b> pasujących wyników.</small>
+            </div>
+            <div class="col">
+                {% if pagination_length > 0 %}
+                    <nav class="float-end">
+                        <ul class="pagination">
+                            <li class="page-item{% if page == 0 %} disabled {% endif %}">
+                                <a class="page-link"
+                                   href="{% if page > 0 %}{{ path('app_search_result', {'page': page - 1}) }}{% endif %}">Previous</a>
+                            </li>
+                            {% for i in 0..pagination_length %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ path('app_search_result', {'page':i}) }}">{{ i + 1 }}</a>
+                                </li>
+                            {% endfor %}
+                            <li class="page-item {% if page == pagination_length %} disabled {% endif %}">
+                                <a class="page-link"
+                                   href="{% if page < pagination_length %}{{ path('app_search_result', {'page':page + 1}) }}{% endif %}">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <nav class="float-end me-2">
+                        <ul class="pagination">
+                            <li class="page-item disabled">
+                                <a class="page-link"
+                                   href="">Wyświetlono od {{ pagination_start }} do {{ pagination_end }}</a>
+                            </li>
+                        </ul>
+                    </nav>
+                {% endif %}
+            </div>
+        </div>
+        <hr>
+    {% else %}
+        <div class="alert alert-danger">
+            Brak danych do wyświetlenia. Sesja wygasła!
+        </div>
+    {% endif %}
+    <div>
+        <button type="button" class="btn btn-success" onclick="location.href='{{ path(target) }}'">Wyszukaj ponownie
+        </button>
+    </div>
+</div>

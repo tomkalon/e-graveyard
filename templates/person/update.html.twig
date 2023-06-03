@@ -6,9 +6,9 @@
         {% set uri = '' %}
     {% endif %}
     <div class="container mt-5 mb-3">
-        <div>{{ date|date('Y-m-d') }}</div>
         {{ component('person_add', {
             'form': form,
+            'id': person.id,
             'last_uri': uri,
             'submit': 'Zmień'
         }) }}

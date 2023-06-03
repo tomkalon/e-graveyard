@@ -10,7 +10,6 @@
                 <div class="modal-body px-3 pb-3 py-0"
                      style="max-height: 50vh; overflow: auto; pointer-events: auto;">
                     {% if action == 'add_new_person' %}
-                        {{ submit }}
                         {% if form is defined %}
                             {{ component('person_add', {
                                 form: form,

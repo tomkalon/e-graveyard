@@ -57,6 +57,14 @@ class PersonController extends AbstractController
         ]);
     }
 
+    #[Route('/person/not_assigned', name: 'app_person_not_assigned')]
+    public function not_assigned(Person $person, PersonRepository $personRepository, Request $request): Response
+    {
+        return $this->render('person/index.html.twig', [
+            'person' => $person,
+        ]);
+    }
+
     #[Route('/person/edit/update/{person<\d+>}', name: 'app_person_edit')]
     public function update(Person $person, PersonRepository $personRepository, Request $request): Response
     {

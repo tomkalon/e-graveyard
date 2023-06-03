@@ -27,7 +27,7 @@
                 }) }}
             </div>
         </div>
-        <div class="row row-cols-1">
+        <div class="row row-cols-2 mt-4 mb-2">
             <div class="col">
                 {{ form_label(form.born, null, {
                     'label': 'Data urodzenia'
@@ -49,11 +49,16 @@
             {{ form_widget(form.grave) }}
         </div>
 
-        <div class="mt-3 float-end float-xl-start">
+        <div class="mt-3 float-end">
             {% if close is defined %}
                 <button type="button" class="btn btn-danger" data-modal-box-close>Anuluj</button>
             {% else %}
-                <button type="button" class="btn btn-danger" onclick="location.href='{{ path('app_search') }}'">Powrót</button>
+                <button type="button" class="btn btn-outline-success" onclick="location.href='{{ path('app_search') }}'">Szukaj</button>
+                {% if id is defined %}
+                    <button type="button" class="btn btn-secondary" onclick="location.href='{{ path('app_person', {
+                        'person': id
+                    }) }}'">Szczegóły</button>
+                {% endif %}
             {% endif %}
             {{ form_widget(form.submit,{
                 'attr': {'class': 'btn btn-success'},

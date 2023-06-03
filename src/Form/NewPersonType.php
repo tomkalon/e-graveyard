@@ -20,13 +20,13 @@ class NewPersonType extends AbstractType
             ->add('name', TextType::class)
             ->add('surname', TextType::class)
             ->add('born', DateType::class, [
-                'widget' => 'choice',
+                'widget' => 'single_text',
                 'placeholder' => [
-                    'year' => 'Rok', 'month' => 'Miesiąc', 'day' => 'Dzień',
+                    'day' => 'Dzień', 'month' => 'Miesiąc', 'year' => 'Rok'
                 ]
             ])
             ->add('death', DateType::class, [
-                'widget' => 'choice',
+                'widget' => 'single_text',
                 'placeholder' => [
                     'year' => 'Rok', 'month' => 'Miesiąc', 'day' => 'Dzień',
                 ]

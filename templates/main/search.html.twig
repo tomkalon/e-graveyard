@@ -1,18 +1,6 @@
 {% extends 'base.html.twig' %}
-{% form_theme form 'bootstrap_5_layout.html.twig' %}
-
 {% block body %}
     <div class="container py-4">
-        {% for success in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ success }}
-            </div>
-        {% endfor %}
-        {% for failed in app.flashes('failed') %}
-            <div class="alert alert-warning">
-                {{ failed }}
-            </div>
-        {% endfor %}
         {{ component('person_search', {
             form: form
         }) }}
