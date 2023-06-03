@@ -1,4 +1,4 @@
-function sendDataAPI(method, id, send, target, callback, args) {
+function sendDataAPI(method, id, send, target, callback, callbackFailed, args) {
     if (id) {
         target = target + "/" + id;
     }
@@ -15,7 +15,7 @@ function sendDataAPI(method, id, send, target, callback, args) {
             if (data) {
                 callback(args);
             } else {
-                console.log(null);
+                callbackFailed(args)
             }
         })
         .catch((error) => {

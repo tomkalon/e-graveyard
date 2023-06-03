@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\Person;
 use App\Form\NewPersonType;
 use App\Repository\PersonRepository;
+use App\Service\Person\PersonManager;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,5 +55,42 @@ class PersonController extends AbstractController
             'last_uri' => $lastUri,
             'form_add_person' => $form_add_person
         ]);
+    }
+
+    #[Route('/person/api/update/{person}', name: 'app_api_person_update')]
+    public function api_update_person(Request $request, Person $person, PersonRepository $personRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_MANAGER');
+        if ($request->isMethod('put')) {
+            $external_request = json_decode($request->getContent(), true);
+            if ($external_request['clearGrave']) {
+                $person->setGrave(null);
+                $personRepository->save($person, true);
+                $data = true;
+                $this->addFlash('success', 'Osoba została usunięta z grobu.');
+            } else {
+                $data = false;
+                $this->addFlash('failed', 'Akcja zakończona niepowodzeniem!');
+            }
+
+        } else {
+            $data = false;
+        }
+        return new JsonResponse($data);
+    }
+
+    #[Route('/person/api/get/{type}', name: 'app_api_person_get')]
+    public function api_get_person(Request $request, PersonManager $personManager, string $type): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_MANAGER');
+        if ($request->isMethod('get')) {
+            $data = match ($type) {
+                'not_assigned' => $personManager->getNotAssignedPeople(),
+                default => true,
+            };
+        } else {
+            $data = false;
+        }
+        return new JsonResponse($data);
     }
 }

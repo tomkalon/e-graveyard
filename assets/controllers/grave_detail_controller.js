@@ -24,7 +24,7 @@ function booleanChoiceAction (modal, source) {
     };
 
     submitBtn.addEventListener('click', () =>{
-        api.sendDataAPI('put', id, apiData, '/manager/person/api/update', updateComplete, closeBtn);
+        api.sendDataAPI('put', id, apiData, '/person/api/update', updateComplete, updateComplete, closeBtn);
     })
 }
 
@@ -71,8 +71,9 @@ export default class extends Controller {
 
             const saveBtn = selectPersonModalBox.querySelector("[data-add-person-submit]");
             const closeBtn = selectPersonModalBox.querySelector("[data-modal-box-close]");
+
             saveBtn.addEventListener('click', () => {
-                api.sendDataAPI('put', grave_id, apiData, '/manager/grave/api/update', updateComplete, closeBtn);
+                api.sendDataAPI('put', grave_id, apiData, '/grave/api/update', updateComplete, updateComplete, closeBtn);
             })
         }
     }

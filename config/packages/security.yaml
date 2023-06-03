@@ -37,6 +37,8 @@ security:
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/manager, roles: ROLE_MANAGER }
+         - { path: ^/grave/api, roles: ROLE_MANAGER }
+         - { path: ^/person/api, roles: ROLE_MANAGER }
     
     role_hierarchy:
         ROLE_MANAGER: [ ROLE_USER ]

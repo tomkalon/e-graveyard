@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Person;
-use App\Form\NewPersonType;
 use App\Form\SearchGraveType;
 use App\Repository\PersonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,8 +37,7 @@ class MainController extends AbstractController
             $search_result = $personRepository->findPeople($person);
             if ($search_result) {
                 $session->set('search_result', $search_result);
-                return $this->redirectToRoute('app_search_result', [
-                ]);
+                return $this->redirectToRoute('app_search_result');
             } else {
                 $this->addFlash('failed', 'Brak wyników spełniających kryteria wyszukiwania. Spróbuj ponownie!');
                 return $this->redirectToRoute('app_search');
@@ -61,6 +59,7 @@ class MainController extends AbstractController
         // matching search data
         $search_result = $session->get('search_result');
 
+        // query limit
         // query limit
         $limit = 15;
 
