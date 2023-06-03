@@ -10,9 +10,12 @@
                 <div class="modal-body px-3 pb-3 py-0"
                      style="max-height: 50vh; overflow: auto; pointer-events: auto;">
                     {% if action == 'add_new_person' %}
+                        {{ submit }}
                         {% if form is defined %}
                             {{ component('person_add', {
-                                'form': form
+                                form: form,
+                                close: true,
+                                submit: 'Dodaj'
                             }) }}
                         {% endif %}
                     {% endif %}
@@ -20,7 +23,8 @@
                         {% if people is defined and grave is defined %}
                             {{ component('person_search_js', {
                                 people: people,
-                                grave: grave
+                                grave: grave,
+                                submit: 'Przypisz'
                             }) }}
                         {% endif %}
                     {% endif %}
@@ -35,8 +39,9 @@
                     {% if action == 'remove_assigned_person' %}
                         <button type="button"
                                 class="border-top btn btn-link text-danger fs-6 text-decoration-none col-6 py-3 m-0 rounded-2 border-end"
-                                data-remove-submit>
-                            <strong>Usuń</strong></button>
+                                data-action-submit>
+                            <strong>Usuń</strong>
+                        </button>
                         <button type="button" class="border-top btn btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-2" data-modal-box-close>Anuluj</button>
                     {% endif %}
                 </div>

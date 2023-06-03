@@ -57,6 +57,63 @@ class PersonController extends AbstractController
         ]);
     }
 
+    #[Route('/person/edit/update/{person<\d+>}', name: 'app_person_edit')]
+    public function update(Person $person, PersonRepository $personRepository, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_MANAGER');
+
+        // session
+        $session = $request->getSession();
+        $lastUri = $session->get('last_uri');
+
+        // form - add new Person
+        $form = $this->createForm(NewPersonType::class, $person);
+        $form->handleRequest($request);
+        $date = $person->getDeath();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $person = $form->getData();
+            $person->setEdited(new DateTime());
+            $person->setEditedBy($this->getUser()->getUsername());
+            $personRepository->save($person, true);
+
+            $this->addFlash('success', 'Edycja zakończona powodzeniem.');
+            $this->redirectToRoute('app_person', [
+                'person' => $person->getId()
+            ]);
+        }
+
+        return $this->render('person/update.html.twig', [
+            'person' => $person,
+            'last_uri' => $lastUri,
+            'date' => $date,
+            'form' => $form
+        ]);
+    }
+
+    #[Route('/person/edit/remove/{person<\d+>}', name: 'app_person_remove')]
+    public function remove(Person $person, PersonRepository $personRepository, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_MANAGER');
+
+
+        // form - add new Person
+        $form = $this->createForm(NewPersonType::class, $person);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->addFlash('success', 'Osoba została usunięta.');
+            $this->redirectToRoute('app_search', [
+                'person' => $person->getId()
+            ]);
+        }
+
+        return $this->render('person/index.html.twig', [
+            'person' => $person,
+            'form' => $form
+        ]);
+    }
+
     #[Route('/person/api/update/{person}', name: 'app_api_person_update')]
     public function api_update_person(Request $request, Person $person, PersonRepository $personRepository): Response
     {

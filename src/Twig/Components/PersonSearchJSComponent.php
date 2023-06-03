@@ -10,4 +10,5 @@ final class PersonSearchJSComponent
     public object $person;
     public array $people;
     public object $grave;
+    public string $submit;
 }

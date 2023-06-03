@@ -48,7 +48,8 @@
                 'title': 'Usuwanie osoby z grobu',
                 'grave': grave,
                 'person': person,
-                'action': 'remove_assigned_person'
+                'action': 'remove_assigned_person',
+                'submit': 'Usuń'
             }) }}
         {% else %}
             <div class="row">
@@ -65,7 +66,8 @@
                             'title': 'Dodawanie nowej osoby',
                             'grave': grave,
                             'form': form_add_person,
-                            'action': 'add_new_person'
+                            'action': 'add_new_person',
+                            'submit': 'Dodaj'
                         }) }}
                         <button class="btn btn-outline-secondary" data-modal-box-open="data-add-new-person">Dodaj nową osobę</button>
                     {% endif %}
@@ -75,7 +77,8 @@
                             'title': 'Wybierz do przypisania',
                             'grave': grave,
                             'people': people,
-                            'action': 'select_assigned_person'
+                            'action': 'select_assigned_person',
+                            'submit': 'Przypisz'
                         }) }}
                         <button class="btn btn-secondary" data-modal-box-open="data-select-person">Wybierz nieprzypisaną osobę</button>
                     {% endif %}

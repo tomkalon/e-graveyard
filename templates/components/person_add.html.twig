@@ -50,10 +50,14 @@
         </div>
 
         <div class="mt-3 float-end float-xl-start">
-            <button type="button" class="btn btn-danger" data-modal-box-close>Anuluj</button>
+            {% if close is defined %}
+                <button type="button" class="btn btn-danger" data-modal-box-close>Anuluj</button>
+            {% else %}
+                <button type="button" class="btn btn-danger" onclick="location.href='{{ path('app_search') }}'">Powrót</button>
+            {% endif %}
             {{ form_widget(form.submit,{
                 'attr': {'class': 'btn btn-success'},
-                'label': 'Dodaj'
+                'label': submit
             }) }}
         </div>
         {{ form_end(form) }}

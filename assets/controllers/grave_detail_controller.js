@@ -14,7 +14,7 @@ function updateComplete (close) {
 function booleanChoiceAction (modal, source) {
     let content = modal.querySelector("[data-remove-content]");
     const closeBtn = modal.querySelector("[data-modal-box-close]");
-    const submitBtn = modal.querySelector("[data-remove-submit]");
+    const submitBtn = modal.querySelector("[data-action-submit]");
     const id = source.getAttribute('data-item-id');
     content.textContent = source.getAttribute('data-modal-box-prop');
 

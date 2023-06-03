@@ -16,4 +16,5 @@ final class ModalBoxComponent
     public array $people;
     public object $component;
     public string $action;
+    public string $submit;
 }
