@@ -6,28 +6,6 @@ let checkChecked = document.createElement('span');
 checkChecked.classList.add('material-symbols-rounded', 'small');
 checkChecked.textContent = 'check_box';
 
-function updateComplete(close) {
-    close.click();
-    location.reload();
-}
-
-function booleanChoiceAction(modal, source) {
-    let content = modal.querySelector("[data-remove-content]");
-    const closeBtn = modal.querySelector("[data-modal-box-close]");
-    const submitBtn = modal.querySelector("[data-action-submit]");
-    const id = source.getAttribute('data-item-id');
-    content.textContent = source.getAttribute('data-modal-box-prop');
-
-    // apiData
-    let apiData = {
-        'clearGrave': true
-    };
-
-    submitBtn.addEventListener('click', () => {
-        api.sendDataAPI('put', id, apiData, '/person/api/update', updateComplete, updateComplete, closeBtn);
-    })
-}
-
 export default class extends Controller {
     connect() {
         if (window.history.replaceState) {
@@ -41,7 +19,11 @@ export default class extends Controller {
         modalHandler.modalHandler('data-add-new-person', this.element, false, false);
 
         // remove assigned person MODAL BOX
-        let removePersonModalBox = modalHandler.modalHandler('data-remove-person', this.element, booleanChoiceAction, false);
+        modalHandler.modalHandler('data-remove-person', this.element, modalHandler.booleanChoiceAction, {
+            'method': 'put',
+            'apiData': 'clearGrave',
+            'target': '/person/api/update'
+        });
 
         // select not assigned MODAL BOX
         let selectPersonModalBox = modalHandler.modalHandler('data-select-person', this.element, false, false);
@@ -74,7 +56,8 @@ export default class extends Controller {
                 const closeBtn = selectPersonModalBox.querySelector("[data-modal-box-close]");
 
                 saveBtn.addEventListener('click', () => {
-                    api.sendDataAPI('put', grave_id, apiData, '/grave/api/update', updateComplete, updateComplete, closeBtn);
+                    api.sendDataAPI('put', grave_id, apiData, '/grave/api/update',
+                        modalHandler.updateComplete, modalHandler.updateComplete, closeBtn);
                 })
             }
         }

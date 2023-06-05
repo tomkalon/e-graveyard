@@ -6,6 +6,7 @@ use App\Entity\Grave;
 use App\Entity\Graveyard;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,20 +17,20 @@ class NewGraveType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('sector', TextType::class, [
+            ->add('sector', NumberType::class, [
                 'required' => true
             ])
-            ->add('row', TextType::class, [
+            ->add('row', NumberType::class, [
                 'required' => false
             ])
-            ->add('number', TextType::class, [
+            ->add('number', NumberType::class, [
                 'required' => true
             ])
             ->add('positionX', TextType::class, [
-                'required' => false
+                'required' => true
             ])
             ->add('positionY', TextType::class, [
-                'required' => false
+                'required' => true
             ])
             ->add('graveyard', EntityType::class, [
                 'required' => true,

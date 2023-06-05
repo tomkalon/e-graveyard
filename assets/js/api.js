@@ -12,10 +12,12 @@ function sendDataAPI(method, id, send, target, callback, callbackFailed, args) {
     })
         .then((response) => response.json())
         .then(data => {
-            if (data) {
-                callback(args);
+            if (data && typeof callback === 'function') {
+                callback(args, data);
             } else {
-                callbackFailed(args)
+                if (typeof callbackFailed === 'function') {
+                    callbackFailed(args);
+                }
             }
         })
         .catch((error) => {
@@ -24,20 +26,49 @@ function sendDataAPI(method, id, send, target, callback, callbackFailed, args) {
         });
 }
 
-function getDataAPI(method, id, target, args, callback) {
+function getDataAPI(id, target, callback, callbackFailed, args) {
     if (id) {
-        target = target + "/" + id + "/";
+        target = target + "/" + id;
     }
 
     fetch(target, {
-        method: method, headers: {
+        method: 'get', headers: {
             "Content-Type": "application/json",
         }
     })
         .then((response) => response.json())
         .then(data => {
-            if (typeof callback === 'function') {
+            if (data && typeof callback === 'function') {
                 callback(args, data);
+            } else {
+                if (typeof callbackFailed === 'function') {
+                    callbackFailed(args);
+                }
+            }
+        })
+        .catch((error) => {
+            console.log("API communication error!");
+            console.error("Error:", error);
+        });
+}
+
+function deleteDataAPI(id, target, callback, callbackFailed, args) {
+    if (id) {
+        target = target + "/" + id;
+    }
+    console.log(target);
+
+    fetch(target, {
+        method: 'delete'
+    })
+        .then((response) => response.json())
+        .then(data => {
+            if (data && typeof callback === 'function') {
+                callback(args, data);
+            } else {
+                if (typeof callbackFailed === 'function') {
+                    callbackFailed(args);
+                }
             }
         })
         .catch((error) => {
@@ -47,7 +78,7 @@ function getDataAPI(method, id, target, args, callback) {
 }
 
 const apiFunctions = {
-    sendDataAPI, getDataAPI
+    sendDataAPI, getDataAPI, deleteDataAPI
 }
 
 export default apiFunctions;

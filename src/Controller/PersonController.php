@@ -118,11 +118,18 @@ class PersonController extends AbstractController
     }
 
     #[Route('/person/api/remove/{person<\d+>}', name: 'app_person_remove')]
-    public function remove(Person $person, PersonRepository $personRepository, Request $request): void
+    public function remove(Person $person, PersonRepository $personRepository, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
-        $personRepository->remove($person);
-        $this->addFlash('success', 'Osoba została usunięta.');
+        if ($request->isMethod('delete')) {
+            $personRepository->remove($person, true);
+            $this->addFlash('success', 'Osoba została usunięta.');
+            $data = $this->generateUrl('app_search');
+        } else {
+            $this->addFlash('failed', 'Akcja zakończona niepowodzeniem!');
+            $data = false;
+        }
+        return new JsonResponse($data);
     }
 
     #[Route('/person/api/update/{person<\d+>}', name: 'app_api_person_update')]

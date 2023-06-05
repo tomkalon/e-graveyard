@@ -6,6 +6,7 @@ use App\Entity\Person;
 use App\Form\SearchGraveType;
 use App\Repository\PersonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -68,4 +69,11 @@ class MainController extends AbstractController
             'limit' => $limit
         ]);
     }
+    #[Route('/test', name: 'app_tester')]
+    public function test(): Response
+    {
+        $data = true;
+        return new JsonResponse($data);
+    }
+
 }
