@@ -12,7 +12,7 @@ use Symfony\UX\Autocomplete\Form\ParentEntityAutocompleteType;
 #[AsEntityAutocompleteField]
 class PersonAutocompleteField extends AbstractType
 {
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'class' => Person::class,

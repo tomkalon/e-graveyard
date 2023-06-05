@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container mt-5 mb-3">
+        {{ component('person_add', {
+            form: form,
+            close: false,
+            submit: 'Dodaj'
+        }) }}
+    </div>
+{% endblock %}

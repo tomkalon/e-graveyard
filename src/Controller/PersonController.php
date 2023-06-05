@@ -6,6 +6,7 @@ use App\Entity\Person;
 use App\Form\NewPersonType;
 use App\Repository\GraveRepository;
 use App\Repository\PersonRepository;
+use App\Service\Person\EditUpdate\EditUpdate;
 use App\Service\Person\PersonManager;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PersonController extends AbstractController
 {
-    #[Route('/person/{person<\d+>}', name: 'app_person')]
+    #[Route('/person/{person<\d+>}', name: 'app_person', priority: 1)]
     public function index(Person $person, PersonRepository $personRepository, Request $request): Response
     {
         // session
@@ -80,6 +81,31 @@ class PersonController extends AbstractController
             'search_result' => $search_result,
             'page' => $page,
             'limit' => $limit
+        ]);
+    }
+
+    #[Route('/person/add', name: 'app_add_person', priority: 5)]
+    public function add_person(Request $request, PersonRepository $personRepository, EditUpdate $editUpdate): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_MANAGER');
+        $person = new Person();
+
+        $form = $this->createForm(NewPersonType::class, $person);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $person = $form->getData();
+            $editUpdate->updateOne($person, $this->getUser()->getUsername(), true);
+            $personRepository->save($person, true);
+            $this->addFlash('success', 'Osoba została dodana do bazy danych.');
+
+            return $this->redirectToRoute('app_person', [
+                'person' => $person->getId()
+            ]);
+        }
+
+        return $this->render('person/add.html.twig', [
+            'form' => $form
         ]);
     }
 
