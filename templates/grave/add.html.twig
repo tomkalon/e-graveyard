@@ -7,68 +7,8 @@
         <div class="lead mb-4">Uzupełnij dane i naciśnij przycisk "Dodaj"!</div>
         <small>* Oznaczone pola są obowiązkowe!</small>
         <hr>
-        <div class="form add-form mt-3 overflow-hidden">
-            {{ form_start(form) }}
-            <div class="row row-cols-1 row-cols-md-4 g-2">
-                <div class="col">
-                    {{ form_label(form.graveyard, null, {
-                        'label': 'Cmentarz*'
-                    }) }}
-                    {{ form_widget(form.graveyard,{
-                        'attr': {'class': ''}
-                    }) }}
-                </div>
-                <div class="col">
-                    {{ form_label(form.sector, null, {
-                        'label': 'Sektor*'
-                    }) }}
-                    {{ form_widget(form.sector,{
-                        'attr': {'class': ''}
-                    }) }}
-                </div>
-                <div class="col">
-                    {{ form_label(form.row, null, {
-                        'label': 'Rząd'
-                    }) }}
-                    {{ form_widget(form.row,{
-                        'attr': {'class': ''}
-                    }) }}
-                </div>
-                <div class="col">
-                    {{ form_label(form.number, null, {
-                        'label': 'Numer*'
-                    }) }}
-                    {{ form_widget(form.number,{
-                        'attr': {'class': ''}
-                    }) }}
-                </div>
-            </div>
-            <div class="row row-cols-1 row-cols-md-2 mt-2 g-2">
-                <div class="col">
-                    {{ form_label(form.positionY, null, {
-                        'label': 'Szerokość geograficzna (49...)*'
-                    }) }}
-                    {{ form_widget(form.positionY,{
-                        'attr': {'class': ''}
-                    }) }}
-                </div>
-                <div class="col">
-                    {{ form_label(form.positionX, null, {
-                        'label': 'Długość geograficzna (20...)*'
-                    }) }}
-                    {{ form_widget(form.positionX,{
-                        'attr': {'class': ''}
-                    }) }}
-                </div>
-            </div>
-            <div class="mt-4">
-                {{ form_widget(form.submit,{
-                    'attr': {'class': 'btn btn-success'},
-                    'label': 'Dodaj'
-                }) }}
-            </div>
-            {{ form_end(form) }}
-            <hr>
-        </div>
+        {{ component('grave_add', {
+            form: form,
+        }) }}
     </div>
 {% endblock %}

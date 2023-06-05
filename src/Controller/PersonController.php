@@ -88,6 +88,9 @@ class PersonController extends AbstractController
     public function add_person(Request $request, PersonRepository $personRepository, EditUpdate $editUpdate): Response
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
+
+        $session = $request->getSession();
+        $session->set('last_uri', $request->getUri());
         $person = new Person();
 
         $form = $this->createForm(NewPersonType::class, $person);
@@ -95,8 +98,7 @@ class PersonController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $person = $form->getData();
-            $editUpdate->updateOne($person, $this->getUser()->getUsername(), true);
-            $personRepository->save($person, true);
+            $editUpdate->updateOne($person, $this->getUser(), true);
             $this->addFlash('success', 'Osoba została dodana do bazy danych.');
 
             return $this->redirectToRoute('app_person', [
@@ -110,7 +112,7 @@ class PersonController extends AbstractController
     }
 
     #[Route('/person/edit/update/{person<\d+>}', name: 'app_person_edit')]
-    public function update(Person $person, PersonRepository $personRepository, Request $request): Response
+    public function update(Person $person, EditUpdate $editUpdate, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
 
@@ -121,14 +123,10 @@ class PersonController extends AbstractController
         // form - add new Person
         $form = $this->createForm(NewPersonType::class, $person);
         $form->handleRequest($request);
-        $date = $person->getDeath();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $person = $form->getData();
-            $person->setEdited(new DateTime());
-            $person->setEditedBy($this->getUser()->getUsername());
-            $personRepository->save($person, true);
-
+            $editUpdate->updateOne($person, $this->getUser(), false);
             $this->addFlash('success', 'Edycja zakończona powodzeniem.');
             $this->redirectToRoute('app_person', [
                 'person' => $person->getId()
@@ -138,7 +136,6 @@ class PersonController extends AbstractController
         return $this->render('person/update.html.twig', [
             'person' => $person,
             'last_uri' => $lastUri,
-            'date' => $date,
             'form' => $form
         ]);
     }
@@ -148,35 +145,44 @@ class PersonController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
         if ($request->isMethod('delete')) {
+
+            // session
+            $session = $request->getSession();
+            $last_uri = $session->get('last_uri');
+
+            // repository
             $personRepository->remove($person, true);
+
+            // flash message
             $this->addFlash('success', 'Osoba została usunięta.');
-            $data = $this->generateUrl('app_search');
+
+            // api return data
+            $last_uri ? $data = $last_uri : $this->generateUrl('app_search');
+
         } else {
+
+            // flash message
             $this->addFlash('failed', 'Akcja zakończona niepowodzeniem!');
+
+            // api return data
             $data = false;
         }
         return new JsonResponse($data);
     }
 
     #[Route('/person/api/update/{person<\d+>}', name: 'app_api_person_update')]
-    public function api_update_person(Request $request, Person $person, PersonRepository $personRepository, GraveRepository $graveRepository): Response
+    public function api_update_person(Request $request, Person $person, PersonRepository $personRepository, GraveRepository $graveRepository,
+                                      EditUpdate $editUpdate): Response
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
         if ($request->isMethod('put')) {
             $external_request = json_decode($request->getContent(), true);
             if ($external_request['clearGrave']) {
-
-                $user = $this->getUser()->getUsername();
                 $grave = $person->getGrave();
-                $grave->setEditedBy($user);
-                $grave->setEdited(new DateTime());
-                $graveRepository->save($grave, true);
-
                 $person->setGrave(null);
-                $person->setEdited(new DateTime());
-                $person->setEditedBy($user);
+                $editUpdate->updateBoth($grave, $person, $this->getUser(), false);
+                $graveRepository->save($grave);
                 $personRepository->save($person, true);
-
                 $data = true;
                 $this->addFlash('success', 'Osoba została usunięta z grobu.');
             } else {

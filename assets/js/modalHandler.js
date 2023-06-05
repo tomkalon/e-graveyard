@@ -47,11 +47,11 @@ function booleanChoiceAction(modal, source, args) {
         apiData[args['apiData']] = true;
 
         submitBtn.addEventListener('click', () => {
-            api.sendDataAPI(args['method'], id, apiData, args['target'], updateComplete, updateComplete, null);
+            api.sendDataAPI(args['method'], id, apiData, args['target'], updateComplete, updateComplete, closeBtn);
         })
     } else if (args['method'] === 'delete') {
         submitBtn.addEventListener('click', () => {
-            api.deleteDataAPI(id, args['target'], removeComplete, updateComplete, closeBtn);
+            api.deleteDataAPI(id, args['target'], removeComplete, updateComplete, null);
         })
     }
 

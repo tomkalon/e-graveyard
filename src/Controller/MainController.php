@@ -72,7 +72,8 @@ class MainController extends AbstractController
     #[Route('/test', name: 'app_tester')]
     public function test(): Response
     {
-        $data = true;
+        $data = new Person();
+        dd(get_class($data));
         return new JsonResponse($data);
     }
 
