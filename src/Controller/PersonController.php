@@ -145,6 +145,9 @@ class PersonController extends AbstractController
         }
 
         return $this->render('person/update.html.twig', [
+            'close' => $this->generateUrl('app_person', [
+                'person' => $person->getId()
+            ]),
             'person' => $person,
             'last_uri' => $request->headers->get('referer'),
             'form' => $form
@@ -160,7 +163,6 @@ class PersonController extends AbstractController
 
             // session
             $session = $request->getSession();
-            $last_uri = $session->get('last_uri');
 
             // REMOVE DATA
             $personRepository->remove($person, true);
@@ -169,7 +171,9 @@ class PersonController extends AbstractController
             $this->addFlash('success', 'Osoba została usunięta.');
 
             // api return data
-            $last_uri ? $data = $last_uri : $data = $this->generateUrl('app_search');
+            $data = $this->generateUrl('app_search', [
+                'page' => 0
+            ]);
 
         } else {
 

@@ -2,10 +2,11 @@
 {% block body %}
     <div class="container mt-5 mb-3">
         {{ component('person_add', {
-            form: form,
-            id: person.id,
-            submit: 'Zmień',
-            last_uri: uri
+            'form': form,
+            'id': person.id,
+            'submit': 'Zmień',
+            'last_uri': uri,
+            'close': close
         }) }}
     </div>
 {% endblock %}

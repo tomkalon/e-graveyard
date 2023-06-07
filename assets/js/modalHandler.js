@@ -2,7 +2,6 @@ import $ from "jquery";
 import api from "./api";
 
 function modalHandler(modal, container, callback, args) {
-
     if (container.querySelector("[" + modal + "]")) {
         const addNewModal = container.querySelector("[" + modal + "]");
         const addNewModalClose = addNewModal.querySelectorAll('[data-modal-box-close]');
@@ -35,7 +34,7 @@ function removeComplete(args, data) {
     window.location.replace(data);}
 
 function booleanChoiceAction(modal, source, args) {
-    let content = modal.querySelector("[data-remove-content]");
+    let content = modal.querySelector("[data-boolean-content]");
     const closeBtn = modal.querySelector("[data-modal-box-close]");
     const submitBtn = modal.querySelector("[data-action-submit]");
     const id = source.getAttribute('data-item-id');

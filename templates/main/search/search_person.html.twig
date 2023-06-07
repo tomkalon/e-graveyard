@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container py-4">
+        {% if search_result == null %}
+            {{ component('person_search', {
+                form: form,
+                last_uri: uri
+            }) }}
+        {% else %}
+            {% include '/main/search/result.html.twig' with {
+                'search_result': search_result,
+                'page': page,
+                'limit': limit,
+                'source': source,
+                'last_uri': last_uri
+            } %}
+        {% endif %}
+    </div>
+{% endblock %}

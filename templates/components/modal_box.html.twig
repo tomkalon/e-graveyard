@@ -12,42 +12,38 @@
                     {% if action == 'add_new_person' %}
                         {% if form is defined %}
                             {{ component('person_add', {
-                                form: form,
-                                close: true,
-                                submit: 'Dodaj'
+                                'form': form,
+                                'close': 'js',
+                                'submit': 'Dodaj'
                             }) }}
                         {% endif %}
                     {% endif %}
                     {% if action == 'select_assigned_person' %}
                         {% if people is defined and grave is defined %}
                             {{ component('person_search_js', {
-                                people: people,
-                                grave: grave,
-                                submit: 'Przypisz'
+                                'people': people,
+                                'grave': grave,
+                                'submit': 'Przypisz'
                             }) }}
                         {% endif %}
                     {% endif %}
-                    {% if action == 'remove_assigned_person' %}
-                        {% if person is defined %}
+                    {% if action == 'boolean_choice' %}
+                        {% if description is defined %}
                             <div class="p-3">Czy potwierdzasz odpięcie od grobu?</div>
-                            <div class="px-3 fw-bold" data-remove-content></div>
                         {% endif %}
-                    {% endif %}
-                    {% if action == 'remove_person' %}
-                        {% if person is defined %}
-                            <div class="p-3">Czy potwierdzasz usunięcie osoby?</div>
-                            <div class="px-3 fw-bold" data-remove-content></div>
-                        {% endif %}
+                        <div class="px-3 fw-bold" data-boolean-content></div>
                     {% endif %}
                 </div>
                 <div class="modal-footer flex-nowrap p-0">
-                    {% if action == 'remove_assigned_person' or action == 'remove_person' %}
+                    {% if action == 'boolean_choice' %}
                         <button type="button"
                                 class="border-top btn btn-link text-danger fs-6 text-decoration-none col-6 py-3 m-0 rounded-2 border-end"
                                 data-action-submit>
                             <strong>Usuń</strong>
                         </button>
-                        <button type="button" class="border-top btn btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-2" data-modal-box-close>Anuluj</button>
+                        <button type="button" class="border-top btn btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-2"
+                                data-modal-box-close>Anuluj
+                        </button>
                     {% endif %}
                 </div>
             </div>

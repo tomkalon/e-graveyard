@@ -25,6 +25,13 @@ export default class extends Controller {
             'target': '/person/api/update'
         });
 
+        // remove assigned person MODAL BOX
+        modalHandler.modalHandler('data-remove-grave', this.element, modalHandler.booleanChoiceAction, {
+            'method': 'delete',
+            'apiData': 'removeGrave',
+            'target': '/grave/api/remove'
+        });
+
         // select not assigned MODAL BOX
         let selectPersonModalBox = modalHandler.modalHandler('data-select-person', this.element, false, false);
         if (selectPersonModalBox) {

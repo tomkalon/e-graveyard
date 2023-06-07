@@ -16,14 +16,14 @@
             </div>
         </div>
         <hr>
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
             <div>
                 <small>Dodano: {{ person.created|date('Y-m-d') }}</small>
                 {% if person.edited != null %}
                     <small> || Edytowano: {{ person.edited|date('Y-m-d') }}</small>
                 {% endif %}
             </div>
-            <div>
+            <div class="pt-3 pt-md-0">
                 <button class="btn btn-success float-end mx-1" onclick="location.href='{{ path("app_search") }}'">Wyszukiwanie</button>
                 {% if is_granted('ROLE_MANAGER') %}
                     <button class="btn btn-outline-success float-end mx-1" onclick="location.href='{{ path("app_add_person", {'person': person.id}) }}'">Dodaj nową osobę</button>
@@ -33,12 +33,13 @@
                             {{ component('modal_box', {
                                 'name': 'data-remove-person-all',
                                 'title': 'Usuwanie osoby',
+                                'description': 'Czy potwierdzasz usunięcie osoby?',
                                 'person': person,
-                                'action': 'remove_person',
+                                'action': 'boolean_choice',
                                 'submit': 'Usuń'
                             }) }}
                 {% endif %}
-                {% if last_uri is defined %}
+                {% if last_uri is defined and last_uri != app.request.uri %}
                 <button class="btn btn-secondary float-end mx-1" onclick="location.href='{{ last_uri }}'">Powrót</button>
                 {% endif %}
             </div>

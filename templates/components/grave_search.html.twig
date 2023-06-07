@@ -48,7 +48,7 @@
         </div>
 
         <div class="mt-3 float-end float-xl-start">
-            {% if last_uri is defined %}
+            {% if last_uri is defined and last_uri != app.request.uri %}
                 <button type="button" class="btn btn-secondary" onclick="location.href='{{ last_uri }}'">Powrót</button>
             {% endif %}
             {% if is_granted('ROLE_MANAGER') %}
