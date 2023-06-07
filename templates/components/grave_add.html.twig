@@ -58,6 +58,9 @@
                 'attr': {'class': 'btn btn-success'},
                 'label': 'Dodaj'
             }) }}
+            {% if last_uri is defined %}
+                <button type="button" class="btn btn-secondary" onclick="location.href='{{ last_uri }}'">Powrót</button>
+            {% endif %}
         </div>
         {{ form_end(form) }}
         <hr>
