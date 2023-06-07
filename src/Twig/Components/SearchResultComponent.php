@@ -8,6 +8,8 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 final class SearchResultComponent
 {
     public array $search_result;
+    public string $select_name;
+
     public array $thead;
     public array $tbody;
     public string $page;

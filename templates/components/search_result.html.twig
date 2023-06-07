@@ -5,7 +5,11 @@
         {% set pagination_start = page * limit + 1 %}
         {% set pagination_end = page * limit + ((page + 1) * limit % search_result_length) %}
 
-        <div class="lead mb-4">Wyniki wyszukiwania:</div>
+        <p class="lead mb-4">Wyniki wyszukiwania:
+            {% if select_name is defined %}
+            <span class="fw-bold text-uppercase">{{ select_name }}</span>
+            {% endif %}
+        </p>
         <small class="">Kliknij, by zobaczyć szczegóły:</small>
         <hr>
         <table class="table table-striped table-hover">
@@ -19,16 +23,24 @@
             </tr>
             </thead>
             <tbody>
-                {% for person in search_result|slice(page * limit,limit) %}
-                    <tr class="text-center text-lg-start" role="button" onclick="location.href='{{ path('app_person', {
-                        'person': person.id,
-                    }) }}'">
+                {% for entity in search_result|slice(page * limit,limit) %}
+                    {% if type == 'person' %}
+                        <tr class="text-center text-lg-start" role="button" onclick="location.href='{{ path('app_person', {
+                            'person': entity.id,
+                        }) }}'">
+                    {% elseif type == 'grave' %}
+                        <tr class="text-center text-lg-start" role="button" onclick="location.href='{{ path('app_grave', {
+                            'grave': entity.id,
+                        }) }}'">
+                    {% endif %}
                         {% if tbody is defined %}
                             {% for item in tbody %}
                                 {% if item.type is defined and item.type == 'date' %}
-                                    <td class="{{ item.class }}">{{ attribute(person, item.name)|date("Y-m-d") }}</td>
+                                    <td class="{{ item.class }}">{{ attribute(entity, item.name)|date("Y-m-d") }}</td>
+                                {% elseif item.type is defined and item.type == 'entity-name' %}
+                                    <td class="{{ item.class }}">{{ attribute(entity, item.name).name }}</td>
                                 {% else %}
-                                    <td class="{{ item.class }}">{{ attribute(person, item.name) }}</td>
+                                    <td class="{{ item.class }}">{{ attribute(entity, item.name) }}</td>
                                 {% endif %}
                             {% endfor %}
                         {% endif %}

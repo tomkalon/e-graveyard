@@ -66,6 +66,12 @@ footer {
 }
 
 // bootstrap
+.cursor-pointer {
+  cursor: pointer;
+}
+
+
+
 .bs-heroes {
   @include background-centered;
 }

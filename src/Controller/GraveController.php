@@ -51,7 +51,7 @@ class GraveController extends AbstractController
     }
 
     #[Route('/grave/add', name: 'app_add_grave')]
-    public function add_grave(Request $request, GraveRepository $graveRepository, EditUpdate $editUpdate): Response
+    public function add_grave(Request $request, EditUpdate $editUpdate): Response
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
         $grave = new Grave();
@@ -78,8 +78,7 @@ class GraveController extends AbstractController
         ]);
     }
     #[Route('/grave/api/update/{grave<\d+>}', name: 'app_grave_api_update')]
-    public function api_update_grave(Request $request, Grave $grave, PersonRepository $personRepository, GraveRepository $graveRepository,
-                                     EditUpdate $editUpdate): Response
+    public function api_update_grave(Request $request, Grave $grave, PersonRepository $personRepository, EditUpdate $editUpdate): Response
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
         if ($request->isMethod('put')) {

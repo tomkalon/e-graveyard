@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Grave;
+use App\Entity\Person;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,34 @@ class GraveRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findGraves(Grave $grave): array
+    {
+        $graveyard = $grave->getGraveyard();
+        $sector = $grave->getSector();
+        $row = $grave->getRow();
+        $number = $grave->getNumber();
+
+        $qb = $this->createQueryBuilder('g')
+            ->where('g.graveyard = :graveyard')
+            ->setParameter('graveyard', $graveyard);
+
+        if ($sector) {
+            $qb->andWhere('g.sector = :sector')
+                ->setParameter('sector', $sector);
+        }
+        if ($row) {
+            $qb->andWhere('g.row = :row')
+                ->setParameter('row', $row);
+        }
+        if ($number) {
+            $qb->andWhere('g.number = :number')
+                ->setParameter('number', $number);
+        }
+
+        $query = $qb->getQuery();
+        return $query->execute();
     }
 
 //    /**

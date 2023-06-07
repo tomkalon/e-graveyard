@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <div class="container py-4">
+        {% if source == 'person' %}
         {{ component('search_result',{
             search_result: search_result,
             thead: [
@@ -20,5 +21,25 @@
             target: 'app_search',
             type: 'person'
         }) }}
+        {% elseif source == 'grave' %}
+            {{ component('search_result',{
+                select_name: select_name,
+                search_result: search_result,
+                thead: [
+                    {'name': 'Sektor', 'class': 'col-1'},
+                    {'name': 'Rząd', 'class': 'col-1'},
+                    {'name': 'Numer', 'class': 'col-1'}
+                ],
+                tbody: [
+                    {'name': 'sector', 'class': 'col-1'},
+                    {'name': 'row', 'class': 'col-1'},
+                    {'name': 'number', 'class': 'col-1'}
+                ],
+                page: page,
+                limit: limit,
+                target: 'app_search_grave',
+                type: 'grave'
+            }) }}
+        {% endif %}
     </div>
 {% endblock %}

@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Grave;
+use App\Entity\Graveyard;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,20 +17,21 @@ class SearchGraveType extends AbstractType
     {
         $builder
             ->add('graveyard', EntityType::class, [
-                'class' => Grave::class,
+                'class' => Graveyard::class,
                 'choice_label' => 'name',
                 'multiple' => false,
-                'require' => true
+                'required' => true
             ])
             ->add('sector',TextType::class, [
-                'require' => false,
+                'required' => false,
             ])
             ->add('row',TextType::class, [
-                'require' => false,
+                'required' => false,
             ])
             ->add('number',TextType::class, [
-                'require' => false,
+                'required' => false,
             ])
+            ->add('search', SubmitType::class)
         ;
     }
 

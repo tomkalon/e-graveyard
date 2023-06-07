@@ -75,12 +75,13 @@ class PersonController extends AbstractController
         return $this->render('main/search/result.html.twig', [
             'search_result' => $search_result,
             'page' => $page,
-            'limit' => $limit
+            'limit' => $limit,
+            'source' => 'person'
         ]);
     }
 
     #[Route('/person/add', name: 'app_add_person', priority: 5)]
-    public function add_person(Request $request, PersonRepository $personRepository, EditUpdate $editUpdate): Response
+    public function add_person(Request $request, EditUpdate $editUpdate): Response
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
 

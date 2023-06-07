@@ -39,7 +39,7 @@ class PersonRepository extends ServiceEntityRepository
         }
     }
 
-    public function findPeople (Person $person): array
+    public function findPeople(Person $person): array
     {
         $name = $person->getName();
         $surname = $person->getSurname();
