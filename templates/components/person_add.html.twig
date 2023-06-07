@@ -53,12 +53,10 @@
             {% if close is defined %}
                 <button type="button" class="btn btn-danger" data-modal-box-close>Anuluj</button>
             {% else %}
-                <button type="button" class="btn btn-outline-success" onclick="location.href='{{ path('app_search') }}'">Szukaj</button>
-                {% if id is defined %}
-                    <button type="button" class="btn btn-secondary" onclick="location.href='{{ path('app_person', {
-                        'person': id
-                    }) }}'">Powrót</button>
+                {% if last_uri is defined %}
+                    <button type="button" class="btn btn-secondary" onclick="location.href='{{ last_uri }}'">Powrót</button>
                 {% endif %}
+                <button type="button" class="btn btn-outline-success" onclick="location.href='{{ path('app_search') }}'">Szukaj</button>
             {% endif %}
             {{ form_widget(form.submit,{
                 'attr': {'class': 'btn btn-success'},

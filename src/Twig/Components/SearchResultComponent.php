@@ -16,4 +16,5 @@ final class SearchResultComponent
     public string $limit;
     public string $target;
     public string $type;
+    public string $last_uri;
 }

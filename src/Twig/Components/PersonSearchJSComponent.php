@@ -11,4 +11,5 @@ final class PersonSearchJSComponent
     public array $people;
     public object $grave;
     public string $submit;
+    public string $last_uri;
 }

@@ -12,4 +12,5 @@ final class GraveDetailComponent
     public array $people;
     public object $form_add_person;
     public object $form_remove_person;
+    public string $last_uri;
 }

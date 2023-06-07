@@ -8,4 +8,5 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 final class PersonSearchComponent
 {
     public object $form;
+    public string $last_uri;
 }

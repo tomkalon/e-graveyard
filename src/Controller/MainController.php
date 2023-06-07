@@ -27,7 +27,6 @@ class MainController extends AbstractController
     {
         // session
         $session = $request->getSession();
-        $session->set('last_uri', $request->getUri());
 
         // entity
         $person = new Person();
@@ -58,6 +57,7 @@ class MainController extends AbstractController
 
         return $this->render('main/search.html.twig', [
             'form' => $form,
+            'last_uri' => $request->headers->get('referer'),
         ]);
     }
     #[Route('/search/grave', name: 'app_search_grave', priority: 10)]
@@ -65,7 +65,6 @@ class MainController extends AbstractController
     {
         // session
         $session = $request->getSession();
-        $session->set('last_uri', $request->getUri());
 
         // entity
         $grave = new Grave();
@@ -97,6 +96,7 @@ class MainController extends AbstractController
 
         return $this->render('main/search_grave.html.twig', [
             'form' => $form,
+            'last_uri' => $request->headers->get('referer'),
         ]);
     }
 
@@ -105,7 +105,6 @@ class MainController extends AbstractController
     {
         // session
         $session = $request->getSession();
-        $session->set('last_uri', $request->getUri());
         $source = $session->get('search_result_source');
         $search_result = $session->get('search_result');
         $select_name = match ($source) {
@@ -131,7 +130,8 @@ class MainController extends AbstractController
             'page' => $page,
             'limit' => $limit,
             'source' => $source,
-            'select_name' => $select_name
+            'select_name' => $select_name,
+            'last_uri' => $request->headers->get('referer'),
         ]);
     }
 

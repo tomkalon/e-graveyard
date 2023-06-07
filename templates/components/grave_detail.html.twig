@@ -3,7 +3,19 @@
         <span>Szczegóły nagrobka</span>
     </div>
     <div class="card-body">
-        <h4 class="card-title">{{ grave.graveyard.name }}</h4>
+        <div class="d-flex justify-content-between">
+            <h4 class="card-title">{{ grave.graveyard.name }}</h4>
+            {% if is_granted('ROLE_MANAGER') %}
+                <button class="btn btn-danger" data-modal-box-open="data-remove-grave">Usuń grób</button>
+                {{ component('modal_box', {
+                    'name': 'data-remove-grave',
+                    'title': 'Usuwanie grobu',
+                    'grave': grave,
+                    'action': 'remove_grave',
+                    'submit': 'Usuń'
+                }) }}
+            {% endif %}
+        </div>
         <hr>
         <div class="row">
             <div class="col-4 col-md-3 col-lg-2 text-center">
@@ -38,7 +50,8 @@
                     {% if is_granted('ROLE_MANAGER') %}
                         <div class="col-md-2 text-center text-md-start">
                             <button class="btn btn-sm btn-danger" data-modal-box-open="data-remove-person"
-                                    data-item-id="{{ person.id }}" data-modal-box-prop="{{ person.surname }} {{ person.name }}">Odepnij
+                                    data-item-id="{{ person.id }}" data-modal-box-prop="{{ person.surname }} {{ person.name }}">
+                                Odepnij
                             </button>
                         </div>
                     {% endif %}
@@ -71,7 +84,8 @@
                             'action': 'add_new_person',
                             'submit': 'Dodaj'
                         }) }}
-                        <button class="btn btn-outline-secondary" data-modal-box-open="data-add-new-person">Dodaj nową osobę</button>
+                        <button class="btn btn-outline-secondary" data-modal-box-open="data-add-new-person">Dodaj nową osobę
+                        </button>
                     {% endif %}
                     {% if is_granted('ROLE_MANAGER') and grave is defined and people is defined %}
                         {{ component('modal_box', {
@@ -82,7 +96,8 @@
                             'action': 'select_assigned_person',
                             'submit': 'Przypisz'
                         }) }}
-                        <button class="btn btn-secondary" data-modal-box-open="data-select-person">Wybierz nieprzypisaną osobę</button>
+                        <button class="btn btn-secondary" data-modal-box-open="data-select-person">Wybierz nieprzypisaną osobę
+                        </button>
                     {% endif %}
                 </div>
             </div>

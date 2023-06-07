@@ -19,27 +19,52 @@
             page: page,
             limit: limit,
             target: 'app_search',
-            type: 'person'
+            type: 'person',
+            last_uri: uri
         }) }}
         {% elseif source == 'grave' %}
-            {{ component('search_result',{
-                select_name: select_name,
-                search_result: search_result,
-                thead: [
-                    {'name': 'Sektor', 'class': 'col-1'},
-                    {'name': 'Rząd', 'class': 'col-1'},
-                    {'name': 'Numer', 'class': 'col-1'}
-                ],
-                tbody: [
-                    {'name': 'sector', 'class': 'col-1'},
-                    {'name': 'row', 'class': 'col-1'},
-                    {'name': 'number', 'class': 'col-1'}
-                ],
-                page: page,
-                limit: limit,
-                target: 'app_search_grave',
-                type: 'grave'
-            }) }}
+            {% if select_name is defined %}
+                {{ component('search_result',{
+                    select_name: select_name,
+                    search_result: search_result,
+                    thead: [
+                        {'name': 'Sektor', 'class': 'col-1'},
+                        {'name': 'Rząd', 'class': 'col-1'},
+                        {'name': 'Numer', 'class': 'col-1'}
+                    ],
+                    tbody: [
+                        {'name': 'sector', 'class': 'col-1'},
+                        {'name': 'row', 'class': 'col-1'},
+                        {'name': 'number', 'class': 'col-1'}
+                    ],
+                    page: page,
+                    limit: limit,
+                    target: 'app_search_grave',
+                    type: 'grave',
+                    last_uri: uri
+                }) }}
+            {% else %}
+                {{ component('search_result',{
+                    search_result: search_result,
+                    thead: [
+                        {'name': 'Cmentarz', 'class': 'col-1'},
+                        {'name': 'Sektor', 'class': 'col-1'},
+                        {'name': 'Rząd', 'class': 'col-1'},
+                        {'name': 'Numer', 'class': 'col-1'}
+                    ],
+                    tbody: [
+                        {'name': 'graveyard', 'class': 'col-1', 'type':'entity-name'},
+                        {'name': 'sector', 'class': 'col-1'},
+                        {'name': 'row', 'class': 'col-1'},
+                        {'name': 'number', 'class': 'col-1'}
+                    ],
+                    page: page,
+                    limit: limit,
+                    target: 'app_search_grave',
+                    type: 'grave',
+                    last_uri: uri
+                }) }}
+            {% endif %}
         {% endif %}
     </div>
 {% endblock %}

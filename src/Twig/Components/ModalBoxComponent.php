@@ -17,4 +17,5 @@ final class ModalBoxComponent
     public object $component;
     public string $action;
     public string $submit;
+    public string $last_uri;
 }

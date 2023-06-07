@@ -48,8 +48,11 @@
         </div>
 
         <div class="mt-3 float-end float-xl-start">
+            {% if last_uri is defined %}
+                <button type="button" class="btn btn-secondary" onclick="location.href='{{ last_uri }}'">Powrót</button>
+            {% endif %}
             {% if is_granted('ROLE_MANAGER') %}
-                <button type="button" class="btn btn-secondary" onclick="location.href='{{ path('app_person_not_assigned') }}'">Pokaż nieprzypisane</button>
+                <button type="button" class="btn btn-warning" onclick="location.href='{{ path('app_grave_not_assigned') }}'">Pokaż nieprzypisane</button>
             {% endif %}
             {{ form_widget(form.search,{
                 'attr': {'class': 'btn btn-success'},

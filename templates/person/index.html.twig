@@ -3,6 +3,7 @@
     <div class="container mt-5 mb-3">
         {{ component('person_detail', {
             person: person,
+            last_uri: uri
         }) }}
         {% if person.grave is defined and person.grave != null or person.grave != false %}
             {{ component('grave_detail', {

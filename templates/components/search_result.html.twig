@@ -92,5 +92,8 @@
     <div>
         <button type="button" class="btn btn-success" onclick="location.href='{{ path(target) }}'">Wyszukaj ponownie
         </button>
+        {% if last_uri is defined %}
+            <button type="button" class="btn btn-secondary" onclick="location.href='{{ last_uri }}'">Powrót</button>
+        {% endif %}
     </div>
 </div>

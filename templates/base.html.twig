@@ -16,9 +16,20 @@
     <body>
         {% include('nav.html.twig') %}
         <main>
+
+            {# return button #}
+            {% set uri = null %}
+            {% if last_uri is defined %}
+                {% set uri = last_uri %}
+            {% endif %}
+            {# ############### #}
+
+            {# flash messages #}
             {% if app.flashes('success') is defined or app.flashes('failed') is defined %}
                 {% include('alerts.html.twig') %}
             {% endif %}
+            {# ############### #}
+
             {% block body %}{% endblock %}
         </main>
         {% include('footer.html.twig') %}

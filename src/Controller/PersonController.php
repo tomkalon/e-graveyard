@@ -19,10 +19,6 @@ class PersonController extends AbstractController
     #[Route('/person/{person<\d+>}', name: 'app_person', priority: 1)]
     public function index(Person $person, PersonRepository $personRepository, EditUpdate $editUpdate, Request $request): Response
     {
-        // session
-        $session = $request->getSession();
-        $lastUri = $session->get('last_uri');
-
         // entity
         $grave = $person->getGrave();
         $new_person = new Person();
@@ -61,7 +57,7 @@ class PersonController extends AbstractController
             'grave' => $grave,
             'person' => $person,
             'people' => $not_assigned_people,
-            'last_uri' => $lastUri,
+            'last_uri' => $request->headers->get('referer'),
             'form_add_person' => $form_add_person
         ]);
     }
@@ -69,10 +65,6 @@ class PersonController extends AbstractController
     #[Route('/person/not_assigned{page<\d+>}', name: 'app_person_not_assigned')]
     public function not_assigned(PersonRepository $personRepository, Request $request, int $page = 0): Response
     {
-        // session
-        $session = $request->getSession();
-        $session->set('last_uri', $request->getUri());
-
         // query
         $search_result = $personRepository->findBy(
             ['grave' => null],
@@ -86,7 +78,8 @@ class PersonController extends AbstractController
             'search_result' => $search_result,
             'page' => $page,
             'limit' => $limit,
-            'source' => 'person'
+            'source' => 'person',
+            'last_uri' => $request->headers->get('referer'),
         ]);
     }
 
@@ -95,10 +88,6 @@ class PersonController extends AbstractController
     {
         // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
-
-        // session
-        $session = $request->getSession();
-        $session->set('last_uri', $request->getUri());
 
         // entity
         $person = new Person();
@@ -124,7 +113,8 @@ class PersonController extends AbstractController
         }
 
         return $this->render('person/add.html.twig', [
-            'form' => $form
+            'form' => $form,
+            'last_uri' => $request->headers->get('referer'),
         ]);
     }
 
@@ -133,10 +123,6 @@ class PersonController extends AbstractController
     {
         // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
-
-        // session
-        $session = $request->getSession();
-        $lastUri = $session->get('last_uri');
 
         // form
         $form = $this->createForm(NewPersonType::class, $person);
@@ -160,7 +146,7 @@ class PersonController extends AbstractController
 
         return $this->render('person/update.html.twig', [
             'person' => $person,
-            'last_uri' => $lastUri,
+            'last_uri' => $request->headers->get('referer'),
             'form' => $form
         ]);
     }

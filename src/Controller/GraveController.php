@@ -6,6 +6,7 @@ use App\Entity\Grave;
 use App\Entity\Person;
 use App\Form\NewGraveType;
 use App\Form\NewPersonType;
+use App\Repository\GraveRepository;
 use App\Repository\PersonRepository;
 use App\Service\EditUpdate\EditUpdate;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -56,9 +57,32 @@ class GraveController extends AbstractController
             'grave' => $grave,
             'person' => $person,
             'people' => $not_assigned_people,
-            'form_add_person' => $form_add_person
+            'form_add_person' => $form_add_person,
+            'last_uri' => $request->headers->get('referer'),
         ]);
     }
+
+    #[Route('/grave/not_assigned{page<\d+>}', name: 'app_grave_not_assigned')]
+    public function not_assigned(GraveRepository $graveRepository, Request $request, int $page = 0): Response
+    {
+        // query
+        $search_result = $graveRepository->findBy(
+            [],
+            ['id' => 'DESC']
+        );
+
+        // query limit
+        $limit = 15;
+
+        return $this->render('main/search/result.html.twig', [
+            'search_result' => $search_result,
+            'page' => $page,
+            'limit' => $limit,
+            'source' => 'grave',
+            'last_uri' => $request->headers->get('referer'),
+        ]);
+    }
+
 
     #[Route('/grave/add', name: 'app_add_grave')]
     public function add_grave(Request $request, EditUpdate $editUpdate): Response
@@ -90,7 +114,8 @@ class GraveController extends AbstractController
         }
 
         return $this->render('grave/add.html.twig', [
-            'form' => $form
+            'form' => $form,
+            'last_uri' => $request->headers->get('referer'),
         ]);
     }
     #[Route('/grave/api/update/{grave<\d+>}', name: 'app_grave_api_update')]
