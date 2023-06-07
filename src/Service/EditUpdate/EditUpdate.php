@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Person\EditUpdate;
+namespace App\Service\EditUpdate;
 
 use App\Entity\Grave;
 use App\Entity\Person;

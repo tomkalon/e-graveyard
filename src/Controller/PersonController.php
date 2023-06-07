@@ -6,9 +6,8 @@ use App\Entity\Person;
 use App\Form\NewPersonType;
 use App\Repository\GraveRepository;
 use App\Repository\PersonRepository;
-use App\Service\Person\EditUpdate\EditUpdate;
+use App\Service\EditUpdate\EditUpdate;
 use App\Service\Person\PersonManager;
-use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PersonController extends AbstractController
 {
     #[Route('/person/{person<\d+>}', name: 'app_person', priority: 1)]
-    public function index(Person $person, PersonRepository $personRepository, Request $request): Response
+    public function index(Person $person, PersonRepository $personRepository, EditUpdate $editUpdate, Request $request): Response
     {
         // session
         $session = $request->getSession();
@@ -28,8 +27,8 @@ class PersonController extends AbstractController
         $grave = $person->getGrave();
 
         // form - add new Person
-        $one = new Person();
-        $form_add_person = $this->createForm(NewPersonType::class, $one);
+        $new_person = new Person();
+        $form_add_person = $this->createForm(NewPersonType::class, $new_person);
         $form_add_person->handleRequest($request);
 
         $not_assigned_people = $personRepository->findBy(
@@ -39,13 +38,9 @@ class PersonController extends AbstractController
 
         if ($form_add_person->isSubmitted() && $form_add_person->isValid()) {
             $this->denyAccessUnlessGranted('ROLE_MANAGER');
-            $one = $form_add_person->getData();
-            $user = $this->getUser()->getUsername();
-            $grave->setEditedBy($user);
-            $one->setEditedBy($user);
-            $one->setCreated(new DateTime());
-            $one->setGrave($grave);
-            $personRepository->save($one, true);
+            $new_person = $form_add_person->getData();
+            $new_person->setGrave($grave);
+            $editUpdate->updateBoth($grave, $new_person, $this->getUser(), 'person');
             $this->addFlash('success', 'Osoba dodana do pochówku!');
             $this->redirectToRoute('app_person', [
                 'person' => $person->getId()
@@ -181,10 +176,8 @@ class PersonController extends AbstractController
                 $grave = $person->getGrave();
                 $person->setGrave(null);
                 $editUpdate->updateBoth($grave, $person, $this->getUser(), false);
-                $graveRepository->save($grave);
-                $personRepository->save($person, true);
                 $data = true;
-                $this->addFlash('success', 'Osoba została usunięta z grobu.');
+                $this->addFlash('success', 'Osoba została odpięta od grobu.');
             } else {
                 $data = false;
                 $this->addFlash('failed', 'Akcja zakończona niepowodzeniem!');

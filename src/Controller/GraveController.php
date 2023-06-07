@@ -8,8 +8,7 @@ use App\Form\NewGraveType;
 use App\Form\NewPersonType;
 use App\Repository\GraveRepository;
 use App\Repository\PersonRepository;
-use App\Service\Person\EditUpdate\EditUpdate;
-use DateTime;
+use App\Service\EditUpdate\EditUpdate;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,9 +18,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class GraveController extends AbstractController
 {
     #[Route('/grave/{grave<\d+>}', name: 'app_grave', priority: 10)]
-    public function show_grave(Request $request, Grave $grave, PersonRepository $personRepository): Response
+    public function show_grave(Request $request, Grave $grave, PersonRepository $personRepository, EditUpdate $editUpdate): Response
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
+
         $person = new Person();
         $form_add_person = $this->createForm(NewPersonType::class, $person);
         $form_add_person->handleRequest($request);
@@ -33,12 +33,9 @@ class GraveController extends AbstractController
 
         if ($form_add_person->isSubmitted() && $form_add_person->isValid()) {
             $person = $form_add_person->getData();
-            $user = $this->getUser()->getUsername();
-            $grave->setEditedBy($user);
-            $person->setEditedBy($user);
-            $person->setCreated(new DateTime());
             $person->setGrave($grave);
-            $personRepository->save($person, true);
+            $editUpdate->updateBoth($grave, $person, $this->getUser(), 'person');
+
             $this->addFlash('success', 'Osoba dodana do pochówku!');
             $this->redirectToRoute('app_person', [
                 'person' => $person->getId()
@@ -65,8 +62,7 @@ class GraveController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $grave = $form->getData();
-            $editUpdate->updateOne($grave, $this->getUser()->getUsername(), true);
-            $graveRepository->save($grave, true);
+            $editUpdate->updateOne($grave, $this->getUser(), true);
 
             // flash message
             $this->addFlash('success', 'Miejsce pochówku zostało dodane!');
@@ -82,23 +78,17 @@ class GraveController extends AbstractController
         ]);
     }
     #[Route('/grave/api/update/{grave<\d+>}', name: 'app_grave_api_update')]
-    public function api_update_grave(Request $request, Grave $grave, PersonRepository $personRepository, GraveRepository $graveRepository): Response
+    public function api_update_grave(Request $request, Grave $grave, PersonRepository $personRepository, GraveRepository $graveRepository,
+                                     EditUpdate $editUpdate): Response
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
         if ($request->isMethod('put')) {
             $external_request = json_decode($request->getContent(), true);
             if (count($external_request['assignToGrave'])) {
                 foreach ($external_request['assignToGrave'] as $element) {
-                    $user = $this->getUser()->getUsername();
                     $person = $personRepository->find($element);
-                    $person->setEdited(new DateTime());
-                    $person->setEditedBy($user);
-                    $personRepository->save($person, true);
-
                     $grave->addPerson($person);
-                    $grave->setEditedBy($user);
-                    $grave->setEdited(new DateTime());
-                    $graveRepository->save($grave, true);
+                    $editUpdate->updateBoth($grave, $person, $this->getUser(), false);
                 }
                 $data = true;
                 $this->addFlash('success', 'Przypisanie zakończone powodzeniem!');

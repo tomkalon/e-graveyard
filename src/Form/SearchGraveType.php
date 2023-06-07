@@ -2,10 +2,9 @@
 
 namespace App\Form;
 
-use App\Entity\Person;
+use App\Entity\Grave;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,33 +14,28 @@ class SearchGraveType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class, [
-                'required' => true,
+            ->add('graveyard', EntityType::class, [
+                'class' => Grave::class,
+                'choice_label' => 'name',
+                'multiple' => false,
+                'require' => true
             ])
-            ->add('surname', TextType::class, [
-                'required' => false
+            ->add('sector',TextType::class, [
+                'require' => false,
             ])
-            ->add('born', DateType::class, [
-                'required' => false,
-                'widget' => 'choice',
-                'placeholder' => [
-                    'year' => 'Rok', 'month' => 'Miesiąc', 'day' => 'Dzień',
-                ],
+            ->add('row',TextType::class, [
+                'require' => false,
             ])
-            ->add('death', DateType::class, [
-                'required' => false,
-                'widget' => 'choice',
-                'placeholder' => [
-                    'year' => 'Rok', 'month' => 'Miesiąc', 'day' => 'Dzień',
-                ],
+            ->add('number',TextType::class, [
+                'require' => false,
             ])
-            ->add('search', SubmitType::class);
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Person::class,
+            'data_class' => Grave::class,
         ]);
     }
 }

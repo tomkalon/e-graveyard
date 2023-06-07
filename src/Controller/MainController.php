@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Person;
-use App\Form\SearchGraveType;
+use App\Form\SearchPersonType;
 use App\Repository\PersonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,7 +29,7 @@ class MainController extends AbstractController
 
         // form
         $person = new Person();
-        $form = $this->createForm(SearchGraveType::class, $person);
+        $form = $this->createForm(SearchPersonType::class, $person);
         $form->handleRequest($request);
 
         // form handler
