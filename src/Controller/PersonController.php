@@ -23,25 +23,35 @@ class PersonController extends AbstractController
         $session = $request->getSession();
         $lastUri = $session->get('last_uri');
 
-        // grave Entity
+        // entity
         $grave = $person->getGrave();
-
-        // form - add new Person
         $new_person = new Person();
+
+        // form
         $form_add_person = $this->createForm(NewPersonType::class, $new_person);
         $form_add_person->handleRequest($request);
 
+        // query
         $not_assigned_people = $personRepository->findBy(
             ['grave' => null],
             ['id' => 'DESC']
         );
 
+        // form handler
         if ($form_add_person->isSubmitted() && $form_add_person->isValid()) {
+
+            // security
             $this->denyAccessUnlessGranted('ROLE_MANAGER');
+
+            // save data
             $new_person = $form_add_person->getData();
             $new_person->setGrave($grave);
             $editUpdate->updateBoth($grave, $new_person, $this->getUser(), 'person');
+
+            // flash message
             $this->addFlash('success', 'Osoba dodana do pochówku!');
+
+            // redirection
             $this->redirectToRoute('app_person', [
                 'person' => $person->getId()
             ]);
@@ -63,7 +73,7 @@ class PersonController extends AbstractController
         $session = $request->getSession();
         $session->set('last_uri', $request->getUri());
 
-        // matching search data
+        // query
         $search_result = $personRepository->findBy(
             ['grave' => null],
             ['id' => 'DESC']
@@ -80,23 +90,34 @@ class PersonController extends AbstractController
         ]);
     }
 
-    #[Route('/person/add', name: 'app_add_person', priority: 5)]
+    #[Route('/person/edit/add', name: 'app_add_person', priority: 5)]
     public function add_person(Request $request, EditUpdate $editUpdate): Response
     {
+        // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
 
+        // session
         $session = $request->getSession();
         $session->set('last_uri', $request->getUri());
+
+        // entity
         $person = new Person();
 
+        // form
         $form = $this->createForm(NewPersonType::class, $person);
         $form->handleRequest($request);
 
+        // form handler
         if ($form->isSubmitted() && $form->isValid()) {
             $person = $form->getData();
+
+            // save data
             $editUpdate->updateOne($person, $this->getUser(), true);
+
+            // flash message
             $this->addFlash('success', 'Osoba została dodana do bazy danych.');
 
+            // redirection
             return $this->redirectToRoute('app_person', [
                 'person' => $person->getId()
             ]);
@@ -110,20 +131,28 @@ class PersonController extends AbstractController
     #[Route('/person/edit/update/{person<\d+>}', name: 'app_person_edit')]
     public function update(Person $person, EditUpdate $editUpdate, Request $request): Response
     {
+        // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
 
         // session
         $session = $request->getSession();
         $lastUri = $session->get('last_uri');
 
-        // form - add new Person
+        // form
         $form = $this->createForm(NewPersonType::class, $person);
         $form->handleRequest($request);
 
+        // form handler
         if ($form->isSubmitted() && $form->isValid()) {
             $person = $form->getData();
+
+            // save data
             $editUpdate->updateOne($person, $this->getUser(), false);
+
+            // flash message
             $this->addFlash('success', 'Edycja zakończona powodzeniem.');
+
+            // redirection
             $this->redirectToRoute('app_person', [
                 'person' => $person->getId()
             ]);
@@ -139,6 +168,7 @@ class PersonController extends AbstractController
     #[Route('/person/api/remove/{person<\d+>}', name: 'app_person_remove')]
     public function remove(Person $person, PersonRepository $personRepository, Request $request): Response
     {
+        // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
         if ($request->isMethod('delete')) {
 
@@ -146,14 +176,14 @@ class PersonController extends AbstractController
             $session = $request->getSession();
             $last_uri = $session->get('last_uri');
 
-            // repository
+            // REMOVE DATA
             $personRepository->remove($person, true);
 
             // flash message
             $this->addFlash('success', 'Osoba została usunięta.');
 
             // api return data
-            $last_uri ? $data = $last_uri : $this->generateUrl('app_search');
+            $last_uri ? $data = $last_uri : $data = $this->generateUrl('app_search');
 
         } else {
 
@@ -170,7 +200,10 @@ class PersonController extends AbstractController
     public function api_update_person(Request $request, Person $person, PersonRepository $personRepository, GraveRepository $graveRepository,
                                       EditUpdate $editUpdate): Response
     {
+        // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
+
+        // api handler
         if ($request->isMethod('put')) {
             $external_request = json_decode($request->getContent(), true);
             if ($external_request['clearGrave']) {
@@ -193,7 +226,10 @@ class PersonController extends AbstractController
     #[Route('/person/api/get/{type}', name: 'app_api_person_get')]
     public function api_get_person(Request $request, PersonManager $personManager, string $type): Response
     {
+        // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
+
+        // api handler
         if ($request->isMethod('get')) {
             $data = match ($type) {
                 'not_assigned' => $personManager->getNotAssignedPeople(),

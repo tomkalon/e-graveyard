@@ -19,9 +19,7 @@ class MainController extends AbstractController
     #[Route('/', name: 'app_main')]
     public function index(): Response
     {
-        return $this->render('main/index.html.twig', [
-            'controller_name' => 'MainController',
-        ]);
+        return $this->render('main/index.html.twig');
     }
 
     #[Route('/search/person', name: 'app_search', priority: 10)]
@@ -31,8 +29,10 @@ class MainController extends AbstractController
         $session = $request->getSession();
         $session->set('last_uri', $request->getUri());
 
-        // form
+        // entity
         $person = new Person();
+
+        // form
         $form = $this->createForm(SearchPersonType::class, $person);
         $form->handleRequest($request);
 
@@ -43,9 +43,15 @@ class MainController extends AbstractController
             if ($search_result) {
                 $session->set('search_result', $search_result);
                 $session->set('search_result_source', 'person');
+
+                // redirection
                 return $this->redirectToRoute('app_search_result');
             } else {
+
+                // flash message
                 $this->addFlash('failed', 'Brak wyników spełniających kryteria wyszukiwania. Spróbuj ponownie!');
+
+                // redirection
                 return $this->redirectToRoute('app_search');
             }
         }
@@ -61,8 +67,10 @@ class MainController extends AbstractController
         $session = $request->getSession();
         $session->set('last_uri', $request->getUri());
 
-        // form
+        // entity
         $grave = new Grave();
+
+        // form
         $form = $this->createForm(SearchGraveType::class, $grave);
         $form->handleRequest($request);
 
@@ -74,9 +82,15 @@ class MainController extends AbstractController
                 $session->set('search_result', $search_result);
                 $session->set('search_result_source', 'grave');
                 $session->set('select_name', $grave->getGraveyard()->getName());
+
+                // redirection
                 return $this->redirectToRoute('app_search_result');
             } else {
+
+                // flash message
                 $this->addFlash('failed', 'Brak wyników spełniających kryteria wyszukiwania. Spróbuj ponownie!');
+
+                // redirection
                 return $this->redirectToRoute('app_search');
             }
         }
