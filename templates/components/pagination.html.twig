@@ -1,0 +1,34 @@
+<div{{ attributes }}>
+
+    {% set pagination_length = search_result_length // limit %}
+    {% set pagination_start = page * limit + 1 %}
+    {% set pagination_end = page * limit + ((page + 1) * limit % search_result_length) %}
+
+    {% if pagination_length >= 0 %}
+        <nav class="float-end">
+            <ul class="pagination">
+                <li class="page-item{% if page == 0 %} disabled {% endif %}">
+                    <a class="page-link"
+                       href="{% if page > 0 %}{{ path(app.request.attributes.get("_route"), {'page': page - 1}) }}{% endif %}">Previous</a>
+                </li>
+                {% for i in 0..pagination_length %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ path(app.request.attributes.get("_route"), {'page':i}) }}">{{ i + 1 }}</a>
+                    </li>
+                {% endfor %}
+                <li class="page-item {% if page == pagination_length %} disabled {% endif %}">
+                    <a class="page-link"
+                       href="{% if page < pagination_length %}{{ path(app.request.attributes.get("_route"), {'page':page + 1}) }}{% endif %}">Next</a>
+                </li>
+            </ul>
+        </nav>
+        <nav class="float-end me-2">
+            <ul class="pagination">
+                <li class="page-item disabled">
+                    <a class="page-link"
+                       href="">Wyświetlono od {{ pagination_start }} do {{ pagination_end }}</a>
+                </li>
+            </ul>
+        </nav>
+    {% endif %}
+</div>
