@@ -62,7 +62,7 @@ class PersonController extends AbstractController
         ]);
     }
 
-    #[Route('/person/not_assigned{page<\d+>}', name: 'app_person_not_assigned')]
+    #[Route('/person/manage/not_assigned{page<\d+>}', name: 'app_person_not_assigned')]
     public function not_assigned(PersonRepository $personRepository, Request $request, int $page = 0): Response
     {
         // query
@@ -74,7 +74,7 @@ class PersonController extends AbstractController
         // query limit
         $limit = 15;
 
-        return $this->render('main/search/result.html.twig', [
+        return $this->render('main/search/unassigned.html.twig', [
             'search_result' => $search_result,
             'page' => $page,
             'limit' => $limit,
@@ -83,7 +83,7 @@ class PersonController extends AbstractController
         ]);
     }
 
-    #[Route('/person/edit/add', name: 'app_add_person', priority: 5)]
+    #[Route('/person/manage/add', name: 'app_person_add', priority: 5)]
     public function add_person(Request $request, EditUpdate $editUpdate): Response
     {
         // security
@@ -118,7 +118,7 @@ class PersonController extends AbstractController
         ]);
     }
 
-    #[Route('/person/edit/update/{person<\d+>}', name: 'app_person_edit')]
+    #[Route('/person/manage/edit/{person<\d+>}', name: 'app_person_edit')]
     public function update(Person $person, EditUpdate $editUpdate, Request $request): Response
     {
         // security
@@ -154,8 +154,33 @@ class PersonController extends AbstractController
         ]);
     }
 
-    #[Route('/person/api/remove/{person<\d+>}', name: 'app_person_remove')]
-    public function remove(Person $person, PersonRepository $personRepository, Request $request): Response
+    #[Route('/person/manage/remove/{id<\d+>}', name: 'app_person_remove')]
+    public function remove(Request $request, int $id, PersonRepository $personRepository): Response
+    {
+        // entity
+        $person = $personRepository->find($id);
+
+        if ($person !== null) {
+            // save data
+            $personRepository->remove($person, true);
+
+            // flash message
+            $this->addFlash('success', 'Osoba została usunięta!');
+
+            // redirection
+            return $this->redirectToRoute('app_search');
+
+        } else {
+            // flash message
+            $this->addFlash('failed', 'Usunięcie grobu zakończone niepowodzeniem!');
+
+            // redirection
+            return $this->redirect($request->headers->get('referer'));
+        }
+    }
+
+    #[Route('/person/api/remove/{person<\d+>}', name: 'app_api_person_remove')]
+    public function api_remove(Person $person, PersonRepository $personRepository, Request $request): Response
     {
         // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
@@ -187,7 +212,7 @@ class PersonController extends AbstractController
     }
 
     #[Route('/person/api/update/{person<\d+>}', name: 'app_api_person_update')]
-    public function api_update_person(Request $request, Person $person, PersonRepository $personRepository, GraveRepository $graveRepository,
+    public function api_update(Request $request, Person $person, PersonRepository $personRepository, GraveRepository $graveRepository,
                                       EditUpdate $editUpdate): Response
     {
         // security
@@ -214,7 +239,7 @@ class PersonController extends AbstractController
     }
 
     #[Route('/person/api/get/{type}', name: 'app_api_person_get')]
-    public function api_get_person(Request $request, PersonManager $personManager, string $type): Response
+    public function api_get(Request $request, PersonManager $personManager, string $type): Response
     {
         // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');

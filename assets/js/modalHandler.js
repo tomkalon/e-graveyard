@@ -31,9 +31,10 @@ function updateComplete(close) {
 }
 
 function removeComplete(args, data) {
-    window.location.replace(data);}
+    window.location.replace(data);
+}
 
-function booleanChoiceAction(modal, source, args) {
+function booleanChoiceApi(modal, source, args) {
     let content = modal.querySelector("[data-boolean-content]");
     const closeBtn = modal.querySelector("[data-modal-box-close]");
     const submitBtn = modal.querySelector("[data-action-submit]");
@@ -53,11 +54,10 @@ function booleanChoiceAction(modal, source, args) {
             api.deleteDataAPI(id, args['target'], removeComplete, updateComplete, null);
         })
     }
-
 }
 
 const scripts = {
-    modalHandler, updateComplete, booleanChoiceAction
+    modalHandler, updateComplete, booleanChoiceApi
 }
 
 export default scripts;

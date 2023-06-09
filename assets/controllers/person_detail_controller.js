@@ -6,10 +6,6 @@ export default class extends Controller {
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
-        modalHandler.modalHandler('data-remove-person-all', this.element, modalHandler.booleanChoiceAction, {
-            'method': 'delete',
-            'apiData': 'removePerson',
-            'target': '/person/api/remove'
-        });
+        modalHandler.modalHandler('data-remove-person-all', this.element, false, false);
     }
 }

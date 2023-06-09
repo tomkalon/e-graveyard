@@ -19,18 +19,14 @@ export default class extends Controller {
         modalHandler.modalHandler('data-add-new-person', this.element, false, false);
 
         // remove assigned person MODAL BOX
-        modalHandler.modalHandler('data-remove-person', this.element, modalHandler.booleanChoiceAction, {
+        modalHandler.modalHandler('data-remove-person', this.element, modalHandler.booleanChoiceApi, {
             'method': 'put',
             'apiData': 'clearGrave',
             'target': '/person/api/update'
         });
 
         // remove assigned person MODAL BOX
-        modalHandler.modalHandler('data-remove-grave', this.element, modalHandler.booleanChoiceAction, {
-            'method': 'delete',
-            'apiData': 'removeGrave',
-            'target': '/grave/api/remove'
-        });
+        modalHandler.modalHandler('data-remove-grave',  this.element, false, false);
 
         // select not assigned MODAL BOX
         let selectPersonModalBox = modalHandler.modalHandler('data-select-person', this.element, false, false);

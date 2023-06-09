@@ -26,7 +26,7 @@
             <div class="pt-3 pt-md-0">
                 <button class="btn btn-success float-end mx-1" onclick="location.href='{{ path("app_search") }}'">Wyszukiwanie</button>
                 {% if is_granted('ROLE_MANAGER') %}
-                    <button class="btn btn-outline-success float-end mx-1" onclick="location.href='{{ path("app_add_person", {'person': person.id}) }}'">Dodaj nową osobę</button>
+                    <button class="btn btn-outline-success float-end mx-1" onclick="location.href='{{ path("app_person_add", {'person': person.id}) }}'">Dodaj nową osobę</button>
                     <button class="btn btn-warning float-end mx-1" onclick="location.href='{{ path("app_person_edit", {'person': person.id}) }}'">Edycja</button>
                     <button class="btn btn-danger float-end mx-1" data-modal-box-open="data-remove-person-all"
                             data-item-id="{{ person.id }}" data-modal-box-prop="{{ person.surname }} {{ person.name }}">Usuń</button>
@@ -36,6 +36,7 @@
                                 'description': 'Czy potwierdzasz usunięcie osoby?',
                                 'person': person,
                                 'action': 'boolean_choice',
+                                'target': path('app_person_remove', {'id': person.id}),
                                 'submit': 'Usuń'
                             }) }}
                 {% endif %}

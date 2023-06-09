@@ -62,7 +62,7 @@ class GraveController extends AbstractController
         ]);
     }
 
-    #[Route('/grave/not_assigned{page<\d+>}', name: 'app_grave_not_assigned')]
+    #[Route('/grave/manage/not_assigned{page<\d+>}', name: 'app_grave_not_assigned')]
     public function not_assigned(GraveRepository $graveRepository, Request $request, int $page = 0): Response
     {
         // query
@@ -84,8 +84,8 @@ class GraveController extends AbstractController
     }
 
 
-    #[Route('/grave/add', name: 'app_add_grave')]
-    public function add_grave(Request $request, EditUpdate $editUpdate): Response
+    #[Route('/grave/manage/add', name: 'app_grave_add')]
+    public function add(Request $request, EditUpdate $editUpdate): Response
     {
         // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
@@ -118,8 +118,34 @@ class GraveController extends AbstractController
             'last_uri' => $request->headers->get('referer'),
         ]);
     }
+
+    #[Route('/grave/manage/remove/{id<\d+>}', name: 'app_grave_remove')]
+    public function remove(Request $request, int $id, GraveRepository $graveRepository): Response
+    {
+        // entity
+        $grave = $graveRepository->find($id);
+
+        if ($grave !== null) {
+            // save data
+            $graveRepository->remove($grave, true);
+
+            // flash message
+            $this->addFlash('success', 'Grób został usunięty!');
+
+            // redirection
+            return $this->redirectToRoute('app_search_grave');
+
+        } else {
+            // flash message
+            $this->addFlash('failed', 'Usunięcie grobu zakończone niepowodzeniem!');
+
+            // redirection
+            return $this->redirect($request->headers->get('referer'));
+        }
+    }
+
     #[Route('/grave/api/update/{grave<\d+>}', name: 'app_grave_api_update')]
-    public function api_update_grave(Request $request, Grave $grave, PersonRepository $personRepository, EditUpdate $editUpdate): Response
+    public function api_update(Request $request, Grave $grave, PersonRepository $personRepository, EditUpdate $editUpdate): Response
     {
         // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');

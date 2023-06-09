@@ -44,7 +44,7 @@ class Grave
     #[ORM\JoinColumn(nullable: false)]
     private ?Graveyard $graveyard = null;
 
-    #[ORM\OneToMany(mappedBy: 'grave', targetEntity: Person::class, orphanRemoval: false)]
+    #[ORM\OneToMany(mappedBy: 'grave', targetEntity: Person::class, cascade:["persist"], orphanRemoval: true)]
     private Collection $people;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]

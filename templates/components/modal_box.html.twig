@@ -11,35 +11,48 @@
                      style="max-height: 50vh; overflow: auto; pointer-events: auto;">
                     {% if action == 'add_new_person' %}
                         {% if form is defined %}
+                            <div class="px-4 pb-4">
                             {{ component('person_add', {
                                 'form': form,
                                 'close': 'js',
                                 'submit': 'Dodaj'
                             }) }}
+                            </div>
                         {% endif %}
                     {% endif %}
                     {% if action == 'select_assigned_person' %}
                         {% if people is defined and grave is defined %}
-                            {{ component('person_search_js', {
+                            <div class="px-2">
+                             {{ component('person_search_js', {
                                 'people': people,
                                 'grave': grave,
                                 'submit': 'Przypisz'
                             }) }}
+                            </div>
                         {% endif %}
                     {% endif %}
-                    {% if action == 'boolean_choice' %}
+                    {% if action == 'boolean_choice' or action == 'boolean_choice_api' %}
                         {% if description is defined %}
-                            <div class="p-3">Czy potwierdzasz odpięcie od grobu?</div>
+                            <div class="p-3">{{ description | raw }}</div>
                         {% endif %}
                         <div class="px-3 fw-bold" data-boolean-content></div>
                     {% endif %}
                 </div>
                 <div class="modal-footer flex-nowrap p-0">
-                    {% if action == 'boolean_choice' %}
+                    {% if action == 'boolean_choice_api' %}
                         <button type="button"
                                 class="border-top btn btn-link text-danger fs-6 text-decoration-none col-6 py-3 m-0 rounded-2 border-end"
                                 data-action-submit>
-                            <strong>Usuń</strong>
+                            <strong>{{ submit }}</strong>
+                        </button>
+                        <button type="button" class="border-top btn btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-2"
+                                data-modal-box-close>Anuluj
+                        </button>
+                    {% elseif action == 'boolean_choice' %}
+                        <button type="button"
+                                class="border-top btn btn-link text-danger fs-6 text-decoration-none col-6 py-3 m-0 rounded-2 border-end"
+                                onclick="location.href='{{ target }}'">
+                            <strong>{{ submit }}</strong>
                         </button>
                         <button type="button" class="border-top btn btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-2"
                                 data-modal-box-close>Anuluj

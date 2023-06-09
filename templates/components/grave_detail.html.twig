@@ -16,9 +16,11 @@
                 {{ component('modal_box', {
                     'name': 'data-remove-grave',
                     'title': 'Usuwanie grobu',
-                    'description': 'Czy potwierdzasz usunięcie grobu?',
+                    'description': '<b>Czy potwierdzasz usunięcie grobu z bazy danych wraz ze wszystkimi osobami do niego przypisanymi?</b><br>
+                     Jeśli nie chcesz usuwać przypisanych do niego osób, najpierw odepnij je od grobu.',
                     'grave': grave,
                     'action': 'boolean_choice',
+                    'target': path('app_grave_remove', {'id': grave.id}),
                     'submit': 'Usuń'
                 }) }}
             {% endif %}
@@ -71,8 +73,8 @@
                 'description': 'Czy potwierdzasz odpięcie od grobu?',
                 'grave': grave,
                 'person': person,
-                'action': 'boolean_choice',
-                'submit': 'Usuń'
+                'action': 'boolean_choice_api',
+                'submit': 'Odepnij'
             }) }}
         {% else %}
             <div class="row">
