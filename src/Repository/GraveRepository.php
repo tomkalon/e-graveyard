@@ -68,12 +68,17 @@ class GraveRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
-    public function findUnassigned(): array
+    public function findUnassigned(string $sort): array
     {
+        $arr = explode(';', $sort);
+
         $qb = $this->createQueryBuilder('g')
             ->leftJoin('g.people', 'p')
             ->where('p.id is NULL')
         ;
+        if (count($arr) > 1) {
+            $qb->orderBy("g.$arr[0]", $arr[1]);
+        }
 
         $query = $qb->getQuery();
         return $query->execute();

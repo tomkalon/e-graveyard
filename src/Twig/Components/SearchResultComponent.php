@@ -10,6 +10,7 @@ final class SearchResultComponent
     public array $search_result;
     public string $select_name;
 
+    public object $form;
     public array $thead;
     public array $tbody;
     public string $page;

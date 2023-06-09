@@ -1,67 +1,63 @@
-<div class="container py-4">
-    {% if source == 'person' %}
+{% if source == 'person' %}
+    {{ component('search_result',{
+        search_result: search_result,
+        thead: [
+            {'name': 'Imię', 'class': 'col-3'},
+            {'name': 'Nazwisko', 'class': 'col-3'},
+            {'name': 'Data urodzenia', 'class': 'col-2'},
+            {'name': 'Data śmierci', 'class': 'col-2'}
+        ],
+        tbody: [
+            {'name': 'surname', 'class': 'col-3'},
+            {'name': 'name', 'class': 'col-3'},
+            {'name': 'born', 'class': 'col-2', 'type': 'date'},
+            {'name': 'death', 'class': 'col-2', 'type': 'date'}
+        ],
+        page: page,
+        limit: limit,
+        target: 'app_search',
+        type: 'person',
+    }) }}
+{% elseif source == 'grave' %}
+    {% if select_name is defined %}
         {{ component('search_result',{
+            select_name: select_name,
             search_result: search_result,
             thead: [
-                {'name': 'Imię', 'class': 'col-3'},
-                {'name': 'Nazwisko', 'class': 'col-3'},
-                {'name': 'Data urodzenia', 'class': 'col-2'},
-                {'name': 'Data śmierci', 'class': 'col-2'}
+                {'name': 'Sektor', 'class': 'col-1'},
+                {'name': 'Rząd', 'class': 'col-1'},
+                {'name': 'Numer', 'class': 'col-1'}
             ],
             tbody: [
-                {'name': 'surname', 'class': 'col-3'},
-                {'name': 'name', 'class': 'col-3'},
-                {'name': 'born', 'class': 'col-2', 'type': 'date'},
-                {'name': 'death', 'class': 'col-2', 'type': 'date'}
+                {'name': 'sector', 'class': 'col-1'},
+                {'name': 'row', 'class': 'col-1'},
+                {'name': 'number', 'class': 'col-1'}
             ],
             page: page,
             limit: limit,
-            target: 'app_search',
-            type: 'person',
-            last_uri: uri
+            target: 'app_search_grave',
+            type: 'grave',
         }) }}
-    {% elseif source == 'grave' %}
-        {% if select_name is defined %}
-            {{ component('search_result',{
-                select_name: select_name,
-                search_result: search_result,
-                thead: [
-                    {'name': 'Sektor', 'class': 'col-1'},
-                    {'name': 'Rząd', 'class': 'col-1'},
-                    {'name': 'Numer', 'class': 'col-1'}
-                ],
-                tbody: [
-                    {'name': 'sector', 'class': 'col-1'},
-                    {'name': 'row', 'class': 'col-1'},
-                    {'name': 'number', 'class': 'col-1'}
-                ],
-                page: page,
-                limit: limit,
-                target: 'app_search_grave',
-                type: 'grave',
-                last_uri: uri
-            }) }}
-        {% else %}
-            {{ component('search_result',{
-                search_result: search_result,
-                thead: [
-                    {'name': 'Cmentarz', 'class': 'col-1'},
-                    {'name': 'Sektor', 'class': 'col-1'},
-                    {'name': 'Rząd', 'class': 'col-1'},
-                    {'name': 'Numer', 'class': 'col-1'}
-                ],
-                tbody: [
-                    {'name': 'graveyard', 'class': 'col-1', 'type':'entity-name'},
-                    {'name': 'sector', 'class': 'col-1'},
-                    {'name': 'row', 'class': 'col-1'},
-                    {'name': 'number', 'class': 'col-1'}
-                ],
-                page: page,
-                limit: limit,
-                target: 'app_search_grave',
-                type: 'grave',
-                last_uri: uri
-            }) }}
-        {% endif %}
+    {% else %}
+        {{ component('search_result',{
+            form: form,
+            search_result: search_result,
+            thead: [
+                {'name': 'Cmentarz', 'class': 'col-1'},
+                {'name': 'Sektor', 'class': 'col-1'},
+                {'name': 'Rząd', 'class': 'col-1'},
+                {'name': 'Numer', 'class': 'col-1'}
+            ],
+            tbody: [
+                {'name': 'graveyard', 'class': 'col-1', 'type':'entity-name'},
+                {'name': 'sector', 'class': 'col-1'},
+                {'name': 'row', 'class': 'col-1'},
+                {'name': 'number', 'class': 'col-1'}
+            ],
+            page: page,
+            limit: limit,
+            target: 'app_search_grave',
+            type: 'grave',
+        }) }}
     {% endif %}
-</div>
+{% endif %}

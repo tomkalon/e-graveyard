@@ -9,7 +9,10 @@ use App\Form\NewPersonType;
 use App\Repository\GraveRepository;
 use App\Repository\PersonRepository;
 use App\Service\EditUpdate\EditUpdate;
+use App\Service\Form\GraveSort;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -63,16 +66,22 @@ class GraveController extends AbstractController
     }
 
     #[Route('/grave/manage/not_assigned{page<\d+>}', name: 'app_grave_not_assigned')]
-    public function not_assigned(GraveRepository $graveRepository, Request $request, int $page = 0): Response
+    public function not_assigned(Request $request, GraveRepository $graveRepository, GraveSort $graveSort, int $page = 0): Response
     {
-        // query
-        $search_result = $graveRepository->findUnassigned();
+        // session
+        $session = $request->getSession();
+        $limit = $graveSort->getLimit($session);
+        $sort = $graveSort->getGraveSort($session);
 
-        // query limit
-        $limit = 15;
+        // form
+        $form = $graveSort->getGraveSortForm($this->createFormBuilder(), $limit, $sort);
+
+        // query
+        $search_result = $graveRepository->findUnassigned($sort);
 
         return $this->render('main/search/unassigned.html.twig', [
             'search_result' => $search_result,
+            'form' => $form,
             'page' => $page,
             'limit' => $limit,
             'source' => 'grave',

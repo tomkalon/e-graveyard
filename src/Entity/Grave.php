@@ -17,13 +17,13 @@ class Grave
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $sector = null;
+    private ?int $sector = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $row = null;
+    private ?int $row = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $number = null;
+    private ?int $number = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;

@@ -4,7 +4,7 @@
     {% set pagination_start = page * limit + 1 %}
     {% set pagination_end = page * limit + ((page + 1) * limit % search_result_length) %}
 
-    {% if pagination_length >= 0 %}
+    {% if pagination_length > 0 %}
         <nav class="float-end">
             <ul class="pagination">
                 <li class="page-item{% if page == 0 %} disabled {% endif %}">

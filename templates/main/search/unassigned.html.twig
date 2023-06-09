@@ -3,10 +3,10 @@
     <div class="container py-4">
         {% include '/main/search/_result.html.twig' with {
             'search_result': search_result,
+            'form': form,
             'page': page,
             'limit': limit,
             'source': source,
-            'last_uri': last_uri
         } %}
     </div>
 {% endblock %}
