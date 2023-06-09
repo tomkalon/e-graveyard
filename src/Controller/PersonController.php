@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Person;
 use App\Form\NewPersonType;
-use App\Repository\GraveRepository;
 use App\Repository\PersonRepository;
 use App\Service\EditUpdate\EditUpdate;
+use App\Service\Form\FormDataSort;
 use App\Service\Person\PersonManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -63,19 +63,21 @@ class PersonController extends AbstractController
     }
 
     #[Route('/person/manage/not_assigned{page<\d+>}', name: 'app_person_not_assigned')]
-    public function not_assigned(PersonRepository $personRepository, Request $request, int $page = 0): Response
+    public function not_assigned(PersonRepository $personRepository, Request $request, FormDataSort $dataSort, int $page = 0): Response
     {
+        // session
+        $session = $request->getSession();
+        $limit = $dataSort->getLimit($session);
+        $sort = $dataSort->getPersonSort($session);
+
+        $form = $dataSort->getPersonFormSort($this->createFormBuilder(), $limit, $sort);
+
         // query
-        $search_result = $personRepository->findBy(
-            ['grave' => null],
-            ['id' => 'DESC']
-        );
+        $search_result = $personRepository->findUnassigned($sort);
 
-        // query limit
-        $limit = 15;
-
-        return $this->render('main/search/unassigned.html.twig', [
+        return $this->render('main/search/not_assigned.html.twig', [
             'search_result' => $search_result,
+            'form' => $form,
             'page' => $page,
             'limit' => $limit,
             'source' => 'person',
@@ -186,9 +188,6 @@ class PersonController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
         if ($request->isMethod('delete')) {
 
-            // session
-            $session = $request->getSession();
-
             // REMOVE DATA
             $personRepository->remove($person, true);
 
@@ -212,8 +211,7 @@ class PersonController extends AbstractController
     }
 
     #[Route('/person/api/update/{person<\d+>}', name: 'app_api_person_update')]
-    public function api_update(Request $request, Person $person, PersonRepository $personRepository, GraveRepository $graveRepository,
-                                      EditUpdate $editUpdate): Response
+    public function api_update(Request $request, Person $person, EditUpdate $editUpdate): Response
     {
         // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');

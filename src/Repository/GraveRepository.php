@@ -74,8 +74,7 @@ class GraveRepository extends ServiceEntityRepository
 
         $qb = $this->createQueryBuilder('g')
             ->leftJoin('g.people', 'p')
-            ->where('p.id is NULL')
-        ;
+            ->where('p.id is NULL');
         if (count($arr) > 1) {
             $qb->orderBy("g.$arr[0]", $arr[1]);
         }

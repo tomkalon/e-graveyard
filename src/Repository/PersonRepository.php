@@ -67,6 +67,21 @@ class PersonRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function findUnassigned(string $sort): array
+    {
+        $arr = explode(';', $sort);
+
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.grave is NULL');
+
+        if (count($arr) > 1) {
+            $qb->orderBy("p.$arr[0]", $arr[1]);
+        }
+
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
+
 
 //    /**
 //     * @return Person[] Returns an array of Person objects

@@ -1,6 +1,7 @@
 {% if source == 'person' %}
     {{ component('search_result',{
         search_result: search_result,
+        form: form,
         thead: [
             {'name': 'Imię', 'class': 'col-3'},
             {'name': 'Nazwisko', 'class': 'col-3'},

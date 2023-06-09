@@ -4,7 +4,6 @@
         {% if search_result == null %}
             {{ component('grave_search', {
                 form: form,
-                last_uri: uri
             }) }}
         {% else %}
             {% include '/main/search/_result.html.twig' with {
@@ -13,7 +12,6 @@
                 'limit': limit,
                 'source': source,
                 'select_name': select_name,
-                'last_uri': last_uri
             } %}
         {% endif %}
     </div>
