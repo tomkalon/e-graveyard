@@ -1,4 +1,4 @@
-<div{{ attributes }} class="card" data-controller="person-detail">
+<div class="card" data-controller="person-detail">
     <div class="card-header">
         Informacje o zmarłym
     </div>
@@ -30,18 +30,18 @@
                     <button class="btn btn-warning float-end mx-1" onclick="location.href='{{ path("app_person_edit", {'person': person.id}) }}'">Edycja</button>
                     <button class="btn btn-danger float-end mx-1" data-modal-box-open="data-remove-person-all"
                             data-item-id="{{ person.id }}" data-modal-box-prop="{{ person.surname }} {{ person.name }}">Usuń</button>
-                            {{ component('modal_box', {
-                                'name': 'data-remove-person-all',
-                                'title': 'Usuwanie osoby',
-                                'description': 'Czy potwierdzasz usunięcie osoby?',
-                                'person': person,
-                                'action': 'boolean_choice',
-                                'target': path('app_person_remove', {'id': person.id}),
-                                'submit': 'Usuń'
-                            }) }}
+                    {{ component('modal_box', {
+                        'name': 'data-remove-person-all',
+                        'title': 'Usuwanie osoby',
+                        'description': 'Czy potwierdzasz usunięcie osoby?',
+                        'person': person,
+                        'action': 'boolean_choice',
+                        'target': path('app_person_remove', {'id': person.id}),
+                        'submit': 'Usuń'
+                    }) }}
                 {% endif %}
                 {% if last_uri is defined and last_uri != app.request.uri %}
-                <button class="btn btn-secondary float-end mx-1" onclick="location.href='{{ last_uri }}'">Powrót</button>
+                    <button class="btn btn-secondary float-end mx-1" onclick="location.href='{{ last_uri }}'">Powrót</button>
                 {% endif %}
             </div>
         </div>

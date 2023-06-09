@@ -144,7 +144,7 @@ class PersonController extends AbstractController
             ]);
         }
 
-        return $this->render('person/update.html.twig', [
+        return $this->render('person/edit.html.twig', [
             'close' => $this->generateUrl('app_person', [
                 'person' => $person->getId()
             ]),

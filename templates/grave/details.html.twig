@@ -1,4 +1,4 @@
-<div{{ attributes }} class="card mt-4" data-controller="grave-detail">
+<div class="card mt-4" data-controller="grave-detail">
     <div class="card-header" data-target-id="{{ grave.id }}">
         <span>Szczegóły nagrobka</span>
     </div>
@@ -7,7 +7,8 @@
             <h4 class="card-title">{{ grave.graveyard.name }}</h4>
             {% if is_granted('ROLE_MANAGER') %}
                 <div>
-                    <button class="btn btn-warning">Edytuj</button>
+                    <button class="btn btn-success" onclick="location.href='{{ path('app_grave_add') }}'">Dodaj nowy</button>
+                    <button class="btn btn-warning" onclick="location.href='{{ path('app_grave_edit', {'grave': grave.id}) }}'">Edytuj</button>
                     <button class="btn btn-danger" data-modal-box-open="data-remove-grave"
                             data-item-id="{{ grave.id }}" data-modal-box-prop="{{ grave.graveyard.name }} - S: {{ grave.sector }}, Rz: {{ grave.row }}, N: {{ grave.number }}">
                         Usuń grób

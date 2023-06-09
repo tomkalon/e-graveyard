@@ -66,15 +66,12 @@ class GraveController extends AbstractController
     public function not_assigned(GraveRepository $graveRepository, Request $request, int $page = 0): Response
     {
         // query
-        $search_result = $graveRepository->findBy(
-            [],
-            ['id' => 'DESC']
-        );
+        $search_result = $graveRepository->findUnassigned();
 
         // query limit
         $limit = 15;
 
-        return $this->render('main/search/result.html.twig', [
+        return $this->render('main/search/unassigned.html.twig', [
             'search_result' => $search_result,
             'page' => $page,
             'limit' => $limit,
@@ -114,6 +111,38 @@ class GraveController extends AbstractController
         }
 
         return $this->render('grave/add.html.twig', [
+            'form' => $form,
+            'last_uri' => $request->headers->get('referer'),
+        ]);
+    }
+
+    #[Route('/grave/manage/edit/{grave<\d+>}', name: 'app_grave_edit')]
+    public function edit(Request $request, Grave $grave, EditUpdate $editUpdate): Response
+    {
+        // security
+        $this->denyAccessUnlessGranted('ROLE_MANAGER');
+
+        // form
+        $form = $this->createForm(NewGraveType::class, $grave);
+        $form->handleRequest($request);
+
+        // form handler
+        if ($form->isSubmitted() && $form->isValid()) {
+            $grave = $form->getData();
+
+            // save data
+            $editUpdate->updateOne($grave, $this->getUser(), false);
+
+            // flash message
+            $this->addFlash('success', 'Dane zostały zmienione!');
+
+            // redirection
+            return $this->redirectToRoute('app_grave', [
+                'grave' => $grave->getId()
+            ]);
+        }
+
+        return $this->render('grave/edit.html.twig', [
             'form' => $form,
             'last_uri' => $request->headers->get('referer'),
         ]);

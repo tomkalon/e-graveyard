@@ -3,8 +3,8 @@
     <div class="container py-4">
         {% if search_result == null %}
             {{ component('person_search', {
-                form: form,
-                last_uri: uri
+                'form': form,
+                'last_uri': uri
             }) }}
         {% else %}
             {% include '/main/search/_result.html.twig' with {

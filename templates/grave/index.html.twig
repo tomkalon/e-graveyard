@@ -2,12 +2,11 @@
 
 {% block body %}
     <div class="container">
-        {{ component('grave_detail', {
-            grave:grave,
-            person: person,
-            people: people,
-            form_add_person: form_add_person,
-            last_uri: uri
-        }) }}
+        {% include '/grave/details.html.twig' with {
+            'grave':grave,
+            'person': person,
+            'people': people,
+            'form_add_person': form_add_person,
+        } %}
     </div>
 {% endblock %}
