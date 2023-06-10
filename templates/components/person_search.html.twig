@@ -1,8 +1,7 @@
 <div{{ attributes }}>
     <h3 class="text-uppercase">Wyszukiwanie zmarłych</h3>
-    <div class="lead">Wyszukiwanie poprzez wpisanie imienia i nazwiska (pole obowiązkowe) zmarłego, a także daty urodzenia i
-        śmierci:
-    </div>
+    <div class="lead">Wyszukiwanie miejsca pochówku osoby zmarłej</div>
+    <small>Pogrubione pola należy obowiązkowo uzupełnić!</small>
     <hr>
     <div class="form mt-3 overflow-hidden">
         {{ form_start(form, {
@@ -16,38 +15,24 @@
 
         <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-2">
             <div class="col">
-                {{ form_label(form.surname, null, {
-                    'label': 'Imię'
-                }) }}
-                {{ form_widget(form.surname,{
-                    'attr': {'class': ''}
-                }) }}
+                {{ form_label(form.surname)}}
+                {{ form_widget(form.surname)}}
             </div>
             <div class="col">
                 {{ form_label(form.name, null, {
-                    'label': 'Nazwisko*'
+                    'label_attr': {'class': 'fw-bold'}
                 }) }}
-                {{ form_widget(form.name,{
-                    'attr': {'class': ''}
-                }) }}
+                {{ form_widget(form.name) }}
             </div>
         </div>
         <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-2 mt-2">
             <div class="col">
-                {{ form_label(form.born, null, {
-                    'label': 'Data urodzenia'
-                }) }}
-                {{ form_widget(form.born,{
-                    'attr': {'class': ''}
-                }) }}
+                {{ form_label(form.born) }}
+                {{ form_widget(form.born) }}
             </div>
             <div class="col">
-                {{ form_label(form.death, null, {
-                    'label': 'Data śmierci'
-                }) }}
-                {{ form_widget(form.death,{
-                    'attr': {'class': ''}
-                }) }}
+                {{ form_label(form.death) }}
+                {{ form_widget(form.death) }}
             </div>
         </div>
 
@@ -59,8 +44,7 @@
                 <button type="button" class="btn btn-warning" onclick="location.href='{{ path('app_person_not_assigned') }}'">Pokaż nieprzypisane</button>
             {% endif %}
             {{ form_widget(form.search,{
-                'attr': {'class': 'btn btn-success'},
-                'label': 'Wyszukaj'
+                'attr': {'class': 'btn btn-success'}
             }) }}
         </div>
         {{ form_end(form) }}

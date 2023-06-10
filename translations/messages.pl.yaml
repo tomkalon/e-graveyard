@@ -1,0 +1,32 @@
+name_asc: Nazwisko rosnąco
+name_desc: Nazwisko malejąco
+surname_asc: Imię rosnąco
+surname_desc: Imię malejąco
+born_asc: Data urodzenia rosnąco
+born_desc: Data urodzenia malejąco
+death_asc: Data śmierci rosnąco
+death_desc: Data śmierci malejąco
+
+graveyard_asc: Nazwa cmentarza rosnąco
+graveyard_desc: Nazwa cmentarza malejąco
+sector_asc: Sektor rosnąco
+sector_desc: Sektor malejąco
+row_asc: Rząd rosnąco
+row_desc: Rząd malejąco
+number_asc: Numer rosnąco
+number_desc: Numer malejąco
+
+Name: Nazwisko
+Surname: Imię
+Born: Data urodzenia
+Death: Data śmierci
+
+Graveyard: Cmentarz
+Sector: Sektor
+Row: Rząd
+Number: Numer
+Position y: Szerokość geograficzna
+Position x: Długość geograficzna
+
+Search: Szukaj
+Submit: Zatwierdź

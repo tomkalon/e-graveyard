@@ -14,36 +14,20 @@
 
         <div class="row row-cols-1 row-cols-md-4 g-2">
             <div class="col">
-                {{ form_label(form.graveyard, null, {
-                    'label': 'Cmentarz*'
-                }) }}
-                {{ form_widget(form.graveyard,{
-                    'attr': {'class': ''}
-                }) }}
+                {{ form_label(form.graveyard) }}
+                {{ form_widget(form.graveyard) }}
             </div>
             <div class="col">
-                {{ form_label(form.sector, null, {
-                    'label': 'Sektor'
-                }) }}
-                {{ form_widget(form.sector,{
-                    'attr': {'class': ''}
-                }) }}
+                {{ form_label(form.sector) }}
+                {{ form_widget(form.sector) }}
             </div>
             <div class="col">
-                {{ form_label(form.row, null, {
-                    'label': 'Rząd'
-                }) }}
-                {{ form_widget(form.row,{
-                    'attr': {'class': ''}
-                }) }}
+                {{ form_label(form.row) }}
+                {{ form_widget(form.row) }}
             </div>
             <div class="col">
-                {{ form_label(form.number, null, {
-                    'label': 'Numer'
-                }) }}
-                {{ form_widget(form.number,{
-                    'attr': {'class': ''}
-                }) }}
+                {{ form_label(form.number) }}
+                {{ form_widget(form.number) }}
             </div>
         </div>
 
@@ -55,9 +39,8 @@
                 <button type="button" class="btn btn-warning" onclick="location.href='{{ path('app_grave_not_assigned') }}'">Pokaż nieprzypisane</button>
             {% endif %}
             {{ form_widget(form.search,{
-                'attr': {'class': 'btn btn-success'},
-                'label': 'Wyszukaj'
-            }) }}
+                'attr': {'class': 'btn btn-success'}}
+            ) }}
         </div>
         {{ form_end(form) }}
     </div>

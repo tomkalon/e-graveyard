@@ -4,53 +4,39 @@
         <div class="row row-cols-1 row-cols-md-4 g-2">
             <div class="col">
                 {{ form_label(form.graveyard, null, {
-                    'label': 'Cmentarz*'
+                    'label_attr': {'class': 'fw-bold'}
                 }) }}
-                {{ form_widget(form.graveyard,{
-                    'attr': {'class': ''}
-                }) }}
+                {{ form_widget(form.graveyard) }}
             </div>
             <div class="col">
                 {{ form_label(form.sector, null, {
-                    'label': 'Sektor*'
+                    'label_attr': {'class': 'fw-bold'}
                 }) }}
-                {{ form_widget(form.sector,{
-                    'attr': {'class': ''}
-                }) }}
+                {{ form_widget(form.sector) }}
             </div>
             <div class="col">
-                {{ form_label(form.row, null, {
-                    'label': 'Rząd'
-                }) }}
-                {{ form_widget(form.row,{
-                    'attr': {'class': ''}
-                }) }}
+                {{ form_label(form.row) }}
+                {{ form_widget(form.row) }}
             </div>
             <div class="col">
                 {{ form_label(form.number, null, {
-                    'label': 'Numer*'
+                    'label_attr': {'class': 'fw-bold'}
                 }) }}
-                {{ form_widget(form.number,{
-                    'attr': {'class': ''}
-                }) }}
+                {{ form_widget(form.number) }}
             </div>
         </div>
         <div class="row row-cols-1 row-cols-md-2 mt-2 g-2">
             <div class="col">
                 {{ form_label(form.positionY, null, {
-                    'label': 'Szerokość geograficzna (49...)*'
+                    'label_attr': {'class': 'fw-bold'}
                 }) }}
-                {{ form_widget(form.positionY,{
-                    'attr': {'class': ''}
-                }) }}
+                {{ form_widget(form.positionY) }}
             </div>
             <div class="col">
                 {{ form_label(form.positionX, null, {
-                    'label': 'Długość geograficzna (20...)*'
+                    'label_attr': {'class': 'fw-bold'}
                 }) }}
-                {{ form_widget(form.positionX,{
-                    'attr': {'class': ''}
-                }) }}
+                {{ form_widget(form.positionX) }}
             </div>
         </div>
         <div class="mt-4">
