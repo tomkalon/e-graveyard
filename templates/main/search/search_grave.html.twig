@@ -1,18 +1,8 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <div class="container py-4">
-        {% if search_result == null %}
-            {{ component('grave_search', {
-                form: form,
-            }) }}
-        {% else %}
-            {% include '/main/search/_result.html.twig' with {
-                'search_result': search_result,
-                'page': page,
-                'limit': limit,
-                'source': source,
-                'select_name': select_name,
-            } %}
-        {% endif %}
+        {{ component('grave_search', {
+            'form': form,
+        }) }}
     </div>
 {% endblock %}

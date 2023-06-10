@@ -40,8 +40,10 @@ class GraveRepository extends ServiceEntityRepository
         }
     }
 
-    public function findGraves(Grave $grave): array
+    public function findGraves(Grave $grave, string $sort): array
     {
+        $arr = explode(';', $sort);
+
         $graveyard = $grave->getGraveyard();
         $sector = $grave->getSector();
         $row = $grave->getRow();
@@ -64,6 +66,10 @@ class GraveRepository extends ServiceEntityRepository
                 ->setParameter('number', $number);
         }
 
+        if (count($arr) > 1) {
+            $qb->addOrderBy("g.$arr[0]", $arr[1]);
+        }
+
         $query = $qb->getQuery();
         return $query->execute();
     }
@@ -76,7 +82,7 @@ class GraveRepository extends ServiceEntityRepository
             ->leftJoin('g.people', 'p')
             ->where('p.id is NULL');
         if (count($arr) > 1) {
-            $qb->orderBy("g.$arr[0]", $arr[1]);
+            $qb->addOrderBy("g.$arr[0]", $arr[1]);
         }
 
         $query = $qb->getQuery();

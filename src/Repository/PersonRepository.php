@@ -39,8 +39,10 @@ class PersonRepository extends ServiceEntityRepository
         }
     }
 
-    public function findPeople(Person $person): array
+    public function findPeople(Person $person, string $sort): array
     {
+        $arr = explode(';', $sort);
+
         $name = $person->getName();
         $surname = $person->getSurname();
         $born = $person->getBorn();
@@ -61,6 +63,10 @@ class PersonRepository extends ServiceEntityRepository
         if ($death) {
             $qb->andWhere('p.death = :death')
                 ->setParameter('death', $death);
+        }
+
+        if (count($arr) > 1) {
+            $qb->orderBy("p.$arr[0]", $arr[1]);
         }
 
         $query = $qb->getQuery();
