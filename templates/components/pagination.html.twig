@@ -1,7 +1,19 @@
 <div{{ attributes }}>
+
     {% set pagination_length = search_result_length // limit %}
     {% set pagination_start = page * limit + 1 %}
-    {% set pagination_end = page * limit + ((page + 1) * limit % search_result_length) %}
+    {% set pagination_end = null %}
+    {% set test = 0 %}
+    {% if pagination_length >= 1 %}
+        {% if page == pagination_length %}
+            {% set pagination_end = limit * page + search_result_length % limit %}
+        {% else %}
+            {% set pagination_end = limit * (page + 1) %}
+        {% endif %}
+    {% else %}
+        {% set pagination_end = search_result_length %}
+    {% endif %}
+
     <nav class="float-end">
         <ul class="pagination">
             <li class="page-item{% if page == 0 %} disabled {% endif %}">
@@ -10,8 +22,9 @@
                 </a>
             </li>
             {% for i in 0..pagination_length %}
-                <li class="page-item">
-                    <a class="page-link" href="{{ path(app.request.attributes.get("_route"), {'type':source, 'page':i}) }}">{{ i + 1 }}
+                <li class="page-item {% if page == i %}active{% endif %}">
+                    <a class="page-link"
+                       href="{{ path(app.request.attributes.get("_route"), {'type':source, 'page':i}) }}">{{ i + 1 }}
                     </a>
                 </li>
             {% endfor %}

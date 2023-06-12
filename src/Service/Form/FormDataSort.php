@@ -5,17 +5,18 @@ namespace App\Service\Form;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class FormDataSort
 {
-    public function getLimit(Session $session): int
+    public function getLimit(Session $session, Request $request): int
     {
         // parameters
         $limit = 10;
 
-        if (isset($_GET['form']['limit'])) {
-            $session->set('limit', $_GET['form']['limit']);
+        if ($request->query->has('form')) {
+            $session->set('limit', $request->query->all()['form']['limit']);
         }
 
         if ($session->get('limit')) {
@@ -25,13 +26,13 @@ class FormDataSort
         return $limit;
     }
 
-    public function getGraveSort(Session $session): string
+    public function getGraveSort(Session $session, Request $request): string
     {
         // parameters
         $sort = 'graveyard;asc';
 
-        if (isset($_GET['form']['sort'])) {
-            $session->set('grave_sort', $_GET['form']['sort']);
+        if ($request->query->has('form')) {
+            $session->set('grave_sort', $request->query->all()['form']['sort']);
         }
 
         if ($session->get('grave_sort')) {
@@ -40,13 +41,13 @@ class FormDataSort
         return $sort;
     }
 
-    public function getPersonSort(Session $session): string
+    public function getPersonSort(Session $session, Request $request): string
     {
         // parameters
         $sort = 'name;asc';
 
-        if (isset($_GET['form']['sort'])) {
-            $session->set('person_sort', $_GET['form']['sort']);
+        if ($request->query->has('form')) {
+            $session->set('person_sort', $request->query->all()['form']['sort']);
         }
 
         if ($session->get('person_sort')) {

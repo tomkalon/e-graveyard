@@ -74,8 +74,8 @@ class PersonController extends AbstractController
     ): Response {
         // session
         $session = $request->getSession();
-        $limit = $dataSort->getLimit($session);
-        $sort = $dataSort->getPersonSort($session);
+        $limit = $dataSort->getLimit($session, $request);
+        $sort = $dataSort->getPersonSort($session, $request);
 
         // form
         $form = $dataSort->getPersonFormSort($this->createFormBuilder(), $limit, $sort);

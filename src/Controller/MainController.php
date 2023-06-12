@@ -31,7 +31,7 @@ class MainController extends AbstractController
     ): Response {
         // session
         $session = $request->getSession();
-        $sort = $dataSort->getPersonSort($session);
+        $sort = $dataSort->getPersonSort($session, $request);
 
         // entity
         $person = new Person();
@@ -69,7 +69,7 @@ class MainController extends AbstractController
     ): Response {
         // session
         $session = $request->getSession();
-        $sort = $dataSort->getGraveSort($session);
+        $sort = $dataSort->getGraveSort($session, $request);
 
         // entity
         $grave = new Grave();
@@ -111,13 +111,13 @@ class MainController extends AbstractController
     ): Response {
         // session
         $session = $request->getSession();
-        $limit = $dataSort->getLimit($session);
+        $limit = $dataSort->getLimit($session, $request);
 
         $search_result = false;
         $form_sort = false;
 
         if ($type === 'person') {
-            $sort = $dataSort->getPersonSort($session);
+            $sort = $dataSort->getPersonSort($session, $request);
             if (isset($_GET['form']['sort'])) {
                 $person = $session->get('search_query_person');
                 $search_result = $personRepository->findPeople($person, $sort);
@@ -126,7 +126,7 @@ class MainController extends AbstractController
             }
             $form_sort = $dataSort->getPersonFormSort($this->createFormBuilder(), $limit, $sort);
         } elseif ($type === 'grave') {
-            $sort = $dataSort->getGraveSort($session);
+            $sort = $dataSort->getGraveSort($session, $request);
             if (isset($_GET['form']['sort'])) {
                 $grave = $session->get('search_query_grave');
                 $search_result = $graveRepository->findGraves($grave, $sort);

@@ -76,8 +76,8 @@ class GraveController extends AbstractController
     ): Response {
         // session
         $session = $request->getSession();
-        $limit = $dataSort->getLimit($session);
-        $sort = $dataSort->getGraveSort($session);
+        $limit = $dataSort->getLimit($session, $request);
+        $sort = $dataSort->getGraveSort($session, $request);
 
         // form
         $form = $dataSort->getGraveFormSort($this->createFormBuilder(), $limit, $sort);
