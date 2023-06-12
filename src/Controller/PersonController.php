@@ -17,8 +17,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class PersonController extends AbstractController
 {
     #[Route('/person/{person<\d+>}', name: 'app_person', priority: 1)]
-    public function index(Person $person, PersonRepository $personRepository, EditUpdate $editUpdate, Request $request): Response
-    {
+    public function index(
+        Person $person,
+        PersonRepository $personRepository,
+        EditUpdate $editUpdate,
+        Request $request
+    ): Response {
         // entity
         $grave = $person->getGrave();
         $new_person = new Person();
@@ -35,7 +39,6 @@ class PersonController extends AbstractController
 
         // form handler
         if ($form_add_person->isSubmitted() && $form_add_person->isValid()) {
-
             // security
             $this->denyAccessUnlessGranted('ROLE_MANAGER');
 
@@ -63,8 +66,12 @@ class PersonController extends AbstractController
     }
 
     #[Route('/person/manage/not_assigned{page<\d+>}', name: 'app_person_not_assigned')]
-    public function not_assigned(PersonRepository $personRepository, Request $request, FormDataSort $dataSort, int $page = 0): Response
-    {
+    public function notAssigned(
+        PersonRepository $personRepository,
+        Request $request,
+        FormDataSort $dataSort,
+        int $page = 0
+    ): Response {
         // session
         $session = $request->getSession();
         $limit = $dataSort->getLimit($session);
@@ -87,8 +94,10 @@ class PersonController extends AbstractController
     }
 
     #[Route('/person/manage/add', name: 'app_person_add', priority: 5)]
-    public function add_person(Request $request, EditUpdate $editUpdate): Response
-    {
+    public function addPerson(
+        Request $request,
+        EditUpdate $editUpdate
+    ): Response {
         // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
 
@@ -172,7 +181,6 @@ class PersonController extends AbstractController
 
             // redirection
             return $this->redirectToRoute('app_search');
-
         } else {
             // flash message
             $this->addFlash('failed', 'Usunięcie grobu zakończone niepowodzeniem!');
@@ -183,12 +191,14 @@ class PersonController extends AbstractController
     }
 
     #[Route('/person/api/remove/{person<\d+>}', name: 'app_api_person_remove')]
-    public function api_remove(Person $person, PersonRepository $personRepository, Request $request): Response
-    {
+    public function apiRemove(
+        Person $person,
+        PersonRepository $personRepository,
+        Request $request
+    ): Response {
         // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
         if ($request->isMethod('delete')) {
-
             // REMOVE DATA
             $personRepository->remove($person, true);
 
@@ -199,9 +209,7 @@ class PersonController extends AbstractController
             $data = $this->generateUrl('app_search', [
                 'page' => 0
             ]);
-
         } else {
-
             // flash message
             $this->addFlash('failed', 'Akcja zakończona niepowodzeniem!');
 
@@ -212,8 +220,11 @@ class PersonController extends AbstractController
     }
 
     #[Route('/person/api/update/{person<\d+>}', name: 'app_api_person_update')]
-    public function api_update(Request $request, Person $person, EditUpdate $editUpdate): Response
-    {
+    public function apiUpdate(
+        Request $request,
+        Person $person,
+        EditUpdate $editUpdate
+    ): Response {
         // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
 
@@ -230,7 +241,6 @@ class PersonController extends AbstractController
                 $data = false;
                 $this->addFlash('failed', 'Akcja zakończona niepowodzeniem!');
             }
-
         } else {
             $data = false;
         }
@@ -238,8 +248,11 @@ class PersonController extends AbstractController
     }
 
     #[Route('/person/api/get/{type}', name: 'app_api_person_get')]
-    public function api_get(Request $request, PersonManager $personManager, string $type): Response
-    {
+    public function apiGet(
+        Request $request,
+        PersonManager $personManager,
+        string $type
+    ): Response {
         // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
 

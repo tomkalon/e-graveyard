@@ -40,9 +40,8 @@ class AppFixtures extends Fixture
         [1, 3, 8, 49.992850, 20.513286, 2009, 3, 6]
     );
 
-    public function __construct (private readonly UserPasswordHasherInterface $hasher)
+    public function __construct(private readonly UserPasswordHasherInterface $hasher)
     {
-
     }
     public function load(ObjectManager $manager): void
     {
@@ -54,7 +53,7 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    private function makeUsers ($manager): void
+    private function makeUsers($manager): void
     {
         $user = new User();
         $user->setEmail('test@test.com');
@@ -64,7 +63,7 @@ class AppFixtures extends Fixture
         $manager->persist($user);
     }
 
-    private function makeGraveyard ($manager): object
+    private function makeGraveyard($manager): object
     {
         $graveyard = new Graveyard();
         $graveyard->setName('Nowy cmentarz');
@@ -73,11 +72,11 @@ class AppFixtures extends Fixture
         return $graveyard;
     }
 
-    private function makePeople ($manager, $names): array
+    private function makePeople($manager, $names): array
     {
         $arr = array();
 
-        foreach ($names as $key => $item){
+        foreach ($names as $key => $item) {
             $arr[$key] = new Person();
             $arr[$key]->setSurname('Jan');
             $arr[$key]->setName('Kowalski');
@@ -103,11 +102,11 @@ class AppFixtures extends Fixture
         return $arr;
     }
 
-    private function makeGraves ($manager, $graveyard, $graves, $people): void
+    private function makeGraves($manager, $graveyard, $graves, $people): void
     {
         $arr = array();
 
-        foreach ($graves as $key => $item){
+        foreach ($graves as $key => $item) {
             $arr[$key] = new Grave();
             $arr[$key]->setGraveyard($graveyard);
             $arr[$key]->setSector($item[0]);

@@ -13,7 +13,7 @@ class PersonManager
         $this->person = $entityManager->getRepository(Person::class);
     }
 
-    public function getNotAssignedPeople (): array
+    public function getNotAssignedPeople(): array
     {
         $data = array();
         $query = $this->person->findBy(

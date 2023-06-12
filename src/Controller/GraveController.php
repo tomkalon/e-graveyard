@@ -11,8 +11,6 @@ use App\Repository\PersonRepository;
 use App\Service\EditUpdate\EditUpdate;
 use App\Service\Form\FormDataSort;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,8 +19,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class GraveController extends AbstractController
 {
     #[Route('/grave/{grave<\d+>}', name: 'app_grave', priority: 10)]
-    public function show_grave(Request $request, Grave $grave, PersonRepository $personRepository, EditUpdate $editUpdate): Response
-    {
+    public function showGrave(
+        Request $request,
+        Grave $grave,
+        PersonRepository $personRepository,
+        EditUpdate $editUpdate
+    ): Response {
         // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
 
@@ -66,13 +68,16 @@ class GraveController extends AbstractController
     }
 
     #[Route('/grave/manage/not_assigned{page<\d+>}', name: 'app_grave_not_assigned')]
-    public function not_assigned(Request $request, GraveRepository $graveRepository, FormDataSort $dataSort, int $page = 0): Response
-    {
+    public function notAssigned(
+        Request $request,
+        GraveRepository $graveRepository,
+        FormDataSort $dataSort,
+        int $page = 0
+    ): Response {
         // session
         $session = $request->getSession();
         $limit = $dataSort->getLimit($session);
         $sort = $dataSort->getGraveSort($session);
-
 
         // form
         $form = $dataSort->getGraveFormSort($this->createFormBuilder(), $limit, $sort);
@@ -173,7 +178,6 @@ class GraveController extends AbstractController
 
             // redirection
             return $this->redirectToRoute('app_search_grave');
-
         } else {
             // flash message
             $this->addFlash('failed', 'Usunięcie grobu zakończone niepowodzeniem!');
@@ -184,8 +188,12 @@ class GraveController extends AbstractController
     }
 
     #[Route('/grave/api/update/{grave<\d+>}', name: 'app_grave_api_update')]
-    public function api_update(Request $request, Grave $grave, PersonRepository $personRepository, EditUpdate $editUpdate): Response
-    {
+    public function apiUpdate(
+        Request $request,
+        Grave $grave,
+        PersonRepository $personRepository,
+        EditUpdate $editUpdate
+    ): Response {
         // security
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
 
@@ -206,7 +214,6 @@ class GraveController extends AbstractController
 
                 // return
                 $data = true;
-
             } else {
                 // flash message
                 $this->addFlash('failed', 'Brak wybranych osób do przypisania!');
@@ -214,7 +221,6 @@ class GraveController extends AbstractController
                 // return
                 $data = false;
             }
-
         } else {
             // return
             $data = false;

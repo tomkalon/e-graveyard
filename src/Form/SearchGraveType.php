@@ -22,13 +22,13 @@ class SearchGraveType extends AbstractType
                 'multiple' => false,
                 'required' => true
             ])
-            ->add('sector',TextType::class, [
+            ->add('sector', TextType::class, [
                 'required' => false,
             ])
-            ->add('row',TextType::class, [
+            ->add('row', TextType::class, [
                 'required' => false,
             ])
-            ->add('number',TextType::class, [
+            ->add('number', TextType::class, [
                 'required' => false,
             ])
             ->add('search', SubmitType::class)

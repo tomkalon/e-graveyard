@@ -24,8 +24,11 @@ class MainController extends AbstractController
     }
 
     #[Route('/search/person', name: 'app_search', priority: 10)]
-    public function search_person(Request $request, PersonRepository $personRepository, FormDataSort $dataSort): Response
-    {
+    public function searchPerson(
+        Request $request,
+        PersonRepository $personRepository,
+        FormDataSort $dataSort
+    ): Response {
         // session
         $session = $request->getSession();
         $sort = $dataSort->getPersonSort($session);
@@ -59,8 +62,11 @@ class MainController extends AbstractController
         ]);
     }
     #[Route('/search/grave', name: 'app_search_grave', priority: 10)]
-    public function search_grave(Request $request, GraveRepository $graveRepository, FormDataSort $dataSort): Response
-    {
+    public function searchGrave(
+        Request $request,
+        GraveRepository $graveRepository,
+        FormDataSort $dataSort
+    ): Response {
         // session
         $session = $request->getSession();
         $sort = $dataSort->getGraveSort($session);
@@ -95,9 +101,14 @@ class MainController extends AbstractController
     }
 
     #[Route('/search/result/{type}/{page<\d+>}', name:'app_search_result')]
-    public function result(Request $request, FormDataSort $dataSort,
-                           PersonRepository $personRepository, GraveRepository $graveRepository, string $type, int $page = 0): Response
-    {
+    public function result(
+        Request $request,
+        FormDataSort $dataSort,
+        PersonRepository $personRepository,
+        GraveRepository $graveRepository,
+        string $type,
+        int $page = 0
+    ): Response {
         // session
         $session = $request->getSession();
         $limit = $dataSort->getLimit($session);
@@ -148,5 +159,4 @@ class MainController extends AbstractController
     {
         return new JsonResponse(true);
     }
-
 }

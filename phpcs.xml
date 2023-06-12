@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<ruleset name="Standards">
+    <description>PHP CodeSniffer standards</description>
+
+    <!-- Specify the directories to be checked -->
+    <file>src</file>
+
+    <!-- Exclude some directories -->
+    <exclude-pattern>./vendor/*</exclude-pattern>
+    <exclude-pattern>./var/*</exclude-pattern>
+
+    <!-- args -->
+
+
+    <!-- Set the coding standard to PSR12 -->
+    <rule ref="PSR12"/>
+</ruleset>

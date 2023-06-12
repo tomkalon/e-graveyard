@@ -9,8 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class EditUpdate
 {
-     private object $grave;
-     private object $person;
+    private object $grave;
+    private object $person;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -43,13 +43,13 @@ class EditUpdate
         if (!$new) {
             $grave->setEdited(new DateTime());
             $person->setEdited(new DateTime());
-        } else if ($new === 'grave') {
+        } elseif ($new === 'grave') {
             $grave->setCreated(new DateTime());
             $person->setEdited(new DateTime());
-        } else if ($new === 'person') {
+        } elseif ($new === 'person') {
             $person->setCreated(new DateTime());
             $grave->setEdited(new DateTime());
-        } else if ($new === 'both') {
+        } elseif ($new === 'both') {
             $grave->setCreated(new DateTime());
             $person->setCreated(new DateTime());
         }
