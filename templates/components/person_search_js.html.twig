@@ -4,10 +4,10 @@
             <thead>
             <tr class="text-center text-lg-start">
                 <th class="col-1 text-center">-</th>
-                <th class="col-3">Imię</th>
-                <th class="col-3">Nazwisko</th>
-                <th class="col-2 text-center">Data urodzenia</th>
-                <th class="col-2 text-center">Data<br>śmierci</th>
+                <th class="col-3">{{ 'Name'|trans }}</th>
+                <th class="col-3">{{ 'Surname'|trans }}</th>
+                <th class="col-2 text-center">{{ 'Born'|trans }}</th>
+                <th class="col-2 text-center">{{ 'Death'|trans }}</th>
             </tr>
             </thead>
             <tbody data-person-body>
@@ -24,12 +24,12 @@
         </table>
         <hr class="m-0 p-0 mb-2">
         <div class="py-2 px-3 d-flex justify-content-end gap-2">
-            <button class="btn btn-danger float-end" data-modal-box-close>Anuluj</button>
+            <button class="btn btn-danger float-end" data-modal-box-close>{{ 'CANCEL'|trans }}</button>
             <button class="btn btn-success float-end" data-add-person-submit>{{ submit }}</button>
         </div>
     {% else %}
         <div class="alert alert-warning">
-            Brak wyników do wyświetlenia.
+            {{ 'NO_RESULTS'|trans }}.
         </div>
     {% endif %}
 </div>

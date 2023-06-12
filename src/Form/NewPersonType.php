@@ -21,22 +21,18 @@ class NewPersonType extends AbstractType
             ->add('surname', TextType::class)
             ->add('born', DateType::class, [
                 'widget' => 'single_text',
-                'placeholder' => [
-                    'day' => 'Dzień', 'month' => 'Miesiąc', 'year' => 'Rok'
-                ]
             ])
             ->add('death', DateType::class, [
                 'widget' => 'single_text',
-                'placeholder' => [
-                    'year' => 'Rok', 'month' => 'Miesiąc', 'day' => 'Dzień',
-                ]
             ])
             ->add('grave', EntityType::class, [
                 'class' => Grave::class,
                 'choice_label' => 'id',
                 'required' => false
             ])
-            ->add('submit', SubmitType::class);
+            ->add('submit', SubmitType::class, [
+                'label' => 'SUBMIT'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

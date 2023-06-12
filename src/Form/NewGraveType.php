@@ -37,7 +37,9 @@ class NewGraveType extends AbstractType
                 'class' => Graveyard::class,
                 'choice_label' => 'name',
             ])
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'SUBMIT'
+            ])
         ;
     }
 

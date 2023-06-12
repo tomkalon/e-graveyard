@@ -28,5 +28,73 @@ Number: Numer
 Position y: Szerokość geograficzna
 Position x: Długość geograficzna
 
-Search: Szukaj
-Submit: Zatwierdź
+SEARCH: Szukaj
+SUBMIT: Zatwierdź
+ASSIGN: Przypisz
+CHANGE: Zmień
+ADD: Dodaj
+REMOVE: Usuń
+SEARCH_AGAIN: Wyszukaj ponownie
+DISCONNECT: Odłącz
+LOGIN: Zaloguj się
+
+EMAIL: E-mail
+PASSWORD: Hasło
+LOGIN_ALERT: W przypadku utraty hasła, skontaktuj się z administratorem
+LOGIN_FORM: Logowanie
+ADMIN: Admin
+MANAGE: Zarządzaj
+LOGOUT: Wyloguj
+
+ADD_NEW: Dodaj
+EDIT: Edytuj
+
+RETURN: Powrót
+CANCEL: Anuluj
+NEXT: Następna
+PREV: Poprzednia
+
+DAY: Dzień
+MONTH: Miesiąc
+YEAR: Rok
+
+SHOWN: Wyświetlono
+ADDED: Dodano
+EDITED: Edytowano
+POSITION: Położenie
+
+SHOW_NON_ASSIGNED: Pokaż nieprzepisane
+
+PERSON_SEARCH: Wyszukiwanie miejsca pochówku osoby zmarłej
+PERSON_EDIT: Edycja danych osoby
+PERSON_ADD: Dodawanie nowej osoby
+PERSON_ADD_DATABASE: Dodawanie nowej osoby do bazy danych
+PERSON_REMOVE: Usuwanie osoby
+PERSON_REMOVE_CONFIRM: Czy potwierdzasz usunięcie osoby?
+PERSON_REMOVE_GRAVE: Usuwanie osoby z grobu
+PERSON_REMOVE_GRAVE_CONFIRM: Czy potwierdzasz odpięcie od grobu?
+SELECT_TO_ASSIGN: Wybierz do przypisania
+GRAVE_SEARCH: Wyszukiwanie grobów
+GRAVE_EDIT: Edycja danych grobu
+GRAVE_ADD: Dodawanie nowego grobu
+GRAVE_DETAILS: Szczegóły grobu
+GRAVE_REMOVE: Usuwanie grobu
+GRAVE_REMOVE_CONFIRM: <b>Czy potwierdzasz usunięcie grobu z bazy danych wraz ze wszystkimi osobami do niego przypisanymi?</b><br>
+  Jeśli nie chcesz usuwać przypisanych do niego osób, najpierw odepnij je od grobu.
+GRAVE_PERSON_NOT_ASSIGNED: Brak przypisanych osób do grobu
+MARKED_FIELDS_ARE_REQUIRED: Pogrubione pola należy obowiązkowo uzupełnić!
+
+SECTOR_SHORT: S
+ROW_SHORT: Rz
+NUMBER_SHORT: N
+
+SEARCH_RESULTS: Wyniki wyszukiwania
+NO_RESULTS: Brak wyników do wyświetlenia
+GET_DETAILS: Wybierz wynik, by zobaczyć szczegóły
+RESULT_COUNT: Znaleziono <b>%COUNT%</b> pasujących wyników.
+
+SORT: Sortowanie
+HELLO: Witaj
+
+CONTROL_PANEL: Panel zarządzania
+CONTROL_PANEL_DESC: W panelu zarządcy masz możliwość dodania<br> nowych danych do bazy danych oraz ich edycję.

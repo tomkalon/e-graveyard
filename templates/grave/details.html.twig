@@ -1,43 +1,43 @@
 <div class="card mt-4" data-controller="grave-detail">
     <div class="card-header" data-target-id="{{ grave.id }}">
-        <span>Szczegóły nagrobka</span>
+        <span>{{ 'GRAVE_DETAILS'|trans }}</span>
     </div>
     <div class="card-body">
         <div class="d-flex justify-content-between">
             <h4 class="card-title">{{ grave.graveyard.name }}</h4>
             {% if is_granted('ROLE_MANAGER') %}
                 <div>
-                    <button class="btn btn-success" onclick="location.href='{{ path('app_grave_add') }}'">Dodaj nowy</button>
-                    <button class="btn btn-warning" onclick="location.href='{{ path('app_grave_edit', {'grave': grave.id}) }}'">Edytuj</button>
+                    <button class="btn btn-success" onclick="location.href='{{ path('app_grave_add') }}'">{{ 'ADD_NEW'|trans }}</button>
+                    <button class="btn btn-warning" onclick="location.href='{{ path('app_grave_edit', {'grave': grave.id}) }}'">{{ 'EDIT'|trans }}</button>
                     <button class="btn btn-danger" data-modal-box-open="data-remove-grave"
-                            data-item-id="{{ grave.id }}" data-modal-box-prop="{{ grave.graveyard.name }} - S: {{ grave.sector }}, Rz: {{ grave.row }}, N: {{ grave.number }}">
-                        Usuń grób
+                            data-item-id="{{ grave.id }}" data-modal-box-prop="{{ grave.graveyard.name }}
+                             - {{ 'SECTOR_SHORT'|trans }}: {{ grave.sector }}, {{ 'ROW_SHORT'|trans }}: {{ grave.row }}, {{ 'NUMBER_SHORT'|trans }}: {{ grave.number }}">
+                        {{ 'REMOVE'|trans }}
                     </button>
                 </div>
                 {{ component('modal_box', {
                     'name': 'data-remove-grave',
-                    'title': 'Usuwanie grobu',
-                    'description': '<b>Czy potwierdzasz usunięcie grobu z bazy danych wraz ze wszystkimi osobami do niego przypisanymi?</b><br>
-                     Jeśli nie chcesz usuwać przypisanych do niego osób, najpierw odepnij je od grobu.',
+                    'title': 'GRAVE_REMOVE'|trans,
+                    'description': 'GRAVE_REMOVE_CONFIRM'|trans|raw,
                     'grave': grave,
                     'action': 'boolean_choice',
                     'target': path('app_grave_remove', {'id': grave.id}),
-                    'submit': 'Usuń'
+                    'submit': 'REMOVE'|trans
                 }) }}
             {% endif %}
         </div>
         <hr>
         <div class="row">
             <div class="col-4 col-md-3 col-lg-2 text-center">
-                Sektor: <h5 class="heading">{{ grave.sector }}</h5>
+                {{ 'Sector'|trans }}: <h5 class="heading">{{ grave.sector }}</h5>
             </div>
             {% if grave.row %}
                 <div class="col-4 col-md-3 col-lg-2 text-center">
-                    Rząd: <h5 class="heading">{{ grave.row }}</h5>
+                    {{ 'Row'|trans }}: <h5 class="heading">{{ grave.row }}</h5>
                 </div>
             {% endif %}
             <div class="col-4 col-md-3 col-lg-2 text-center">
-                Numer: <h5 class="heading">{{ grave.number }}</h5>
+                {{ 'Number'|trans }}: <h5 class="heading">{{ grave.number }}</h5>
             </div>
         </div>
         <hr>
@@ -61,7 +61,7 @@
                         <div class="col-md-2 text-center text-md-start">
                             <button class="btn btn-sm btn-danger" data-modal-box-open="data-remove-person"
                                     data-item-id="{{ person.id }}" data-modal-box-prop="{{ person.surname }} {{ person.name }}">
-                                Odepnij
+                                {{ 'DISCONNECT'|trans }}
                             </button>
                         </div>
                     {% endif %}
@@ -70,16 +70,16 @@
             {% endfor %}
             {{ component('modal_box', {
                 'name': 'data-remove-person',
-                'title': 'Usuwanie osoby z grobu',
-                'description': 'Czy potwierdzasz odpięcie od grobu?',
+                'title': 'PERSON_REMOVE_GRAVE'|trans,
+                'description': 'PERSON_REMOVE_GRAVE_CONFIRM'|trans,
                 'grave': grave,
                 'person': person,
                 'action': 'boolean_choice_api',
-                'submit': 'Odepnij'
+                'submit': 'DISCONNECT'|trans
             }) }}
         {% else %}
             <div class="row">
-                <div class="lead">Brak przypisanych osób spoczywających w grobie.</div>
+                <div class="lead">{{ 'GRAVE_PERSON_NOT_ASSIGNED'|trans }}.</div>
             </div>
         {% endif %}
         {% if is_granted('ROLE_MANAGER') %}
@@ -89,25 +89,25 @@
                     {% if is_granted('ROLE_MANAGER') and grave is defined and form_add_person is defined %}
                         {{ component('modal_box', {
                             'name': 'data-add-new-person',
-                            'title': 'Dodawanie nowej osoby',
+                            'title': 'ADD_NEW_PERSON'|trans,
                             'grave': grave,
                             'form': form_add_person,
                             'action': 'add_new_person',
-                            'submit': 'Dodaj'
+                            'submit': 'ADD'|trans
                         }) }}
-                        <button class="btn btn-outline-secondary" data-modal-box-open="data-add-new-person">Dodaj nową osobę
+                        <button class="btn btn-outline-secondary" data-modal-box-open="data-add-new-person">{{ 'PERSON_ADD'|trans }}
                         </button>
                     {% endif %}
                     {% if is_granted('ROLE_MANAGER') and grave is defined and people is defined %}
                         {{ component('modal_box', {
                             'name': 'data-select-person',
-                            'title': 'Wybierz do przypisania',
+                            'title': 'SELECT_TO_ASSIGN'|trans,
                             'grave': grave,
                             'people': people,
                             'action': 'select_assigned_person',
-                            'submit': 'Przypisz'
+                            'submit': 'ASSIGN'|trans
                         }) }}
-                        <button class="btn btn-secondary" data-modal-box-open="data-select-person">Wybierz nieprzypisaną osobę
+                        <button class="btn btn-secondary" data-modal-box-open="data-select-person">{{ 'SELECT_TO_ASSIGN'|trans }}
                         </button>
                     {% endif %}
                 </div>
@@ -116,7 +116,7 @@
         <hr>
         {% if grave.positionY != null and grave.positionX != null %}
             <div class="card p-1">
-                <div class="lead px-3 pt-3">Położenie na GoogleMaps</div>
+                <div class="lead px-3 pt-3">{{ 'POSITION'|trans }} GoogleMaps</div>
                 <hr>
                 <div>
                     <div style="width: 100%">
@@ -129,9 +129,9 @@
             </div>
         {% endif %}
         <hr>
-        <small>Dodano: {{ grave.created|date('Y-m-d') }}</small>
+        <small>{{ 'ADDED'|trans }}: {{ grave.created|date('Y-m-d') }}</small>
         {% if grave.edited != null %}
-            <small> || Edytowano: {{ grave.edited|date('Y-m-d') }}</small>
+            <small> || {{ 'EDITED'|trans }}: {{ grave.edited|date('Y-m-d') }}</small>
         {% endif %}
     </div>
 </div>

@@ -52,15 +52,15 @@
         <div class="mt-4">
             {% if close is defined %}
                 {% if close == 'js' %}
-                    <button type="button" class="btn btn-danger" data-modal-box-close>Anuluj</button>
+                    <button type="button" class="btn btn-danger" data-modal-box-close>{{ 'CANCEL'|trans }}</button>
                 {% else %}
-                    <button type="button" class="btn btn-danger" onclick="location.href='{{ close }}'">Anuluj</button>
+                    <button type="button" class="btn btn-danger" onclick="location.href='{{ close }}'">{{ 'CANCEL'|trans }}</button>
                 {% endif %}
             {% else %}
                 {% if last_uri is defined and last_uri != app.request.uri %}
-                    <button type="button" class="btn btn-secondary" onclick="location.href='{{ last_uri }}'">Powrót</button>
+                    <button type="button" class="btn btn-secondary" onclick="location.href='{{ last_uri }}'">{{ 'RETURN'|trans }}</button>
                 {% endif %}
-                <button type="button" class="btn btn-outline-success" onclick="location.href='{{ path('app_search') }}'">Szukaj</button>
+                <button type="button" class="btn btn-outline-success" onclick="location.href='{{ path('app_search') }}'">{{ 'SEARCH'|trans }}</button>
             {% endif %}
             {{ form_widget(form.submit,{
                 'attr': {'class': 'btn btn-success'},

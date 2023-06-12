@@ -108,6 +108,9 @@ class PersonController extends AbstractController
         $form = $this->createForm(NewPersonType::class, $person);
         $form->handleRequest($request);
 
+        // translation
+
+
         // form handler
         if ($form->isSubmitted() && $form->isValid()) {
             $person = $form->getData();

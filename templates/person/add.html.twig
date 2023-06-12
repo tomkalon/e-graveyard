@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <div class="container mt-5 mb-3">
-        <h3 class="text-uppercase">Dodawanie nowej osoby do bazy danych</h3>
+        <h3 class="text-uppercase">{{ 'ADDING_NEW_PERSON_TO_DATABASE'|trans }}</h3>
         <div class="lead mb-4">Uzupełnij dane i naciśnij przycisk "Dodaj"!</div>
-        <small>Pogrubione pola należy obowiązkowo uzupełnić!</small>
+        <small>{{ 'MARKED_FIELDS_ARE_REQUIRED'|trans }}</small>
         {{ component('person_add', {
             form: form,
             submit: 'Dodaj',

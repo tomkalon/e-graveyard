@@ -23,19 +23,15 @@ class SearchPersonType extends AbstractType
             ])
             ->add('born', DateType::class, [
                 'required' => false,
-                'widget' => 'choice',
-                'placeholder' => [
-                    'year' => 'Rok', 'month' => 'Miesiąc', 'day' => 'Dzień',
-                ],
+                'widget' => 'single_text',
             ])
             ->add('death', DateType::class, [
                 'required' => false,
-                'widget' => 'choice',
-                'placeholder' => [
-                    'year' => 'Rok', 'month' => 'Miesiąc', 'day' => 'Dzień',
-                ],
+                'widget' => 'single_text',
             ])
-            ->add('search', SubmitType::class);
+            ->add('search', SubmitType::class, [
+                'label' => 'SEARCH'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

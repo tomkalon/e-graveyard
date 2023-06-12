@@ -3,27 +3,27 @@
 <div class="content">
     <div class="container">
         <hr>
-        <div class="lead text-center">Panel zarządzania</div>
+        <div class="lead text-center">{{ 'CONTROL_PANEL'|trans }}</div>
         <hr>
         <section class="pb-5 text-center container">
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
-                    <h1 class="fw-light">Witaj {{ app.user.username }}!</h1>
-                    <p class="lead text-body-secondary">W panelu zarządcy masz możliwość dodania<br> nowych danych do bazy danych oraz ich edycję.</p>
-                    <hr>
-                    <h5>Miejsca pochówku</h5>
-                    <hr>
-                    <p>
-                        <a href="{{ path('app_grave_add') }}" class="btn btn-outline-secondary my-2">Dodaj nowy grób</a>
-                        <a href="{{ path('app_search_grave') }}" class="btn btn-secondary my-2">Edycja danych grobów</a>
-                    </p>
+                    <h1 class="fw-light">{{ 'HELLO'|trans }} {{ app.user.username }}!</h1>
+                    <p class="lead text-body-secondary">{{ 'CONTROL_PANEL_DESC'|trans|raw }}</p>
                     <hr>
                     <h5>Zmarli</h5>
                     <hr>
                     <p>
-                        <a href="{{ path('app_person_add') }}" class="btn btn-outline-secondary my-2">Dodaj zmarłego</a>
-                        <a href="{{ path('app_search') }}" class="btn btn-secondary my-2">Edycja informacji o zmarłych</a>
+                        <a href="{{ path('app_person_add') }}" class="btn btn-outline-secondary my-2">{{ 'PERSON_ADD'|trans }}</a>
+                        <a href="{{ path('app_search') }}" class="btn btn-secondary my-2">{{ 'SEARCH'|trans }}</a>
                     </p>
+                    <h5>Miejsca pochówku</h5>
+                    <hr>
+                    <p>
+                        <a href="{{ path('app_grave_add') }}" class="btn btn-outline-secondary my-2">{{ 'GRAVE_ADD'|trans }}</a>
+                        <a href="{{ path('app_search_grave') }}" class="btn btn-secondary my-2">{{ 'GRAVE_SEARCH'|trans }}</a>
+                    </p>
+                    <hr>
                 </div>
             </div>
         </section>

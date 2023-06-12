@@ -31,7 +31,9 @@ class SearchGraveType extends AbstractType
             ->add('number', TextType::class, [
                 'required' => false,
             ])
-            ->add('search', SubmitType::class)
+            ->add('search', SubmitType::class, [
+                'label' => 'SEARCH'
+            ])
         ;
     }
 

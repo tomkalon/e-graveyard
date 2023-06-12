@@ -1,7 +1,6 @@
 <div{{ attributes }}>
-    <h3 class="text-uppercase">Wyszukiwanie zmarłych</h3>
-    <div class="lead">Wyszukiwanie miejsca pochówku osoby zmarłej</div>
-    <small>Pogrubione pola należy obowiązkowo uzupełnić!</small>
+    <h3 class="text-uppercase">{{ 'PERSON_SEARCH'|trans }}</h3>
+    <small>{{ 'MARKED_FIELDS_ARE_REQUIRED'|trans }}</small>
     <hr>
     <div class="form mt-3 overflow-hidden">
         {{ form_start(form, {
@@ -38,10 +37,10 @@
 
         <div class="mt-3 float-end float-xl-start">
             {% if last_uri is defined and last_uri != app.request.uri %}
-                <button type="button" class="btn btn-secondary" onclick="location.href='{{ last_uri }}'">Powrót</button>
+                <button type="button" class="btn btn-secondary" onclick="location.href='{{ last_uri }}'">{{ 'RETURN'|trans }}</button>
             {% endif %}
             {% if is_granted('ROLE_MANAGER') %}
-                <button type="button" class="btn btn-warning" onclick="location.href='{{ path('app_person_not_assigned') }}'">Pokaż nieprzypisane</button>
+                <button type="button" class="btn btn-warning" onclick="location.href='{{ path('app_person_not_assigned') }}'">{{ 'SHOW_NON_ASSIGNED'|trans }}</button>
             {% endif %}
             {{ form_widget(form.search,{
                 'attr': {'class': 'btn btn-success'}

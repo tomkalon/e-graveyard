@@ -1,20 +1,20 @@
 <div{{ attributes }}>
     {% if search_result %}
         {% set search_result_length = search_result|length %}
-        <p class="lead mb-4">Wyniki wyszukiwania:
+        <p class="lead mb-4">{{ 'SEARCH_RESULTS'|trans }}:
             {% if select_name is defined %}
                 <span class="fw-bold text-uppercase">{{ select_name }}</span>
             {% endif %}
         </p>
         <div class="d-flex align-items-center justify-content-between flex-wrap">
-            <small class="py-4">Wybierz wynik, by zobaczyć szczegóły!</small>
+            <small class="py-4">{{ 'GET_DETAILS'|trans }}!</small>
             <div>
                 {% if form is defined %}
                     {{ form_start(form, {
                         'method': 'get'
                     }) }}
                     <div class="d-flex gap-2 align-items-center">
-                        <span class="pe-2">Sortowanie</span>
+                        <span class="pe-2">{{ 'SORT'|trans }}</span>
                         <div>
                             {{ form_widget(form.limit) }}
                         </div>
@@ -69,7 +69,7 @@
         <hr>
         <div class="row">
             <div class="col">
-                <small>Znaleziono <b>{{ search_result_length }}</b> pasujących wyników.</small>
+                <small>{{ 'RESULT_COUNT'|trans({'%COUNT%': search_result_length})|raw }}</small>
 
             </div>
             <div class="col">
@@ -84,14 +84,14 @@
         <hr>
     {% else %}
         <div class="alert alert-danger">
-            Brak danych do wyświetlenia!
+            {{ 'NO_RESULTS'|trans }}!
         </div>
     {% endif %}
     <div>
-        <button type="button" class="btn btn-success" onclick="location.href='{{ path(target) }}'">Wyszukaj ponownie
+        <button type="button" class="btn btn-success" onclick="location.href='{{ path(target) }}'">{{ 'SEARCH_AGAIN'|trans }}
         </button>
         {% if last_uri is defined and last_uri != app.request.uri %}
-            <button type="button" class="btn btn-secondary" onclick="location.href='{{ last_uri }}'">Powrót</button>
+            <button type="button" class="btn btn-secondary" onclick="location.href='{{ last_uri }}'">{{ 'RETURN'|trans }}</button>
         {% endif %}
     </div>
 </div>

@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <div class="container py-4">
-        <h3 class="text-uppercase">Dodawanie edycja danych grobu</h3>
-        <small>Pogrubione pola nie mogą być puste!</small>
+        <h3 class="text-uppercase">{{ 'GRAVE_EDIT'|trans }}</h3>
+        <small>{{ 'MARKED_FIELDS_ARE_REQUIRED'|trans }}</small>
         <hr>
         {{ component('grave_add', {
             'form': form,
             'last_uri': uri,
-            'submit': 'Zmień'
+            'submit': 'CHANGE'|trans
         }) }}
     </div>
 {% endblock %}

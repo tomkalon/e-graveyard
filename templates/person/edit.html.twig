@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <div class="container mt-5 mb-3">
-        <h3 class="text-uppercase">Edycja danych osoby</h3>
-        <small>Pogrubione pola nie mogą być puste!</small>
+        <h3 class="text-uppercase">{{ 'PERSON_EDIT'|trans }}</h3>
+        <small>{{ 'MARKED_FIELDS_ARE_REQUIRED'|trans }}</small>
         {{ component('person_add', {
             'form': form,
             'id': person.id,
-            'submit': 'Zmień',
+            'submit': 'CHANGE',
             'last_uri': uri,
             'close': close
         }) }}

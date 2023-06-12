@@ -8,7 +8,7 @@
                     <div class="alert alert-danger mt-4 mx-4">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
                 <div class="modal-header p-5 pb-4 border-bottom-0">
-                    <h1 class="fw-bold mb-0 fs-2">Logowanie</h1>
+                    <h1 class="fw-bold mb-0 fs-2">{{ 'LOGIN_FORM'|trans }}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -16,17 +16,17 @@
                     <form action="{{ path('app_admin_login') }}" method="post">
                         <div class="form-floating mb-3">
                             <input type="email" id="username floatingInput" class="form-control rounded-3" name="_username" value="{{ last_username }}">
-                            <label for="username floatingInput">Email:</label>
+                            <label for="username floatingInput">{{ 'EMAIL'|trans }}:</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="password" class="form-control rounded-3" id="password floatingPassword" name="_password">
-                            <label for="password floatingPassword">Hasło</label>
+                            <label for="password floatingPassword">{{ 'PASSWORD'|trans }}</label>
                         </div>
                         <input type="hidden" name="_target_path" value="/">
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-secondary" type="submit">Zaloguj się</button>
+                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-secondary" type="submit">{{ 'LOGIN'|trans }}</button>
                         <hr class="my-4">
-                        <small class="text-body-secondary">W przypadku utraty hasła, skontaktuj się z administratorem.</small>
+                        <small class="text-body-secondary">{{ 'LOGIN_ALERT'|trans }}.</small>
                     </form>
                 </div>
             </div>

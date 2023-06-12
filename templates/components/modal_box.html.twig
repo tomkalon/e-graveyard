@@ -15,7 +15,7 @@
                             {{ component('person_add', {
                                 'form': form,
                                 'close': 'js',
-                                'submit': 'Dodaj'
+                                'submit': 'ADD'|trans
                             }) }}
                             </div>
                         {% endif %}
@@ -26,7 +26,7 @@
                              {{ component('person_search_js', {
                                 'people': people,
                                 'grave': grave,
-                                'submit': 'Przypisz'
+                                'submit': 'ASSIGN'|trans
                             }) }}
                             </div>
                         {% endif %}
@@ -46,7 +46,7 @@
                             <strong>{{ submit }}</strong>
                         </button>
                         <button type="button" class="border-top btn btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-2"
-                                data-modal-box-close>Anuluj
+                                data-modal-box-close>{{ 'CANCEL'|trans }}
                         </button>
                     {% elseif action == 'boolean_choice' %}
                         <button type="button"
@@ -55,7 +55,7 @@
                             <strong>{{ submit }}</strong>
                         </button>
                         <button type="button" class="border-top btn btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-2"
-                                data-modal-box-close>Anuluj
+                                data-modal-box-close>{{ 'CANCEL'|trans }}
                         </button>
                     {% endif %}
                 </div>

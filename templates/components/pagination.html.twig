@@ -18,7 +18,7 @@
         <ul class="pagination">
             <li class="page-item{% if page == 0 %} disabled {% endif %}">
                 <a class="page-link"
-                   href="{% if page > 0 %}{{ path(app.request.attributes.get("_route"), {'type':source, 'page': page - 1}) }}{% endif %}">Poprzednia
+                   href="{% if page > 0 %}{{ path(app.request.attributes.get("_route"), {'type':source, 'page': page - 1}) }}{% endif %}">{{ 'PREV'|trans }}
                 </a>
             </li>
             {% for i in 0..pagination_length %}
@@ -30,7 +30,7 @@
             {% endfor %}
             <li class="page-item {% if page == pagination_length %} disabled {% endif %}">
                 <a class="page-link"
-                   href="{% if page < pagination_length %}{{ path(app.request.attributes.get("_route"), {'type':source, 'page':page + 1}) }}{% endif %}">Następna
+                   href="{% if page < pagination_length %}{{ path(app.request.attributes.get("_route"), {'type':source, 'page':page + 1}) }}{% endif %}">{{ 'NEXT'|trans }}
                 </a>
             </li>
         </ul>
@@ -38,8 +38,9 @@
     <nav class="float-end me-2">
         <ul class="pagination">
             <li class="page-item disabled">
-                <a class="page-link"
-                   href="">Wyświetlono od {{ pagination_start }} do {{ pagination_end }}</a>
+                <a class="page-link" href="">
+                    {{ 'SHOWN'|trans }}: {{ pagination_start }} - {{ pagination_end }}
+                </a>
             </li>
         </ul>
     </nav>
