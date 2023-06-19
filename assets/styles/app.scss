@@ -66,11 +66,33 @@ footer {
 }
 
 // bootstrap
+.pagination.brown {
+  .page-item {
+    .page-link {
+      color: brown!important;
+    }
+    &.active {
+      .page-link {
+        background: brown;
+        border: 1px solid brown;
+        color: #ffffff !important;
+      }
+    }
+  }
+}
+
+.btn-sort {
+  background: brown;
+  color: #ffffff;
+
+  &:hover {
+    border: 1px solid brown;
+  }
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
-
-
 
 .bs-heroes {
   @include background-centered;
@@ -91,9 +113,10 @@ footer {
     justify-content: center;
     align-items: center;
   }
+
   .modal-dialog {
     background: #ffffff;
-    border: none!important;
+    border: none !important;
     border-radius: 1rem;
   }
 }

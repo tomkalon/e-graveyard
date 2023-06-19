@@ -18,21 +18,27 @@ class NewGraveType extends AbstractType
     {
         $builder
             ->add('sector', NumberType::class, [
+                'label' => 'SECTOR',
                 'required' => true
             ])
             ->add('row', NumberType::class, [
+                'label' => 'ROW',
                 'required' => false
             ])
             ->add('number', NumberType::class, [
+                'label' => 'NUMBER',
                 'required' => true
             ])
             ->add('positionX', TextType::class, [
+                'label' => 'POSITION_X',
                 'required' => true
             ])
             ->add('positionY', TextType::class, [
+                'label' => 'POSITION_Y',
                 'required' => true
             ])
             ->add('graveyard', EntityType::class, [
+                'label' => 'GRAVEYARD',
                 'required' => true,
                 'class' => Graveyard::class,
                 'choice_label' => 'name',

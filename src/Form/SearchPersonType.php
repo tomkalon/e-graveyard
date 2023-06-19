@@ -16,16 +16,20 @@ class SearchPersonType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
+                'label' => 'NAME',
                 'required' => true,
             ])
             ->add('surname', TextType::class, [
+                'label' => 'SURNAME',
                 'required' => false
             ])
             ->add('born', DateType::class, [
+                'label' => 'BORN',
                 'required' => false,
                 'widget' => 'single_text',
             ])
             ->add('death', DateType::class, [
+                'label' => 'DEATH',
                 'required' => false,
                 'widget' => 'single_text',
             ])

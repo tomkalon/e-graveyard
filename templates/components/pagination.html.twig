@@ -15,7 +15,7 @@
     {% endif %}
 
     <nav class="float-end">
-        <ul class="pagination">
+        <ul class="pagination brown">
             <li class="page-item{% if page == 0 %} disabled {% endif %}">
                 <a class="page-link"
                    href="{% if page > 0 %}{{ path(app.request.attributes.get("_route"), {'type':source, 'page': page - 1}) }}{% endif %}">{{ 'PREV'|trans }}

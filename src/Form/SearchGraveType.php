@@ -17,18 +17,22 @@ class SearchGraveType extends AbstractType
     {
         $builder
             ->add('graveyard', EntityType::class, [
+                'label' => 'GRAVEYARD',
                 'class' => Graveyard::class,
                 'choice_label' => 'name',
                 'multiple' => false,
                 'required' => true
             ])
             ->add('sector', TextType::class, [
+                'label' => 'SECTOR',
                 'required' => false,
             ])
             ->add('row', TextType::class, [
+                'label' => 'ROW',
                 'required' => false,
             ])
             ->add('number', TextType::class, [
+                'label' => 'NUMBER',
                 'required' => false,
             ])
             ->add('search', SubmitType::class, [

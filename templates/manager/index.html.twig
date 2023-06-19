@@ -1,33 +1,48 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<div class="content">
-    <div class="container">
-        <hr>
-        <div class="lead text-center">{{ 'CONTROL_PANEL'|trans }}</div>
-        <hr>
-        <section class="pb-5 text-center container">
-            <div class="row py-lg-5">
-                <div class="col-lg-6 col-md-8 mx-auto">
-                    <h1 class="fw-light">{{ 'HELLO'|trans }} {{ app.user.username }}!</h1>
-                    <p class="lead text-body-secondary">{{ 'CONTROL_PANEL_DESC'|trans|raw }}</p>
-                    <hr>
-                    <h5>Zmarli</h5>
-                    <hr>
-                    <p>
-                        <a href="{{ path('app_person_add') }}" class="btn btn-outline-secondary my-2">{{ 'PERSON_ADD'|trans }}</a>
-                        <a href="{{ path('app_search') }}" class="btn btn-secondary my-2">{{ 'SEARCH'|trans }}</a>
-                    </p>
-                    <h5>Miejsca pochówku</h5>
-                    <hr>
-                    <p>
-                        <a href="{{ path('app_grave_add') }}" class="btn btn-outline-secondary my-2">{{ 'GRAVE_ADD'|trans }}</a>
-                        <a href="{{ path('app_search_grave') }}" class="btn btn-secondary my-2">{{ 'GRAVE_SEARCH'|trans }}</a>
-                    </p>
-                    <hr>
+    <div class="content">
+        <div class="container">
+            <hr>
+            <div class="lead text-center">{{ 'CONTROL_PANEL'|trans }}</div>
+            <hr>
+            <section class="pb-5 text-center container">
+                <div class="row py-lg-5">
+                    <div class="col-12 col-lg-6 mx-auto">
+                        <h1 class="fw-light">{{ 'HELLO'|trans }} {{ app.user.username }}!</h1>
+                        <p class="lead text-body-secondary mb-5">{{ 'CONTROL_PANEL_DESC'|trans|raw }}</p>
+                        <hr/>
+                        <div class="row row-cols-1 row-cols-lg-2">
+                            <div class="col">
+                                <img src="{{ asset('/build/images/person.png') }}" alt="People" height="100px">
+                            </div>
+                            <div class="col text-lg-start">
+                                <h5>{{ 'DEAD'|trans }}</h5>
+                                <p>
+                                    <a href="{{ path('app_person_add') }}"
+                                       class="btn btn-outline-secondary my-2">{{ 'ADD'|trans }}</a>
+                                    <a href="{{ path('app_search') }}" class="btn btn-secondary my-2">{{ 'SEARCH'|trans }}</a>
+                                </p>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row row-cols-1 row-cols-lg-2">
+                            <div class="col">
+                                <img src="{{ asset('/build/images/grave.png') }}" alt="People" height="100px">
+                            </div>
+                            <div class="col text-lg-start">
+                                <h5>{{ 'GRAVES'|trans }}</h5>
+                                <p>
+                                    <a href="{{ path('app_grave_add') }}"
+                                       class="btn btn-outline-secondary my-2">{{ 'ADD'|trans }}</a>
+                                    <a href="{{ path('app_search_grave') }}"
+                                       class="btn btn-secondary my-2">{{ 'SEARCH'|trans }}</a>
+                                </p></div>
+                        </div>
+                        <hr/>
+                    </div>
                 </div>
-            </div>
-        </section>
-        <hr>
+            </section>
+            <hr>
+        </div>
     </div>
-</div>
 {% endblock %}

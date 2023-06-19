@@ -62,14 +62,14 @@ class FormDataSort
         return $builder
             ->add('sort', ChoiceType::class, [
                 'choices' => [
-                    'graveyard_asc' => 'graveyard;asc',
-                    'graveyard_desc' => 'graveyard;desc',
-                    'sector_asc' => 'sector;asc',
-                    'sector_desc' => 'sector;desc',
-                    'row_asc' => 'row;asc',
-                    'row_desc' => 'row;desc',
-                    'number_asc' => 'number;asc',
-                    'number_desc' => 'number;desc',
+                    'GRAVEYARD_ASC' => 'graveyard;asc',
+                    'GRAVEYARD_DESC' => 'graveyard;desc',
+                    'SECTOR_ASC' => 'sector;asc',
+                    'SECTOR_DESC' => 'sector;desc',
+                    'ROW_ASC' => 'row;asc',
+                    'ROW_DESC' => 'row;desc',
+                    'NUMBER_ASC' => 'number;asc',
+                    'NUMBER_DESC' => 'number;desc',
                 ],
                 'required' => false,
                 'data' => $sort
@@ -83,7 +83,10 @@ class FormDataSort
                 'required' => false,
                 'data' => $limit
             ])
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'SUBMIT',
+                'attr' => ['class' => 'btn-sort']
+            ])
             ->getForm();
     }
 
@@ -93,14 +96,14 @@ class FormDataSort
         return $builder
             ->add('sort', ChoiceType::class, [
                 'choices' => [
-                    'name_asc' => 'name;asc',
-                    'name_desc' => 'name;desc',
-                    'surname_asc' => 'surname;asc',
-                    'surname_desc' => 'surname;desc',
-                    'born_asc' => 'born;asc',
-                    'born_desc' => 'born;desc',
-                    'death_asc' => 'death;asc',
-                    'death_desc' => 'death;desc',
+                    'NAME_ASC' => 'name;asc',
+                    'NAME_DESC' => 'name;desc',
+                    'SURNAME_ASC' => 'surname;asc',
+                    'SURNAME_DESC' => 'surname;desc',
+                    'BORN_ASC' => 'born;asc',
+                    'BORN_DESC' => 'born;desc',
+                    'DEATH_ASC' => 'death;asc',
+                    'DEATH_DESC' => 'death;desc',
                 ],
                 'required' => false,
                 'data' => $sort
@@ -114,7 +117,10 @@ class FormDataSort
                 'required' => false,
                 'data' => $limit
             ])
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'SUBMIT',
+                'attr' => ['class' => 'btn-sort']
+            ])
             ->getForm();
     }
 }

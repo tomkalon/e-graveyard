@@ -17,15 +17,22 @@ class NewPersonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class)
-            ->add('surname', TextType::class)
+            ->add('name', TextType::class, [
+                'label' => 'NAME',
+            ])
+            ->add('surname', TextType::class, [
+                'label' => 'SURNAME',
+            ])
             ->add('born', DateType::class, [
+                'label' => 'BORN',
                 'widget' => 'single_text',
             ])
             ->add('death', DateType::class, [
+                'label' => 'DEATH',
                 'widget' => 'single_text',
             ])
             ->add('grave', EntityType::class, [
+                'label' => 'GRAVE',
                 'class' => Grave::class,
                 'choice_label' => 'id',
                 'required' => false
