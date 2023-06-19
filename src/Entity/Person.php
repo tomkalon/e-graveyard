@@ -50,8 +50,8 @@ class Person
     #[ORM\JoinColumn(nullable: true)]
     private ?Grave $grave = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $EditedBy = null;
+    #[ORM\ManyToOne(inversedBy: 'people')]
+    private ?User $EditedBy = null;
 
     public function getId(): ?int
     {
@@ -138,12 +138,12 @@ class Person
         return $this;
     }
 
-    public function getEditedBy(): ?string
+    public function getEditedBy(): ?User
     {
         return $this->EditedBy;
     }
 
-    public function setEditedBy(?string $EditedBy): self
+    public function setEditedBy(?User $EditedBy): static
     {
         $this->EditedBy = $EditedBy;
 

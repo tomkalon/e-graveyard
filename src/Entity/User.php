@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -30,6 +32,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $username = null;
+
+    #[ORM\OneToMany(mappedBy: 'EditedBy', targetEntity: Grave::class)]
+    private Collection $graves;
+
+    #[ORM\OneToMany(mappedBy: 'EditedBy', targetEntity: Person::class)]
+    private Collection $people;
+
+    public function __construct()
+    {
+        $this->graves = new ArrayCollection();
+        $this->people = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -109,6 +123,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Grave>
+     */
+    public function getGraves(): Collection
+    {
+        return $this->graves;
+    }
+
+    public function addGrave(Grave $grave): static
+    {
+        if (!$this->graves->contains($grave)) {
+            $this->graves->add($grave);
+            $grave->setEditedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGrave(Grave $grave): static
+    {
+        if ($this->graves->removeElement($grave)) {
+            // set the owning side to null (unless already changed)
+            if ($grave->getEditedBy() === $this) {
+                $grave->setEditedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Person>
+     */
+    public function getPeople(): Collection
+    {
+        return $this->people;
+    }
+
+    public function addPerson(Person $person): static
+    {
+        if (!$this->people->contains($person)) {
+            $this->people->add($person);
+            $person->setEditedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removePerson(Person $person): static
+    {
+        if ($this->people->removeElement($person)) {
+            // set the owning side to null (unless already changed)
+            if ($person->getEditedBy() === $this) {
+                $person->setEditedBy(null);
+            }
+        }
 
         return $this;
     }

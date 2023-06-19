@@ -50,8 +50,8 @@ class Grave
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $edited = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $EditedBy = null;
+    #[ORM\ManyToOne(inversedBy: 'graves')]
+    private ?User $EditedBy = null;
 
     public function __construct()
     {
@@ -213,12 +213,12 @@ class Grave
         return $this;
     }
 
-    public function getEditedBy(): ?string
+    public function getEditedBy(): ?User
     {
         return $this->EditedBy;
     }
 
-    public function setEditedBy(string $EditedBy): self
+    public function setEditedBy(?User $EditedBy): static
     {
         $this->EditedBy = $EditedBy;
 

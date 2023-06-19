@@ -6,12 +6,12 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 class FormDataSort
 {
-    public function getLimit(Session $session, Request $request): int
+    public function getLimit(Request $request): int
     {
+        $session = $request->getSession();
         // parameters
         $limit = 10;
 
@@ -26,8 +26,9 @@ class FormDataSort
         return $limit;
     }
 
-    public function getGraveSort(Session $session, Request $request): string
+    public function getGraveSort(Request $request): string
     {
+        $session = $request->getSession();
         // parameters
         $sort = 'graveyard;asc';
 
@@ -41,8 +42,10 @@ class FormDataSort
         return $sort;
     }
 
-    public function getPersonSort(Session $session, Request $request): string
+    public function getPersonSort(Request $request): string
     {
+
+        $session = $request->getSession();
         // parameters
         $sort = 'name;asc';
 
