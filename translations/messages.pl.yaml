@@ -38,8 +38,10 @@ SEARCH_AGAIN: Wyszukaj ponownie
 DISCONNECT: Odłącz
 LOGIN: Zaloguj się
 
+USERNAME: Nazwa użytkownika
 EMAIL: E-mail
 PASSWORD: Hasło
+ROLES: Uprawnienia
 LOGIN_ALERT: W przypadku utraty hasła, skontaktuj się z administratorem
 LOGIN_FORM: Logowanie
 ADMIN: Admin
@@ -70,10 +72,13 @@ Person: Osoba
 GRAVES: Groby
 Grave: Grób
 GRAVEYARDS: Cmentarze
+Graveyard: Cmentarz
 USERS: Użytkownicy
 User: Użytkownik
 DASHBOARD: Pulpit
 ADMIN_PANEL: Panel administratora
+ADMIN_PANEL_DESC: Tu zobaczysz, dodasz, zmienisz, usuniesz wszystkie dodane wpisy do bazy
+HOME_SITE_RETURN: Powrót do strony głównej
 
 PERSON_SEARCH: Wyszukiwanie miejsca pochówku osoby zmarłej
 PERSON_EDIT: Edycja danych osoby
