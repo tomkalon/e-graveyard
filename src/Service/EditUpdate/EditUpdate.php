@@ -8,19 +8,38 @@ use App\Entity\User;
 use App\Repository\GraveRepository;
 use App\Repository\PersonRepository;
 use DateTime;
+use Psr\Log\LoggerInterface;
 
 class EditUpdate
 {
     public function __construct(
         private readonly PersonRepository $personRepository,
-        private readonly GraveRepository $graveRepository
+        private readonly GraveRepository $graveRepository,
+        private readonly LoggerInterface $changesLogger,
+        private readonly TranslatorInterface $translator
     ) {
     }
 
     public function updateOne(object $entity, object $user, bool $new): void
     {
+        if ($new === true) {
+            // logs
+            $this->changesLogger->info($this->translator->trans('Utworzono -> '), [
+                $user->getUsername(),
+                $_SERVER['REMOTE_ADDR']
+            ]);
+            // set creation time
+            $entity->setCreated(new DateTime());
+        } else {
+            // logs
+            $this->changesLogger->info($this->translator->trans('Utworzono -> '), [
+                $user->getUsername(),
+                $_SERVER['REMOTE_ADDR']
+            ]);
+            // set edit time
+            $entity->setEdited(new DateTime());
+        }
         $entity->setEditedBy($user);
-        $new === true ? $entity->setCreated(new DateTime()) : $entity->setEdited(new DateTime());
         if ($entity instanceof Person) {
             $this->personRepository->save($entity, true);
         } elseif ($entity instanceof Grave) {
@@ -30,6 +49,10 @@ class EditUpdate
 
     public function updateBoth(Grave $grave, Person $person, User $user, string $new): void
     {
+        $this->changesLogger->info('Joł', [
+            $user->getUsername(),
+            $_SERVER['REMOTE_ADDR']
+        ]);
         $grave->setEditedBy($user);
         $person->setEditedBy($user);
         if (!$new) {

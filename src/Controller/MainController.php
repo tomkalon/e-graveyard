@@ -20,12 +20,6 @@ class MainController extends AbstractController
     #[Route('/', name: 'app_main')]
     public function index(): Response
     {
-
-        $person = new Person();
-        if ($person instanceof Grave) {
-            dd('test');
-        }
-
         return $this->render('main/index.html.twig');
     }
 

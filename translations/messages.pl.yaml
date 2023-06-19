@@ -101,6 +101,7 @@ NUMBER_SHORT: N
 
 SEARCH_RESULTS: Wyniki wyszukiwania
 NO_RESULTS: Brak wyników do wyświetlenia
+NO_NOT_ASSIGNED_RESULTS: Brak nieprzypisanych wyników do wyświetlenia
 GET_DETAILS: Wybierz wynik, by zobaczyć szczegóły
 RESULT_COUNT: Znaleziono <b>%COUNT%</b> pasujących wyników.
 

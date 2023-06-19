@@ -2,21 +2,18 @@
 
 namespace App\Service\Person;
 
-use App\Entity\Person;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\PersonRepository;
 
 class PersonManager
 {
-    private object $person;
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly PersonRepository $personRepository)
     {
-        $this->person = $entityManager->getRepository(Person::class);
     }
 
     public function getNotAssignedPeople(): array
     {
         $data = array();
-        $query = $this->person->findBy(
+        $query = $this->personRepository->findBy(
             ['grave' => null],
             ['id' => 'DESC']
         );
