@@ -93,6 +93,7 @@ GRAVE_REMOVE_CONFIRM: <b>Czy potwierdzasz usunięcie grobu z bazy danych wraz ze
   Jeśli nie chcesz usuwać przypisanych do niego osób, najpierw odepnij je od grobu.
 GRAVE_PERSON_NOT_ASSIGNED: Brak przypisanych osób do grobu
 MARKED_FIELDS_ARE_REQUIRED: Pogrubione pola należy obowiązkowo uzupełnić!
+ADDING_NEW_PERSON_TO_DATABASE: Dodawanie nowej osoby do bazy danych
 
 SECTOR_SHORT: S
 ROW_SHORT: Rz
