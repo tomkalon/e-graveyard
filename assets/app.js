@@ -9,6 +9,7 @@
 import './styles/app.scss';
 
 // import custom JS
+import './js/scripts.js';
 import './js/modalHandler.js';
 
 // import bootstrap JS

@@ -7,11 +7,8 @@ checkChecked.classList.add('material-symbols-rounded', 'small');
 checkChecked.textContent = 'check_box';
 
 export default class extends Controller {
-    connect() {
-        if (window.history.replaceState) {
-            window.history.replaceState(null, null, window.location.href);
-        }
-
+    connect()
+    {
         // grave details ID
         const grave_id = this.element.querySelector("[data-target-id]").getAttribute('data-target-id');
 
@@ -32,7 +29,6 @@ export default class extends Controller {
         let selectPersonModalBox = modalHandler.modalHandler('data-select-person', this.element, false, false);
         if (selectPersonModalBox) {
             if (selectPersonModalBox.querySelector("[data-person-table]")) {
-
                 // apiData
                 let apiData = {
                     'assignToGrave': []
@@ -59,8 +55,15 @@ export default class extends Controller {
                 const closeBtn = selectPersonModalBox.querySelector("[data-modal-box-close]");
 
                 saveBtn.addEventListener('click', () => {
-                    api.sendDataAPI('put', grave_id, apiData, '/grave/api/update',
-                        modalHandler.updateComplete, modalHandler.updateComplete, closeBtn);
+                    api.sendDataAPI(
+                        'put',
+                        grave_id,
+                        apiData,
+                        '/grave/api/update',
+                        modalHandler.updateComplete,
+                        modalHandler.updateComplete,
+                        closeBtn
+                    );
                 })
             }
         }

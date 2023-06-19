@@ -45,7 +45,7 @@ class PersonController extends AbstractController
             // save data
             $new_person = $form_add_person->getData();
             $new_person->setGrave($grave);
-            $editUpdate->updateBoth($grave, $new_person, $this->getUser(), 'person');
+            $editUpdate->updateBoth($grave, $new_person, 'person');
 
             // flash message
             $this->addFlash('success', 'Osoba dodana do pochówku!');
@@ -72,8 +72,10 @@ class PersonController extends AbstractController
         FormDataSort $dataSort,
         int $page = 0
     ): Response {
+        // security
+        $this->denyAccessUnlessGranted('ROLE_MANAGER');
+
         // session
-        $session = $request->getSession();
         $limit = $dataSort->getLimit($request);
         $sort = $dataSort->getPersonSort($request);
 
@@ -116,7 +118,7 @@ class PersonController extends AbstractController
             $person = $form->getData();
 
             // save data
-            $editUpdate->updateOne($person, $this->getUser(), true);
+            $editUpdate->updateOne($person, true);
 
             // flash message
             $this->addFlash('success', 'Osoba została dodana do bazy danych.');
@@ -148,13 +150,13 @@ class PersonController extends AbstractController
             $person = $form->getData();
 
             // save data
-            $editUpdate->updateOne($person, $this->getUser(), false);
+            $editUpdate->updateOne($person, false);
 
             // flash message
             $this->addFlash('success', 'Edycja zakończona powodzeniem.');
 
             // redirection
-            $this->redirectToRoute('app_person', [
+            return $this->redirectToRoute('app_person', [
                 'person' => $person->getId()
             ]);
         }
@@ -172,6 +174,9 @@ class PersonController extends AbstractController
     #[Route('/person/manage/remove/{id<\d+>}', name: 'app_person_remove')]
     public function remove(Request $request, int $id, PersonRepository $personRepository): Response
     {
+        // security
+        $this->denyAccessUnlessGranted('ROLE_MANAGER');
+
         // entity
         $person = $personRepository->find($id);
 
@@ -237,7 +242,7 @@ class PersonController extends AbstractController
             if ($external_request['clearGrave']) {
                 $grave = $person->getGrave();
                 $person->setGrave(null);
-                $editUpdate->updateBoth($grave, $person, $this->getUser(), false);
+                $editUpdate->updateBoth($grave, $person, false);
                 $data = true;
                 $this->addFlash('success', 'Osoba została odpięta od grobu.');
             } else {

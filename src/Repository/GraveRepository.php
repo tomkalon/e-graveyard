@@ -31,6 +31,20 @@ class GraveRepository extends ServiceEntityRepository
         }
     }
 
+    public function saveInstance(object $entity, bool $flush = false): bool
+    {
+        if ($entity instanceof Grave) {
+            $this->getEntityManager()->persist($entity);
+
+            if ($flush) {
+                $this->getEntityManager()->flush();
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function remove(Grave $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);

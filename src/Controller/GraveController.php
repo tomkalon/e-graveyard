@@ -47,7 +47,7 @@ class GraveController extends AbstractController
 
             // save data
             $person->setGrave($grave);
-            $editUpdate->updateBoth($grave, $person, $this->getUser(), 'person');
+            $editUpdate->updateBoth($grave, $person, 'person');
 
             // flash message
             $this->addFlash('success', 'Osoba dodana do pochówku!');
@@ -75,7 +75,6 @@ class GraveController extends AbstractController
         int $page = 0
     ): Response {
         // session
-        $session = $request->getSession();
         $limit = $dataSort->getLimit($request);
         $sort = $dataSort->getGraveSort($request);
 
@@ -114,7 +113,7 @@ class GraveController extends AbstractController
             $grave = $form->getData();
 
             // save data
-            $editUpdate->updateOne($grave, $this->getUser(), true);
+            $editUpdate->updateOne($grave, true);
 
             // flash message
             $this->addFlash('success', 'Miejsce pochówku zostało dodane!');
@@ -146,7 +145,7 @@ class GraveController extends AbstractController
             $grave = $form->getData();
 
             // save data
-            $editUpdate->updateOne($grave, $this->getUser(), false);
+            $editUpdate->updateOne($grave, false);
 
             // flash message
             $this->addFlash('success', 'Dane zostały zmienione!');
@@ -206,7 +205,7 @@ class GraveController extends AbstractController
 
                     // save data
                     $grave->addPerson($person);
-                    $editUpdate->updateBoth($grave, $person, $this->getUser(), false);
+                    $editUpdate->updateBoth($grave, $person, false);
                 }
 
                 // flash message

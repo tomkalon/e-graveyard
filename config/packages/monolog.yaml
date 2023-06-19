@@ -1,5 +1,7 @@
 monolog:
-    channels: [deprecation, changes]
+    use_microseconds: false
+    channels:
+        - deprecation
 when@dev:
     monolog:
         handlers:
@@ -11,9 +13,10 @@ when@dev:
             changes:
                 type: stream
                 path: '%kernel.logs_dir%/changes.log'
-                level: info
+                level: debug
+                formatter: 'monolog.formatter.line'
                 channels:
-                    - changes
+                    - app
             console:
                 type: console
                 process_psr_3_messages: false
@@ -55,3 +58,9 @@ when@prod:
                 type: stream
                 channels: [deprecation]
                 path: php://stderr
+            changes:
+                type: stream
+                path: '%kernel.logs_dir%/changes.log'
+                level: info
+                channels:
+                    - app
