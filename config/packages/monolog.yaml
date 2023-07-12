@@ -1,7 +1,6 @@
 monolog:
     use_microseconds: false
-    channels:
-        - deprecation
+    channels: [deprecation, security, register]
 when@dev:
     monolog:
         handlers:
@@ -13,10 +12,21 @@ when@dev:
             changes:
                 type: stream
                 path: '%kernel.logs_dir%/changes.log'
-                level: debug
+                level: info
                 formatter: 'monolog.formatter.line'
-                channels:
-                    - app
+                channels: [app]
+            login:
+              formatter: 'monolog.formatter.line'
+              type: stream
+              path: '%kernel.logs_dir%/login.log'
+              level: info
+              channels: [security]
+            register:
+              formatter: 'monolog.formatter.line'
+              type: stream
+              path: '%kernel.logs_dir%/register.log'
+              level: info
+              channels: [register]
             console:
                 type: console
                 process_psr_3_messages: false

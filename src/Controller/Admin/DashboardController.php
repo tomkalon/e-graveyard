@@ -23,7 +23,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('ADMIN_PANEL')
+            ->setTitle('Panel administratora')
             ->setLocales([
                 'pl' => '🇵🇱 Polski'
             ]);
@@ -32,9 +32,14 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('DASHBOARD', 'fa fa-home');
-        yield MenuItem::linkToCrud('USERS', 'fas fa-list', User::class);
-        yield MenuItem::linkToCrud('GRAVEYARDS', 'fas fa-list', Graveyard::class);
-        yield MenuItem::linkToCrud('DEAD', 'fas fa-list', Person::class);
-        yield MenuItem::linkToCrud('GRAVES', 'fas fa-list', Grave::class);
+        yield MenuItem::section('GRAVEYARD');
+        yield MenuItem::linkToCrud('GRAVEYARDS', 'fas fa-globe', Graveyard::class);
+        yield MenuItem::linkToCrud('DEAD', 'fas fa-address-book', Person::class);
+        yield MenuItem::linkToCrud('GRAVES', 'fas fa-map-marker', Grave::class);
+        yield MenuItem::section('USERS');
+        yield MenuItem::linkToCrud('USERS', 'fas fa-user-circle', User::class);
+        yield MenuItem::linkToUrl('REGISTER', 'fas fa-user-plus', '/register');
+        yield MenuItem::section('OTHER');
+        yield MenuItem::linkToUrl('HOME_SITE', 'fas fa-user-plus', '/');
     }
 }

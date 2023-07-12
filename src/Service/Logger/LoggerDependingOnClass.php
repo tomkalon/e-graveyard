@@ -18,7 +18,7 @@ class LoggerDependingOnClass
         $data = '';
 
         if ($entity instanceof Person) {
-            $data = $entity->getSurname() . $entity->getName();
+            $data = $entity->getSurname() . $entity->getName() . ' - ID: ' . $entity->getId();
         }
         if ($entity instanceof Grave) {
             $data = $entity->getGraveyard()->getName() .

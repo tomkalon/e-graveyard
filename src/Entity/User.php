@@ -6,11 +6,14 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+#[UniqueEntity(fields: ['email'], message: 'EMAIL_ALREADY_EXIST')]
+#[UniqueEntity(fields: ['username'], message: 'USERNAME_ALREADY_EXIST')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -30,7 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $username = null;
 
     #[ORM\OneToMany(mappedBy: 'EditedBy', targetEntity: Grave::class)]
@@ -38,6 +41,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'EditedBy', targetEntity: Person::class)]
     private Collection $people;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
 
     public function __construct()
     {
@@ -80,6 +86,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
+
+        if ($this->isVerified()) {
+            $roles[] = 'ROLE_MANAGER';
+        }
 
         return array_unique($roles);
     }
@@ -183,6 +193,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $person->setEditedBy(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }

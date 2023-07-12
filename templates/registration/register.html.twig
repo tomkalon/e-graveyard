@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'REGISTER'|trans }}{% endblock %}
+{% block body %}
+    <div class="registration-cover">
+        <div class="modal modal-sheet position-static d-block p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignUp">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content rounded-4 shadow">
+                    {% for flash_error in app.flashes('verify_email_error') %}
+                        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                    {% endfor %}
+                    <div class="modal-header p-5 pb-4 border-bottom-0">
+                        <h1 class="fw-bold mb-0 fs-2">{{ 'REGISTER'|trans }}</h1>
+                    </div>
+
+                    <div class="modal-body p-5 pt-0">
+                        {{ form_errors(registrationForm) }}
+                        {{ form_start(registrationForm) }}
+                        {{ form_row(registrationForm.username) }}
+                        {{ form_row(registrationForm.email) }}
+                        {{ form_row(registrationForm.plainPassword) }}
+                        {{ form_widget(registrationForm.submit) }}
+                        <a href="{{ path('admin') }}">
+                            <button type="button" class="btn btn-danger float-end me-2">{{ 'CANCEL'|trans }}</button>
+                        </a>
+                        {{ form_end(registrationForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

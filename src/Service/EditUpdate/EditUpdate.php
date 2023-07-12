@@ -4,7 +4,6 @@ namespace App\Service\EditUpdate;
 
 use App\Entity\Grave;
 use App\Entity\Person;
-use App\Entity\User;
 use App\Repository\GraveRepository;
 use App\Repository\PersonRepository;
 use App\Service\Logger\LoggerDependingOnClass;
