@@ -124,6 +124,14 @@ RESULT_COUNT: Znaleziono <b>%COUNT%</b> pasujących wyników.
 EMAIL_VERIFIED: Twój adres email został poprawnie zweryfikowany.
 ENTER_PASSWORD: Uzupełnij pole z hasłem!
 REGISTRATION_SUCCESS: Rejestracja użytkownika przebiegła pomyślnie.
+LACK_OF_USER: Brak użytkownika. Link wygasł lub jest nieprawidłowy!
+
+CONFIRM_EMAIL: Potwierdź swój email!
+CONFIRM_EMAIL_DESC: Kliknij na poniższy link, by potwierdzić swój e-mail
+CONFIRM_EMAIL_LINK: Potwierdź e-mail
+CONFIRM_EMAIL_EXPIRE: Link wygaśnie za
+REGARDS: Pozdrowienia
+REGARDS_TEAM: Zespół CMENTARZE-PARAFIA RZEZAWA
 
 SORT: Sortowanie
 HELLO: Witaj
