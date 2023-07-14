@@ -67,6 +67,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $query->execute();
     }
 
+    public function findAllObjectAttrValue(string $attr, string $value): array
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->where("s.$attr = :value")
+            ->setParameter('value', $value)
+        ;
+
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

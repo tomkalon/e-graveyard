@@ -14,7 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'Admin',
-    description: 'Add a short description for your command',
+    description: 'Set user role',
 )]
 class AdminCommand extends Command
 {
@@ -36,7 +36,7 @@ class AdminCommand extends Command
         // role name
         $getRole = new Question(
             'Jaką ROLĘ chcesz przypisać do konta? Podaj samą nazwę (np. ADMIN, MANAGER): ',
-            'ROLE_NAME'
+            'ROLE_USER'
         );
         $roleName = 'ROLE_' . $helper->ask($input, $output, $getRole);
 
