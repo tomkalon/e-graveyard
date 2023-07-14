@@ -68,6 +68,12 @@ when@prod:
                 type: stream
                 channels: [deprecation]
                 path: php://stderr
+            register:
+              formatter: 'monolog.formatter.line'
+              type: stream
+              path: '%kernel.logs_dir%/register.log'
+              level: info
+              channels: [ register ]
             changes:
                 type: stream
                 path: '%kernel.logs_dir%/changes.log'
