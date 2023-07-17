@@ -1,4 +1,10 @@
 # E-GRAVEYARD
+
+## Table of contents
+* [General info](#general-info)
+* [Technologies](#technologies)
+* [Setup](#setup)
+
 ## General info
 A simple application for cataloging and searching for graves in cemeteries made for parishes.
 
