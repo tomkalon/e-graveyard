@@ -18,10 +18,10 @@ class LoggerDependingOnClass
         $data = '';
 
         if ($entity instanceof Person) {
-            $data = $entity->getSurname() . $entity->getName() . ' - ID: ' . $entity->getId();
+            $data = 'USER: ' . $entity->getSurname() . $entity->getName() . ' - ID: ' . $entity->getId();
         }
         if ($entity instanceof Grave) {
-            $data = $entity->getGraveyard()->getName() .
+            $data = 'GRAVE: ' . $entity->getGraveyard()->getName() .
                 ' S:' . $entity->getSector() .
                 ' R:' . $entity->getRow() .
                 ' N:' . $entity->getNumber();
